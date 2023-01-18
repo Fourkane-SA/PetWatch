@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -28,6 +29,13 @@ class UserController extends Controller
         if ($find)
             return response()->json('Ce login est déjà pris', Response::HTTP_UNAUTHORIZED);
         $user->save();
+        return response()->json($user);
+    }
+
+    public function show(int $id) {
+        $user = User::whereId($id)->first();
+        if (!$user)
+            return response()->json(['error' => "Cet utilisateur n'existe pas"], Response::HTTP_NOT_FOUND);
         return response()->json($user);
     }
 }
