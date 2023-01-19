@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,5 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/users', [UserController::class, 'index']);
-Route::post('users', [UserController::class, 'store']);
+Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{id}', [UserController::class, 'show']);
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->middleware('verifyToken');
+
+Route::post('/tokens', [TokenController::class, 'generate']);
+Route::get('/tokens', [TokenController::class, 'decode'])->middleware('verifyToken');
