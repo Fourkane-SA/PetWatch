@@ -1,7 +1,24 @@
-import React, { Component, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, View, Image, Button, TouchableOpacity, ListViewBase, FlatList } from 'react-native';
+import React, { Component } from 'react';
+import { SafeAreaView, StyleSheet, Text, TextInput, View, Image, TouchableOpacity, FlatList } from 'react-native';
+import RadioButton from '../components/RadioButton';
 
 export default class AddAnimal extends Component {
+
+  booleanChoice = [
+    { value: 'Oui' },
+    { value: 'Non' },
+  ];
+
+  genderChoice = [
+    { value: 'Mâle' },
+    { value: 'Femelle' },
+  ];
+
+  typeChoice = [
+    { value: 'Chien' },
+    { value: 'Chat' },
+  ];
+
   poids = [
     {
       gabarit: 'Petit',
@@ -28,7 +45,7 @@ export default class AddAnimal extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        {this.state.etape< 5 &&
+        {this.state.etape < 5 &&
           <Text style={styles.pageTitle}> Ajoutez votre animal {this.state.etape}/4</Text>
         }
 
@@ -40,14 +57,8 @@ export default class AddAnimal extends Component {
 
             {/* Faire les boutons radio dans un nouveau composant */}
             <View style={styles.blocRadio}>
-              <View style={styles.blocRadioGroup}>
-                <Text style={styles.txtRadio}> Mâle</Text>
-                <Text style={styles.txtRadio}> Femelle</Text>
-              </View>
-              <View style={styles.blocRadioGroup}>
-                <Text style={styles.txtRadio}> Chien</Text>
-                <Text style={styles.txtRadio}> Chat</Text>
-              </View>
+              <RadioButton data={this.genderChoice} onSelect={undefined} />
+              <RadioButton data={this.typeChoice} onSelect={undefined} />
             </View>
 
             <View style={styles.bloc}>
@@ -86,13 +97,11 @@ export default class AddAnimal extends Component {
         {this.state.etape == 2 &&
           <View style={styles.etape}>
             <Text>Est-ce que votre animal a des allergies et/ou intolérances alimentaires?</Text>
-            <Text style={styles.txtRadio}> Oui</Text>
-            <Text style={styles.txtRadio}> Non</Text>
+            <RadioButton data={this.genderChoice} onSelect={undefined} />
             <Text>Si oui, à quoi?</Text>
             <TextInput></TextInput>
             <Text>Est-ce que votre animal a des problèmes de santé?</Text>
-            <Text style={styles.txtRadio}> Oui</Text>
-            <Text style={styles.txtRadio}> Non</Text>
+            <RadioButton data={this.genderChoice} onSelect={undefined} />
             <Text>Si oui, lesquels?</Text>
             <TextInput></TextInput>
           </View>
@@ -101,8 +110,7 @@ export default class AddAnimal extends Component {
         {this.state.etape == 3 &&
           <View style={styles.etape}>
             <Text>Est-ce que votre animal a des médicaments à consommer?</Text>
-            <Text style={styles.txtRadio}> Oui</Text>
-            <Text style={styles.txtRadio}> Non</Text>
+            <RadioButton data={this.genderChoice} onSelect={undefined} />
             <Text>Si oui, lesquels et à quelle fréquence?</Text>
             <TextInput></TextInput>
             <Text>Veuillez indiquer la date de la dernière consultation vétérinaire de votre animal.</Text>
@@ -215,11 +223,6 @@ const styles = StyleSheet.create({
   },
   blocRadio: {
     width: 250,
-  },
-  blocRadioGroup: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 40,
   },
   subtitle: {
     textAlign: 'center',
