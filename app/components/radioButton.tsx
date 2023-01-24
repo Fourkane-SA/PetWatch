@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable, SafeAreaView } from 'react-native';
 
 export default function RadioButton({ data, onSelect }) {
     const [userOption, setUserOption] = useState(null);
@@ -10,7 +10,7 @@ export default function RadioButton({ data, onSelect }) {
     };
 
     return (
-        <View style={styles.blocRadioGroup}>
+        <SafeAreaView style={styles.blocRadioGroup}>
             {data.map((item) => {
                 return (
                     <Pressable key={item.id} style={styles.blocRadioItem}  onPress={() => setUserOption(item.value)}>
@@ -23,7 +23,7 @@ export default function RadioButton({ data, onSelect }) {
                 );
             })}
             {/* <Text> User option: {userOption}</Text> */}
-        </View>
+        </SafeAreaView>
     );
 }
 
