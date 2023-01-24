@@ -4,19 +4,60 @@ import RadioButton from '../components/RadioButton';
 
 export default class AddAnimal extends Component {
 
-  booleanChoice = [
-    { value: 'Oui' },
-    { value: 'Non' },
+  booleanChoiceAllergie = [
+    { 
+      id: 'yAllergie',
+      value: 'Oui'
+     },
+    { 
+      id: 'nAllergie',
+      value: 'Non'
+     },
+  ];
+
+  
+  booleanChoiceMaladie = [
+    { 
+      id: 'yMaladie',
+      value: 'Oui'
+     },
+    { 
+      id: 'nMaladie',
+      value: 'Non'
+     },
+  ];
+
+  booleanChoiceMedicament = [
+    { 
+      id: 'yMedicament',
+      value: 'Oui'
+     },
+    { 
+      id: 'nMedicament',
+      value: 'Non'
+     },
   ];
 
   genderChoice = [
-    { value: 'Mâle' },
-    { value: 'Femelle' },
+    { 
+      id: 'maleGender',
+      value: 'Mâle'
+    },
+    { 
+      id: 'femelleGender',
+      value: 'Femelle'
+    },
   ];
 
   typeChoice = [
-    { value: 'Chien' },
-    { value: 'Chat' },
+    { 
+      id: 'chienType',
+      value: 'Chien'
+    },
+    { 
+      id: 'chatType',
+      value: 'Chat'
+    },
   ];
 
   poids = [
