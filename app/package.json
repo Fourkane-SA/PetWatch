@@ -11,6 +11,8 @@
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
     "@expo/webpack-config": "^0.17.2",
+    "@react-navigation/native": "^6.1.2",
+    "@react-navigation/native-stack": "^6.9.8",
     "@types/react": "~18.0.24",
     "@types/react-native": "~0.70.6",
     "dayjs": "^1.11.7",

@@ -9,9 +9,6 @@ export default function LogoSVG() {
                 <Circle cx="90" cy="90" r="90" fill="#D9D9D9" />
             </Svg>
         </View>
-
-
-
     );
 }
 

@@ -89,7 +89,6 @@ export default class AddAnimal extends Component {
     etape: 1 
   }
 
-
   render() {
     return (
       <SafeAreaView style={styles.container}>
