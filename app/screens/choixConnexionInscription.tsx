@@ -8,10 +8,10 @@ var height = Dimensions.get('window').height; //full height
 
 
 
-/* TODO : Axios connexion */ 
+/* TODO : Axios connexion et redirection home , bouton google , lien vers inscription */ 
 
 
-export default function App({navigation}) {
+export default function App() {
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Bienvenue</Text>
@@ -65,14 +65,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF6E3',
         minHeight: 50,
         fontSize: 16,
-        textAlign: 'center',
+        paddingLeft: 20,
         marginBottom: 15,
+        borderRadius: 5,
+        alignSelf: 'flex-start',
+        width: '100%',
     },
     btnPrimary: {
         minHeight: 50,
         backgroundColor: '#FAD4D4',
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: 5,
     },
     btnText: {
         fontSize: 16,
