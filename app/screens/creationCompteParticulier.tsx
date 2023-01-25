@@ -5,6 +5,9 @@ import { Dimensions } from "react-native";
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
+
+/*TODO requete pour ajouter utilisateur  et le connecter + ajouter animal ou type d'animal gardé selon role*/ 
+
 export default function CreationCompteParticulier() {
 
     return (
