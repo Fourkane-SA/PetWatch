@@ -8,7 +8,7 @@ var height = Dimensions.get('window').height; //full height
 
 
 
-/* TODO : Axios connexion et redirection home , bouton google , lien vers inscription */ 
+/* TODO : Axios connexion et redirection home , bouton google , lien vers choix role*/ 
 
 
 export default function App() {
@@ -18,10 +18,10 @@ export default function App() {
 
             <View style={styles.blocSignIn}>
                 <TextInput style={styles.textInput} placeholder="Adresse mail"></TextInput>
-                <TextInput style={styles.textInput} placeholder="Mot de passe" ></TextInput>
+                <TextInput style={styles.textInput} secureTextEntry={true} placeholder="Mot de passe" ></TextInput>
 
                 <TouchableOpacity style={styles.btnPrimary} activeOpacity={0.8} >
-                    <Text style={styles.btnText}>Se connecter</Text>
+                    <Text style={styles.btnText} >Se connecter</Text>
                 </TouchableOpacity>
             </View>
 

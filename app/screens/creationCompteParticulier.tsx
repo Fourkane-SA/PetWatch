@@ -12,7 +12,7 @@ export default function CreationCompteParticulier() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>Création de compte</Text>
+            <Text style={styles.title}>Vous êtes un particulier ?</Text>
 
             <View style={styles.blocInscription}>
                 <View>
@@ -29,7 +29,7 @@ export default function CreationCompteParticulier() {
                 </View>
 
                 <View>
-                    <TextInput placeholder="Mot de passe" style={[styles.champ, styles.mdp]}></TextInput>
+                    <TextInput placeholder="Mot de passe" style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
                 </View>
 
                 <View>
