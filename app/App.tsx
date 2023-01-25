@@ -5,10 +5,14 @@ import {NavigationContainer} from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import {FormPro} from "./screens/FormPro";
+import Upload from "./screens/Upload";
+import axios from "axios";
 
+axios.defaults.baseURL = "https://petwatcher.fourkane.me/api"
+axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiYWl0IjoxNjc0NjUzNDI3LCJleHAiOjE2NzczMzE4Mjd9.PN9VDxYzFHwDqcuwfbzViDx-kSI4Nzh70P56_nZc9CQ'
 const Stack = createNativeStackNavigator();
 export default function App() {
-  return (
+  /*return (
       <NavigationContainer>
           <Stack.Navigator initialRouteName="login" >
               <Stack.Screen options={{headerShown: false}} name="login" component={Login}></Stack.Screen>
@@ -16,7 +20,10 @@ export default function App() {
               <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="formPro" component={FormPro} ></Stack.Screen>
           </Stack.Navigator>
       </NavigationContainer>
-  );
+  );*/
+    return (
+    <Upload></Upload>
+    )
 }
 
 const styles = StyleSheet.create({
