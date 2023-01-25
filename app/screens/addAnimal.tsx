@@ -133,7 +133,6 @@ export default class AddAnimal extends Component {
               <View style={styles.blocAnimal}>
                 <Text style={styles.subtitle}>Votre animal est :</Text>
                 <FlatList
-                  style={styles.list}
                   horizontal={true}
                   data={this.poids}
                   renderItem={({ item }) => <View style={styles.listItem}><Text>{item.gabarit}</Text><Text> {item.tranche}</Text></View>}
