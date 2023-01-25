@@ -6,6 +6,7 @@ import ChoixcConexionInscription from './screens/choixConnexionInscription'
 import CreationCompteParticulier from './screens/creationCompteParticulier'
 import ChoixRole from './screens/choixRole'
 import CreationComptepro from './screens/creationComptePro'
+import ModeGarde from './screens/modeGarde'
 
 export default function App() {
 
@@ -17,10 +18,11 @@ export default function App() {
           <ChoixcConexionInscription></ChoixcConexionInscription>
           <ChoixRole></ChoixRole>
           <CreationCompteParticulier></CreationCompteParticulier>
+          <CreationComptepro></CreationComptepro>
           <AddAnimal></AddAnimal>
       */}
 
-      <CreationComptepro></CreationComptepro>
+      <ModeGarde></ModeGarde>
       
     </View>
   );
