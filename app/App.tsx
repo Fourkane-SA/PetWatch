@@ -5,6 +5,7 @@ import FirstLoad from './screens/firstLoad';
 import ChoixcConexionInscription from './screens/choixConnexionInscription'
 import CreationCompteParticulier from './screens/creationCompteParticulier'
 import ChoixRole from './screens/choixRole'
+import CreationComptepro from './screens/creationComptePro'
 
 export default function App() {
 
@@ -14,11 +15,13 @@ export default function App() {
 
      {/* <FirstLoad></FirstLoad>
           <ChoixcConexionInscription></ChoixcConexionInscription>
+          <ChoixRole></ChoixRole>
           <CreationCompteParticulier></CreationCompteParticulier>
           <AddAnimal></AddAnimal>
       */}
+
+      <CreationComptepro></CreationComptepro>
       
-      <ChoixRole></ChoixRole>
     </View>
   );
 }

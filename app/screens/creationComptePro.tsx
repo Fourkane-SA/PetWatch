@@ -6,20 +6,21 @@ var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
-/*TODO requete pour ajouter utilisateur  et le connecter + ajouter animal ou type d'animal gardé selon role*/ 
+/*TODO requete pour ajouter le professionnel + "message compte verifier et accepter" puis continuer sur le mode de garde "*/ 
 
 export default function CreationCompteParticulier() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>Vous êtes un Particulier ?</Text>
+            <Text style={styles.title}>Vous êtes un Professionnel ?</Text>
 
             <View style={styles.blocInscription}>
                 <View>
-                    <TextInput placeholder="Nom" style={[styles.champ, styles.identity]}></TextInput>
-                    <TextInput placeholder="Prénom" style={[styles.champ, , styles.identity]}></TextInput>
-                    <TextInput placeholder="Adresse mail" style={[styles.champ, , styles.identity]}></TextInput>
-                    <TextInput placeholder="Nom" style={[styles.champ, styles.identity]}></TextInput>
+                    <TextInput placeholder="Nom entreprise" style={[styles.champ, styles.identity]}></TextInput>
+                    <TextInput placeholder="Numéro de SIRET" style={[styles.champ, , styles.identity]}></TextInput>
+                    <TextInput placeholder="Site web" style={[styles.champ, , styles.identity]}></TextInput>
+                    <TextInput placeholder="Téléphone professionnel" style={[styles.champ, , styles.identity]}></TextInput>
+                    <TextInput placeholder="Mail professionnel" style={[styles.champ, styles.identity]}></TextInput>
                 </View>
 
                 <View>
@@ -36,7 +37,7 @@ export default function CreationCompteParticulier() {
                 </View>
 
                 <TouchableOpacity activeOpacity={0.8} style={[styles.champ,styles.containerSubmit]}>
-                    <Text style={styles.submit}>S'inscrire</Text>
+                    <Text style={styles.submit}>Envoyer une demande</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
