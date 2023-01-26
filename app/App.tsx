@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import AddAnimal from './screens/addAnimal';
-import FirstLoad from './screens/firstLoad';
-import ChoixcConexionInscription from './screens/choixConnexionInscription'
-import CreationCompteParticulier from './screens/creationCompteParticulier'
-import ChoixRole from './screens/choixRole'
-import CreationComptepro from './screens/creationComptePro'
-import ModeGarde from './screens/modeGarde'
+// import AddAnimal from './screens/addAnimal';
+// import FirstLoad from './screens/firstLoad';
+// import ChoixcConexionInscription from './screens/choixConnexionInscription'
+// import CreationCompteParticulier from './screens/creationCompteParticulier'
+// import ChoixRole from './screens/choixRole'
+// import CreationComptepro from './screens/creationComptePro'
+// import ModeGarde from './screens/modeGarde'
+// import Home from './screens/home'
+import CheckReservation from './screens/checkReservation'
 
 export default function App() {
 
@@ -20,10 +22,11 @@ export default function App() {
           <CreationCompteParticulier></CreationCompteParticulier>
           <CreationComptepro></CreationComptepro>
           <AddAnimal></AddAnimal>
+          <ModeGarde></ModeGarde>
+           <Home></Home>
       */}
+    <CheckReservation></CheckReservation>
 
-      <ModeGarde></ModeGarde>
-      
     </View>
   );
 }

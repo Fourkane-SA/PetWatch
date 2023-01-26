@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     },
     containerSubmit: {
         minHeight: 50,
-        backgroundColor: '#FAD4D4',
+        backgroundColor: '#CEEAF0',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 5,
