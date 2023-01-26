@@ -9,7 +9,8 @@ var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
-/*TODO requete pour ajouter le professionnel + "message compte verifier et accepter" puis continuer sur le mode de garde "*/
+/*TODO requete pour ajouter les infos du professionnel sur le mode de garde + voir sur l'upload de fichier
++ voir pour scroll vertical https://reactscript.com/fullscreen-scrollview/ ? */
 
 export default class CreationCompteParticulier extends Component {
     typeChoice = [
@@ -31,12 +32,12 @@ export default class CreationCompteParticulier extends Component {
         },
         {
             gabarit: 'Moyen',
-            tranche: '7 - 18 kg',
+            tranche: '7-18 kg',
             bg: '#D9FFCB',
         },
         {
             gabarit: 'Grand',
-            tranche: '18 - 45 kg',
+            tranche: '18-45 kg',
             bg: '#CEEAF0',
         },
         {
@@ -60,20 +61,19 @@ export default class CreationCompteParticulier extends Component {
                     <FlatList
                         horizontal={true}
                         data={this.poids}
-                        renderItem={({ item }) => <View style={[{backgroundColor: item.bg}, styles.listItem]}><Text>{item.gabarit}</Text><Text> {item.tranche}</Text></View>}
+                        renderItem={({ item }) => <TouchableOpacity activeOpacity={0.5} style={[{backgroundColor: item.bg}, styles.listItem]}><Text style={styles.gabarit}>{item.gabarit}</Text><Text style={styles.poids}> {item.tranche}</Text></TouchableOpacity>}
                         keyExtractor={item => item.gabarit}
                     />
 
-
-                    <Text style={styles.text}>Photos du lieu de garde proposé:</Text>
+                    <Text style={[styles.text, styles.marge]}>Photos du lieu de garde proposé:</Text>
                     <View style={styles.gallery}>
-                        <Text>Importer depuis la Galerie</Text>
+                        <Text style={styles.textGallery}>Importer depuis la Galerie</Text>
                         <IconDownload></IconDownload>
                     </View>
 
                     <TextInput
                         multiline={true}
-                        numberOfLines={5}
+                        numberOfLines={7}
                         style={styles.description}
                         placeholder="Saisissez une description afin d’en savoir plus sur les conditions de la garde">
                     </TextInput>
@@ -97,17 +97,22 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         width: '90%',
+        alignItems: 'center',
     },
     title: {
-        fontSize: 46,
+        fontSize: 40,
         fontWeight: '700',
         marginTop: 65,
         marginBottom: 45,
+        textAlign: 'center',
     },
     text: {
         fontWeight: '700',
         textAlign: 'center',
-        marginBottom: 30,
+        marginBottom: 35,
+    },
+    marge: {
+        marginTop: 35,
     },
     blocRadio: {
         margin: 'auto',
@@ -117,25 +122,38 @@ const styles = StyleSheet.create({
         borderColor: '#FAD4D4',
         borderWidth: 3,
         borderStyle: 'dashed',
+        marginBottom: 30,
         paddingTop: 40,
         paddingBottom: 40,
         paddingLeft: 10,
         paddingRight: 10,
         justifyContent: 'center',
         alignItems: 'center',
-
+        width: '100%',
+    },
+    textGallery: {
+        marginBottom: 15,
     },
     listItem: {
-        marginLeft: 15,
-        marginRight: 15,
-        paddingTop: 12,
-        paddingBottom: 12,
-        paddingLeft: 7,
-        paddingRight: 7,
+        marginLeft: 8,
+        marginRight: 8,
+        borderRadius: 5,
+        minWidth: 70,
+        minHeight: 80,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    gabarit: {
+        fontWeight: '700',
+        fontSize: 16,
+    },
+    poids: {
+        fontSize: 16,
     },
     description: {
         borderRadius: 5,
         backgroundColor: '#FFF6E3',
+        width: '100%',
     },
     containerSubmit: {
         minHeight: 50,
@@ -144,6 +162,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 5,
         marginTop: 30,
+        width: '100%',
     },
     submit: {
         fontSize: 16,

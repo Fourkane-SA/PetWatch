@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     blocRadioItem: {
         flexDirection: 'row',
         width: '50%',
+        marginRight: 25,
     },
     before: {
         backgroundColor: 'transparent',

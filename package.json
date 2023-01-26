@@ -6,6 +6,7 @@
     "radio-buttons-react-native": "^1.0.4",
     "react-native-radio-buttons-group": "^2.3.0",
     "react-native-svg": "^13.7.0",
-    "react-native-vector-icons": "^9.2.0"
+    "react-native-vector-icons": "^9.2.0",
+    "styled-components": "^5.2.0"
   }
 }
