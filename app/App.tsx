@@ -5,8 +5,9 @@ import {NavigationContainer} from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import {FormPro} from "./screens/FormPro";
-import Upload from "./screens/Upload";
+import Upload from "./components/Upload";
 import axios from "axios";
+import TestUploadScreen from "./screens/testUploadScreen";
 
 axios.defaults.baseURL = "https://petwatcher.fourkane.me/api"
 axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiYWl0IjoxNjc0NjUzNDI3LCJleHAiOjE2NzczMzE4Mjd9.PN9VDxYzFHwDqcuwfbzViDx-kSI4Nzh70P56_nZc9CQ'
@@ -22,7 +23,7 @@ export default function App() {
       </NavigationContainer>
   );*/
     return (
-    <Upload></Upload>
+    <TestUploadScreen></TestUploadScreen>
     )
 }
 
