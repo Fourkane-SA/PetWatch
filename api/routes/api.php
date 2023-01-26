@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -34,3 +35,18 @@ Route::get('/pets/{id}', [PetController::class, 'show']);
 Route::patch('/pets/{id}', [PetController::class, 'update'])->middleware('verifyToken');
 Route::delete('/pets/{id}', [PetController::class, 'destroy'])->middleware('verifyToken');
 Route::get('/pets/byUserId/{id}', [PetController::class, 'findByUserId']);
+
+Route::get('/reviews', [ReviewController::class, 'index']);
+Route::post('/reviews', [ReviewController::class, 'store'])->middleware('verifyToken');
+Route::get('/reviews/{id}', [ReviewController::class, 'show']);
+
+/**
+ * Client => Demande d'hebergement
+ *        => Reserver à un pet-sitter pour un/des animaux
+ *        => Laisser un avis
+ *
+ * Messagerie => Envoie de message
+ *            => Liste les conversations
+ *
+ * gestion des demandes
+ */

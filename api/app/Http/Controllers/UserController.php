@@ -63,7 +63,6 @@ class UserController extends Controller
         $user->isPetSitter = false;
         $user->isIndividual = false;
         $user->isCompany = false;
-        info($role);
         if(!in_array($role, array('company', 'individual', 'petsitter')))
             return response()->json('Le champ rôle ne peux prendre comme valeur que company, individual et petsitter', Response::HTTP_BAD_REQUEST);
         if($role === 'company') {

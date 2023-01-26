@@ -17,6 +17,8 @@ tags:
     description: Gestion des animaux
   - name: upload
     description: Gestion des upload
+  - name: reviews
+    description: Gestion des avis
 
 paths:
   /users:
@@ -504,7 +506,51 @@ paths:
       responses:
         200:
           description: Retourne le nom et l'url de l'image uploadé sur le serveur
+  /reviews:
+    get:
+      tags:
+        - reviews
+      summary: Gestion des avis
+      responses:
+        200:
+          description: Retourne un tableau JSON comportant l'ensemble des avis postées
+    post:
+      tags:
+        - reviews
+      summary: Ajout d'un nouvel avis
+      security:
+        - Authentification: [ write ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example: {
+                         userReceiverId: 1,
+                         description: "Une description",
+                         stars: 4
+              }
 
+      responses:
+        200:
+          description: Un nouvel avis créé
+        404:
+          description: L'utilisateur n'existe pas
+        401:
+          description: Des champs sont non renseignés
+  /reviews/{id}:
+    get:
+      tags:
+        - reviews
+      summary: Affiche un avis
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'avis
+      responses:
+        200:
+          description: Affiche l'avis
+        404:
+          description: L'avis n'existe pas
 
 
 components:
