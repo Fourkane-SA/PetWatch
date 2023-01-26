@@ -1,1 +1,561 @@
-a
+openapi: 3.0.0
+info:
+  title: PetWatcher
+  description: Documentation de l'API utilisé pour l'application mobile PetWatcher
+  version: 0.1.0
+servers:
+  - url: http://localhost:8000/api
+    description: Local
+  - url: https://rea.fourkane.me/api
+    description: Serveur
+tags:
+  - name: users
+    description: Gestion des utilisateurs
+  - name: tokens
+    description: Gestion des tokens d'authentification
+  - name: pets
+    description: Gestion des animaux
+  - name: upload
+    description: Gestion des upload
+  - name: reviews
+    description: Gestion des avis
+
+paths:
+  /users:
+    get:
+      tags:
+        - users
+      summary: Retourne la liste des utilisateurs
+      responses:
+        200:
+          description: Un tableau JSON des utilisateurs
+          content:
+            application/json:
+              example: [
+              {
+                "id": 1,
+                "created_at": "2023-01-24T14:16:57.000000Z",
+                "updated_at": "2023-01-24T14:16:57.000000Z",
+                "login": "fourkane",
+                "isIndividual": 1,
+                "isCompany": 0,
+                "isPetSitter": 0,
+                "email": "fourkane@mail.com",
+                "phoneNumber": "0639469563",
+                "city": "Saint Priest",
+                "postalCode": "69800",
+                "address": "1 rue cool",
+                "firstname": "Fourkane",
+                "lastname": "Saïd Ali",
+                "companyName": null,
+                "siretNumber": null,
+                "website": null,
+                "keepDogs": null,
+                "keepCats": null,
+                "acceptedWeight": null,
+                "description": null,
+                "imageURL": null
+              }
+            ]
+    post:
+      tags:
+        - users
+      summary: Crée un nouvel utilisateur
+      description: Le login et le mot de passe de l'utilisateur
+      parameters:
+        - in: query
+          name: login
+          description: Le nom d'utilisateur
+          required: true
+        - in: query
+          name: password
+          description: Le mot de passe de l'utilisateur
+          required: true
+        - in: query
+          name: email
+          description: L'adresse mail de l'utilisateur
+          required: true
+        - in: query
+          name: phoneNumber
+          description: Le numéro de téléphone de l'utilisateur
+          required: true
+        - in: query
+          name: role
+          description: Le role du nouvel utilisateur (company, individual ou petsitter)
+          required: true
+        - in: query
+          name: city
+          description: Le nom de la ville de l'utilisateur
+          required: true
+        - in: query
+          name: postalCode
+          description: Code postal de l'utilisateur
+          required: true
+        - in: query
+          name: address
+          description: L'adresse de l'utilisateur
+          required: true
+        - in: query
+          name: companyName
+          description: Le nom de l'entreprise
+        - in: query
+          name: siretNumber
+          description: Le numéro de siret de l'entreprise
+        - in: query
+          name: website
+          description: Le site internet de l'entreprise
+        - in: query
+          name: firstname
+          description: Le prénom de l'utilisateur
+        - in: query
+          name: lastname
+          description: Le nom de l'utilisateur
+      responses:
+        201:
+          description: L'utilisateur a été créé. Retourne le token de l'utilisateur
+          content:
+            application/json:
+              schema:
+                type: string
+                example: token
+                description: Le token de l'utilisateur créé
+        400:
+          description: La requête ne contient pas les champs login et password
+        401:
+          description: Le login existe déjà
+  /users/{id}:
+    get:
+      tags:
+        - users
+      summary: Affiche un utilisateur selon son id
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'utilisateur
+      responses:
+        200:
+          description: Un JSON de l'utilisateur
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {
+                  "id": 1,
+                  "created_at": "2023-01-24T14:16:57.000000Z",
+                  "updated_at": "2023-01-24T14:16:57.000000Z",
+                  "login": "fourkane",
+                  "isIndividual": 1,
+                  "isCompany": 0,
+                  "isPetSitter": 0,
+                  "email": "fourkane@mail.com",
+                  "phoneNumber": "0639469563",
+                  "city": "Saint Priest",
+                  "postalCode": "69800",
+                  "address": "1 rue cool",
+                  "firstname": "Fourkane",
+                  "lastname": "Saïd Ali",
+                  "companyName": null,
+                  "siretNumber": null,
+                  "website": null,
+                  "keepDogs": null,
+                  "keepCats": null,
+                  "acceptedWeight": null,
+                  "description": null,
+                  "imageURL": null
+                }
+        404:
+          description: L'utilisateur n'existe pas
+    patch:
+      tags:
+        - users
+      summary: Modifie un utilisateur
+      description: Les champs vide ou ne correspondant pas au role de l'utilisateur ne sont pas modifiés
+      security:
+        - Authentification: [write]
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'utilisateur a modifier
+          required: true
+        - in: query
+          name: phoneNumber
+          description: Le numéro de téléphone
+        - in: query
+          name: city
+          description: La ville
+        - in: query
+          name: postalCode
+          description: Le code postal
+        - in: query
+          name: address
+          description: L'adresse
+        - in: query
+          name: companyName
+          description: Le nom de l'entreprise (uniquement pour les compte pro)
+        - in: query
+          name: siretNumber
+          description: Le numéro siret (uniquement pour les compte pro)
+        - in: query
+          name: website
+          description: Le site internet (uniquement pour les compte pro)
+        - in: query
+          name: firstname
+          description: Le prénom (uniquement pour les comptes non pro)
+        - in: query
+          name: lastname
+          description: Le nom (uniquement pour les comptes non pro)
+        - in: query
+          name: keepDogs
+          description: Garde les chiens (uniquement pour les pet-sitter et les pro)
+        - in: query
+          name: keepCats
+          description: Garde les chiens (uniquement pour les pet-sitter et les pro)
+        - in: query
+          name: acceptedWeight
+          description: Liste des gabarits acceptés => tableau stringifié (uniquement pour les pet-sitter et les pro)
+        - in: query
+          name: description
+          description: Des infos supplémentaires sur l'utilisateur  (uniquement pour les pet-sitter et les pro)
+      responses:
+        200:
+          description: L'utilisateur a été supprimé
+        400:
+          description: Le token est manquant ou incorrect
+        401:
+          description: L'utilisateur connecté n'est pas autorisé à supprimer cet utilisateur
+        404:
+          description: L'utilisateur n'existe pas
+    delete:
+      tags:
+        - users
+      summary: Supprime un utilisateur
+      security:
+        - Authentification: [write]
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'utilisateur a supprimer
+          required: true
+      responses:
+        200:
+          description: L'utilisateur a été supprimé
+        400:
+          description: Le token est manquant ou incorrect
+        401:
+          description: L'utilisateur connecté n'est pas autorisé à supprimer cet utilisateur
+        404:
+          description: L'utilisateur n'existe pas
+  /tokens:
+    get:
+      tags:
+        - tokens
+      summary: Vérifie et décode le token
+      security:
+        - Authentification: [read]
+      responses:
+        200:
+          description: Le token est correct. Retourne l'id de l'utilisateur
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 0
+        400:
+          description: Le token est manquant ou non valide
+        404:
+          description: L'utilisateur du token n'existe pas
+    post:
+      tags:
+        - tokens
+      summary: Génére un token (Connexion)
+      parameters:
+        - in: query
+          name: login
+          description: Le login de l'utilisateur
+        - in: query
+          name: password
+          description: Le mot de passe de l'utilisateur
+      responses:
+        200:
+          description: Retourne le token généré
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "token"
+        400:
+          description: Les champs login et password ne sont pas renseignés
+        401:
+          description: Le mot de passe est incorrect
+        404:
+          description: Le login n'existe pas
+  /pets:
+    get:
+      tags:
+        - pets
+      summary: Liste tous les animaux
+      responses:
+        200:
+          description: Un tabluau JSON de tous les animaux
+          content:
+            application/json:
+              schema:
+                type: array
+    post:
+      tags:
+        - pets
+      summary: Permet d'ajouter un animal
+      security:
+        - Authentification: [ write ]
+      parameters:
+        - in: query
+          name: name
+          description: Le nom de l'animal
+          required: true
+        - in: query
+          name: gender
+          description: Le genre de l'animal (Mâle ou Femelle)
+          required: true
+        - in: query
+          name: type
+          description: Le type d'animal (Chat ou Chien)
+          required: true
+        - in: query
+          name: birth
+          description: La date de naissance de l'animal
+          required: true
+        - in: query
+          name: adoptionDate
+          description: La date d'adoption de l'animal
+          required: true
+        - in: query
+          name: weight
+          description: La catégorie de poids de l'animal [Petit, Moyen, Grand, Géant]
+          required: true
+        - in: query
+          name: vaccines
+          description: Les vaccins de l'animal
+          required: true
+        - in: query
+          name: isAllergies
+          description: booléen indiquant si l'animal a des allergies
+          required: true
+        - in: query
+          name: allergies
+          description: Les allergies de l'animal
+        - in: query
+          name: isMedications
+          description: booléen indiquant si l'animal doit prendre des médicaments
+          required: true
+        - in: query
+          name: medicationsAndFrequences
+          description: liste des médicaments avec leurs fréquences
+        - in: query
+          name: isHealthProblems
+          description: booléen indiquant si l'animal a des problèmes de santé
+          required: true
+        - in: query
+          name: healthProblems
+          description: Liste les problèmes de santé de l'animal
+        - in: query
+          name: dateLastVeterinaryConsultation
+          description: Date de derniere consultation au vétérinaire
+          required: true
+        - in: query
+          name: description
+          description: description générale de l'animal
+          required: true
+        - in: query
+          name: photoUrl
+          description: L'url de la photo de l'animal
+      responses:
+        201:
+          description: L'animal a été créé
+        400:
+          description: La requête est incorrecte
+        401:
+          description: L'utilisateur n'est pas authentifié
+  /pets/{id}:
+    get:
+      tags:
+        - pets
+      summary: Affiche un animal selon son id
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'animal
+      responses:
+        200:
+          description: Affiche un JSON représentant l'animal
+        404:
+          description: L'animal n'existe pas
+    patch:
+      tags:
+        - pets
+      summary: Modifie un animal
+      description: Les champs vides ne sont pas modifiés
+      security:
+        - Authentification: [ write ]
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'animal
+        - in: query
+          name: name
+          description: Le nom de l'animal
+        - in: query
+          name: gender
+          description: Le genre de l'animal (Mâle ou Femelle)
+        - in: query
+          name: type
+          description: Le type d'animal (Chat ou Chien)
+        - in: query
+          name: birth
+          description: La date de naissance de l'animal
+        - in: query
+          name: adoptionDate
+          description: La date d'adoption de l'animal
+        - in: query
+          name: weight
+          description: La catégorie de poids de l'animal [Petit, Moyen, Grand, Géant]
+        - in: query
+          name: vaccines
+          description: Les vaccins de l'animal
+        - in: query
+          name: isAllergies
+          description: booléen indiquant si l'animal a des allergies
+        - in: query
+          name: allergies
+          description: Les allergies de l'animal
+        - in: query
+          name: isMedications
+          description: booléen indiquant si l'animal doit prendre des médicaments
+        - in: query
+          name: medicationsAndFrequences
+          description: liste des médicaments avec leurs fréquences
+        - in: query
+          name: isHealthProblems
+          description: booléen indiquant si l'animal a des problèmes de santé
+        - in: query
+          name: healthProblems
+          description: Liste les problèmes de santé de l'animal
+        - in: query
+          name: dateLastVeterinaryConsultation
+          description: Date de derniere consultation au vétérinaire
+        - in: query
+          name: description
+          description: description générale de l'animal
+        - in: query
+          name: photoUrl
+          description: L'url de la photo de l'animal
+      responses:
+        200:
+          description: L'animal a été modifié
+        401:
+          description: L'utilisateur n'est pas autorisé à modifier cet animal
+        404:
+          description: L'animal n'existe pas
+    delete:
+      tags:
+        - pets
+      summary: Supprime un animal
+      security:
+        - Authentification: [ write ]
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'animal
+      responses:
+        200:
+          description: L'animal a été supprimé
+        401:
+          description: Vous ne pouvez pas supprimer cet animal
+        404:
+          description: Cet animal n'existe pas
+  /pets/byUserId/{id}:
+    get:
+      tags:
+        - pets
+      summary: Liste tous les animaux d'un utilisateur
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'utilisateur
+      responses:
+        200:
+          description: Tableau JSON des animaux de l'utilisateur
+        404:
+          description: L'utilisateur n'existe pas
+  /uploadImage:
+    post:
+      tags:
+        - upload
+      summary: Permet d'upload une image
+      security:
+        - Authentification: [ write ]
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                # 'file' will be the field name in this multipart request
+                image:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          description: Retourne le nom et l'url de l'image uploadé sur le serveur
+  /reviews:
+    get:
+      tags:
+        - reviews
+      summary: Gestion des avis
+      responses:
+        200:
+          description: Retourne un tableau JSON comportant l'ensemble des avis postées
+    post:
+      tags:
+        - reviews
+      summary: Ajout d'un nouvel avis
+      security:
+        - Authentification: [ write ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example: {
+                         userReceiverId: 1,
+                         description: "Une description",
+                         stars: 4
+              }
+
+      responses:
+        200:
+          description: Un nouvel avis créé
+        404:
+          description: L'utilisateur n'existe pas
+        401:
+          description: Des champs sont non renseignés
+  /reviews/{id}:
+    get:
+      tags:
+        - reviews
+      summary: Affiche un avis
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'avis
+      responses:
+        200:
+          description: Affiche l'avis
+        404:
+          description: L'avis n'existe pas
+
+
+components:
+  securitySchemes:
+    Authentification:
+      type: apiKey
+      in: header
+      name: Authorization

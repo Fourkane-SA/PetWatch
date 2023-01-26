@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\PetController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +21,32 @@ use Illuminate\Support\Facades\Route;
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{id}', [UserController::class, 'show']);
+Route::patch('/users/{id}', [UserController::class, 'update'])->middleware('verifyToken');
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->middleware('verifyToken');
 
 Route::post('/tokens', [TokenController::class, 'generate']);
 Route::get('/tokens', [TokenController::class, 'decode'])->middleware('verifyToken');
+
+Route::post('/uploadImage', [ImageController::class, 'addImage'])->middleware('verifyToken');
+
+Route::get('/pets', [PetController::class, 'index']);
+Route::post('/pets', [PetController::class, 'store'])->middleware('verifyToken');
+Route::get('/pets/{id}', [PetController::class, 'show']);
+Route::patch('/pets/{id}', [PetController::class, 'update'])->middleware('verifyToken');
+Route::delete('/pets/{id}', [PetController::class, 'destroy'])->middleware('verifyToken');
+Route::get('/pets/byUserId/{id}', [PetController::class, 'findByUserId']);
+
+Route::get('/reviews', [ReviewController::class, 'index']);
+Route::post('/reviews', [ReviewController::class, 'store'])->middleware('verifyToken');
+Route::get('/reviews/{id}', [ReviewController::class, 'show']);
+
+/**
+ * Client => Demande d'hebergement
+ *        => Reserver à un pet-sitter pour un/des animaux
+ *        => Laisser un avis
+ *
+ * Messagerie => Envoie de message
+ *            => Liste les conversations
+ *
+ * gestion des demandes
+ */

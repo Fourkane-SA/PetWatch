@@ -1,5 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import Login from "./screens/Login";
+import {ChoiceRole} from "./screens/ChoiceRole";
+import {NavigationContainer} from "@react-navigation/native";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as React from 'react';
+import {FormPro} from "./screens/FormPro";
+import Upload from "./components/Upload";
+import axios from "axios";
+import TestUploadScreen from "./screens/testUploadScreen";
 // import AddAnimal from './screens/addAnimal';
 // import FirstLoad from './screens/firstLoad';
 // import ChoixcConexionInscription from './screens/choixConnexionInscription'
@@ -10,11 +19,23 @@ import { StyleSheet, Text, View } from 'react-native';
 // import Home from './screens/home'
 import CheckReservation from './screens/checkReservation'
 
+axios.defaults.baseURL = "https://petwatcher.fourkane.me/api"
+axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiYWl0IjoxNjc0NjUzNDI3LCJleHAiOjE2NzczMzE4Mjd9.PN9VDxYzFHwDqcuwfbzViDx-kSI4Nzh70P56_nZc9CQ'
+const Stack = createNativeStackNavigator();
 export default function App() {
+  /*return (
+      <NavigationContainer>
+          <Stack.Navigator initialRouteName="login" >
+              <Stack.Screen options={{headerShown: false}} name="login" component={Login}></Stack.Screen>
+              <Stack.Screen options={{headerShown: false}} name="choiceRole" component={ChoiceRole}></Stack.Screen>
+              <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="formPro" component={FormPro} ></Stack.Screen>
+          </Stack.Navigator>
+      </NavigationContainer>
+  );*/
+    return (
+    <TestUploadScreen></TestUploadScreen>
 
-  return (
-    <View style={styles.container}>
-    {/* Pages */}
+      {/* Pages */}
 
      {/* <FirstLoad></FirstLoad>
           <ChoixcConexionInscription></ChoixcConexionInscription>
@@ -25,10 +46,10 @@ export default function App() {
           <ModeGarde></ModeGarde>
            <Home></Home>
       */}
-    <CheckReservation></CheckReservation>
+      <CheckReservation></CheckReservation>
 
-    </View>
-  );
+
+    );
 }
 
 const styles = StyleSheet.create({
