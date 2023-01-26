@@ -13,9 +13,9 @@ class ImageController extends Controller
         $image->title = 'test';//$request->input(['title']);
         if(!$request->hasFile('image'))
             return response()->json("Le champ image est manquant dans la requête", Response::HTTP_BAD_REQUEST);
-        $path = $request->file('image')->store('images');
+        $path = $request->file('image')->store('public');
         $image->uri = $path;
         $image->save();
-        return response()->json($image);
+        return response()->json($image->uri);
     }
 }
