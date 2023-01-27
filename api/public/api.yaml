@@ -36,7 +36,6 @@ paths:
                 "id": 1,
                 "created_at": "2023-01-24T14:16:57.000000Z",
                 "updated_at": "2023-01-24T14:16:57.000000Z",
-                "login": "fourkane",
                 "isIndividual": 1,
                 "isCompany": 0,
                 "isPetSitter": 0,
@@ -63,10 +62,6 @@ paths:
       summary: Crée un nouvel utilisateur
       description: Le login et le mot de passe de l'utilisateur
       parameters:
-        - in: query
-          name: login
-          description: Le nom d'utilisateur
-          required: true
         - in: query
           name: password
           description: Le mot de passe de l'utilisateur
@@ -551,6 +546,50 @@ paths:
           description: Affiche l'avis
         404:
           description: L'avis n'existe pas
+    delete:
+      tags:
+        - reviews
+      summary: Supprime un avis
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'avis
+      responses:
+        200:
+          description: L'avis a été supprimé
+        404:
+          description: L'avis n'existe pas
+  /reviews/stars/{id}:
+    get:
+      tags:
+        - reviews
+      summary: Retourne le nombre d'étoiles moyen laissé à un utilisateur
+      responses:
+        200:
+          description: Le nombre d'étoiles moyen (ou 0 si aucun avis)
+        404:
+          description: L'utilisateur n'existe pas
+  /reviews/byUserId/{id}:
+    get:
+      tags:
+        - reviews
+      summary: Retourne les avis laissé à un utilisateur
+      responses:
+        200:
+          description: Un tableau comportant tous les avis laisséss à un utilisateur
+        404:
+          description: L'utilisateur n'existe pas
+  /reviews/sendByUserId/{id}:
+    get:
+      tags:
+        - reviews
+      summary: Retourne les avis qu'un utilisateur a posté
+      responses:
+        200:
+          description: Un tableau comportant tous les avis qu'a posté un utilisateur
+        404:
+          description: L'utilisateur n'existe pas
+
 
 
 components:

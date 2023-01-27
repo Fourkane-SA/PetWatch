@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('userSenderId');
+            $table->foreign('userSenderId')->references('id')->on('users');
             $table->unsignedBigInteger('userReceiverId');
+            $table->foreign('userReceiverId')->references('id')->on('users');
             $table->integer('stars');
             $table->string('description', 2000);
         });

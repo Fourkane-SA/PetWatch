@@ -19,7 +19,6 @@ class UserController extends Controller
     }
 
     public function store(Request $request) {
-        $login = $request->input(['login']);
         $password = $request->input(['password']);
         $role = $request->input(['role']);
         $email = $request->input(['email']);
@@ -27,8 +26,6 @@ class UserController extends Controller
         $city = $request->input(['city']);
         $postalCode = $request->input(['postalCode']);
         $address = $request->input(['address']);
-        if (!$login)
-            return response()->json('Le champ login est manquant dans la requête', Response::HTTP_BAD_REQUEST);
         if (!$password)
             return response()->json('Le champ password est manquant dans la requête', Response::HTTP_BAD_REQUEST);
         if (!$role)
@@ -44,16 +41,12 @@ class UserController extends Controller
         if (!$address)
             return response()->json('Le champ $address est manquant dans la requête', Response::HTTP_BAD_REQUEST);
         $user = new User();
-        $user->login = $login;
         $user->password = Hash::make($password);
         $user->email = $email;
         $user->phoneNumber = $phoneNumber;
         $user->city = $city;
         $user->postalCode = $postalCode;
         $user->address = $address;
-        $find = User::whereLogin($login)->first();
-        if ($find)
-            return response()->json('Ce login est déjà pris', Response::HTTP_UNAUTHORIZED);
         $find = User::whereEmail($email)->first();
         if ($find)
             return response()->json('Cette adresse mail est déjà prise', Response::HTTP_UNAUTHORIZED);

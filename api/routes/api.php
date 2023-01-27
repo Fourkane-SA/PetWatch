@@ -39,13 +39,17 @@ Route::get('/pets/byUserId/{id}', [PetController::class, 'findByUserId']);
 Route::get('/reviews', [ReviewController::class, 'index']);
 Route::post('/reviews', [ReviewController::class, 'store'])->middleware('verifyToken');
 Route::get('/reviews/{id}', [ReviewController::class, 'show']);
+Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->middleware('verifyToken');
+Route::get('/reviews/stars/{id}', [ReviewController::class, 'countStars']);
+Route::get('/reviews/byUserId/{id}', [ReviewController::class, 'byUserId']);
+Route::get('/reviews/sendByUserId/{id}', [ReviewController::class, 'sendByUserId']);
 
 /**
  * Client => Demande d'hebergement
  *        => Reserver à un pet-sitter pour un/des animaux
- *        => Laisser un avis
+ *        => Laisser un avis [EN COURS] => TODO : tout tester
  *
- * Messagerie => Envoie de message
+ * Messagerie [pusher ?] => Envoie de message
  *            => Liste les conversations
  *
  * gestion des demandes
