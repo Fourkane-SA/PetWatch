@@ -13,13 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 class TokenController extends Controller {
 
     public function generate(Request $request) {
-        if (!$request->input(['login']))
-            return response()->json(['error' => 'Le champ login est manquant dans la requête']);
+        if (!$request->input(['email']))
+            return response()->json(['error' => 'Le champ email est manquant dans la requête']);
         if (!$request->input(['password']))
             return response()->json(['error', 'Le champ password est manquant dans la requête']);
-        $user = User::whereLogin($request->input(['login']))->first();
+        $user = User::whereEmail($request->input(['email']))->first();
         if (!$user)
-            return response()->json(['error' => "Ce login n'existe pas"], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['error' => "Cet adresse mail n'est pas enregistré"], Response::HTTP_UNAUTHORIZED);
         if (!Hash::check($request->input(['password']), $user->password))
             return response()->json(['error' => "Le mot de passe est incorrect"]);
         $token = TokenService::generate($user);

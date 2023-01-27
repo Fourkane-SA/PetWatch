@@ -19,6 +19,8 @@ tags:
     description: Gestion des upload
   - name: reviews
     description: Gestion des avis
+  - name: reservations
+    description: Gestion des reservations
 
 paths:
   /users:
@@ -60,7 +62,6 @@ paths:
       tags:
         - users
       summary: Crée un nouvel utilisateur
-      description: Le login et le mot de passe de l'utilisateur
       parameters:
         - in: query
           name: password
@@ -115,9 +116,9 @@ paths:
                 example: token
                 description: Le token de l'utilisateur créé
         400:
-          description: La requête ne contient pas les champs login et password
+          description: La requête ne contient pas les champs email et password
         401:
-          description: Le login existe déjà
+          description: L'adresse mail existe déjà
   /users/{id}:
     get:
       tags:
@@ -138,7 +139,6 @@ paths:
                   "id": 1,
                   "created_at": "2023-01-24T14:16:57.000000Z",
                   "updated_at": "2023-01-24T14:16:57.000000Z",
-                  "login": "fourkane",
                   "isIndividual": 1,
                   "isCompany": 0,
                   "isPetSitter": 0,
@@ -265,8 +265,8 @@ paths:
       summary: Génére un token (Connexion)
       parameters:
         - in: query
-          name: login
-          description: Le login de l'utilisateur
+          name: email
+          description: L'adresse mail de l'utilisateur
         - in: query
           name: password
           description: Le mot de passe de l'utilisateur
@@ -279,11 +279,11 @@ paths:
                 type: string
                 example: "token"
         400:
-          description: Les champs login et password ne sont pas renseignés
+          description: Les champs email et password ne sont pas renseignés
         401:
           description: Le mot de passe est incorrect
         404:
-          description: Le login n'existe pas
+          description: L'email n'existe pas
   /pets:
     get:
       tags:
@@ -564,6 +564,10 @@ paths:
       tags:
         - reviews
       summary: Retourne le nombre d'étoiles moyen laissé à un utilisateur
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'avis
       responses:
         200:
           description: Le nombre d'étoiles moyen (ou 0 si aucun avis)
@@ -574,6 +578,10 @@ paths:
       tags:
         - reviews
       summary: Retourne les avis laissé à un utilisateur
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'avis
       responses:
         200:
           description: Un tableau comportant tous les avis laisséss à un utilisateur
@@ -584,13 +592,123 @@ paths:
       tags:
         - reviews
       summary: Retourne les avis qu'un utilisateur a posté
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'avis
       responses:
         200:
           description: Un tableau comportant tous les avis qu'a posté un utilisateur
         404:
           description: L'utilisateur n'existe pas
-
-
+  /reservations:
+    get:
+      tags:
+        - reservations
+      summary: Retourne la liste de toutes les reservations
+      responses:
+        200:
+          description: Un tableau JSON comportant l'ensemble des reservations
+    post:
+      tags:
+        - reservations
+      security:
+        - Authentification: [ write ]
+      summary: Permet de créer une nouvelle reservation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: {
+                         userIdPro : 2,
+                         start: 'Sun Dec 17 1995 01:00:00 GMT+0100',
+                         end: 'Sun Dec 17 1995 01:00:00 GMT+0100',
+                         idPets: [1]
+              }
+      responses:
+        200:
+          description: La reservation créée
+        400:
+          description: Des champs sont manquants
+  /reservations/{id}:
+    get:
+      tags:
+        - reservations
+      summary: Affiche une reservation
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de la reservation
+      responses:
+        200:
+          description: Retourne une reservation
+        404:
+          description: La reservation n'existe pas
+  /reservations/accept/{id}:
+    patch:
+      tags:
+        - reservations
+      security:
+        - Authentification: [ write ]
+      summary: Accepte une reservation
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de la reservation
+      responses:
+        200:
+          description: La reservation a été acceptée
+        401:
+          description: L'utilisateur n'est pas autorisé à modifier cette reservation
+        404:
+          description: La reservation n'existe pas
+  /reservations/refuse/{id}:
+    patch:
+      tags:
+        - reservations
+      security:
+        - Authentification: [ write ]
+      summary: Refuse une reservation
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de la reservation
+      responses:
+        200:
+          description: La reservation a été refusé
+        401:
+          description: L'utilisateur n'est pas autorisé à modifier cette reservation
+        404:
+          description: La reservation n'existe pas
+  /reservations/byUserId/client/{id}:
+    get:
+      tags:
+        - reservations
+      summary: Liste toutes les reservations d'un client
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'utilisateur
+      responses:
+        200:
+          description: Retourne toutes les reservations
+        404:
+          description: L'utilisateur n'existe pas
+  /reservations/byUserId/petSitterPro/{id}:
+    get:
+      tags:
+        - reservations
+      summary: Liste toutes les reservations d'un pro ou pet sitter
+      parameters:
+        - in: path
+          name: id
+          description: L'identifiant de l'utilisateur
+      responses:
+        200:
+          description: Retourne toutes les reservations
+        404:
+          description: L'utilisateur n'existe pas
 
 components:
   securitySchemes:
