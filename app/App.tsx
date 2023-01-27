@@ -43,9 +43,10 @@ export default function App() {
         <AddAnimal></AddAnimal>
         <ModeGarde></ModeGarde>
         <Home></Home>
-        <CheckReservation></CheckReservation> */}
 
-      <TestUploadScreen></TestUploadScreen>
+        <TestUploadScreen></TestUploadScreen> 
+        */}
+      <CheckReservation></CheckReservation> 
     </SafeAreaView>
   );
 }

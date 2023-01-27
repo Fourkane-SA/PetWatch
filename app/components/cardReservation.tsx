@@ -16,40 +16,32 @@ export default class CardReservation extends Component {
 
     render() {
         return (
-            <SafeAreaView style={styles.container}>
-                <View style={[styles.wrapper, styles.bloc]}>
-                    <View style={styles.header}>
-                        <Text style={styles.title}>Pension pour chien</Text>
-                        <IconChien></IconChien>
-                    </View>
-
-                    <View style={styles.infos}>
-                        <Text style={styles.nom}>Boulette de viande</Text>
-                        <Text style={styles.text}>Date de réservation :</Text>
-                        <Text style={styles.date}>11/01/2023 - 16/01/2023</Text>
-                    </View>
-
-                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit}>
-                        <Text style={styles.submit}>Voir la fiche</Text>
-                    </TouchableOpacity>
+            <View style={[styles.wrapper, styles.bloc]}>
+                <View style={styles.header}>
+                    <Text style={styles.title}>Pension pour chien</Text>
+                    <IconChien></IconChien>
                 </View>
-            </SafeAreaView>
+
+                <View style={styles.infos}>
+                    <Text style={styles.nom}>Boulette de viande</Text>
+                    <Text style={styles.text}>Date de réservation :</Text>
+                    <Text style={styles.date}>11/01/2023 - 16/01/2023</Text>
+                </View>
+
+                <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit}>
+                    <Text style={styles.submit}>Voir la fiche</Text>
+                </TouchableOpacity>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        width: width,
-        marginTop: 25,
-    },
     wrapper: {
         width: '90%',
         alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 20,
     },
     bloc: {
         backgroundColor: '#FFF6E3',
@@ -61,6 +53,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
+        marginBottom: 20
     },
     title: {
         fontSize: 16,
