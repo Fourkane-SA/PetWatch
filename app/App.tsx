@@ -17,7 +17,8 @@ import TestUploadScreen from "./screens/testUploadScreen";
 // import CreationComptepro from './screens/creationComptePro'
 // import ModeGarde from './screens/modeGarde'
 // import Home from './screens/home'
-import CheckReservation from './screens/checkReservation'
+// import CheckReservation from './screens/checkReservation'
+import FicheDemandeReservation from './components/ficheDemandeReservation'
 
 
 axios.defaults.baseURL = "https://petwatcher.fourkane.me/api"
@@ -43,10 +44,11 @@ export default function App() {
         <AddAnimal></AddAnimal>
         <ModeGarde></ModeGarde>
         <Home></Home>
+        <CheckReservation></CheckReservation> 
 
         <TestUploadScreen></TestUploadScreen> 
         */}
-      <CheckReservation></CheckReservation> 
+        <FicheDemandeReservation></FicheDemandeReservation>
     </SafeAreaView>
   );
 }

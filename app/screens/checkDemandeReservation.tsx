@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Dimensions } from "react-native";
-import CardReservation from '../components/cardReservation'
+import CardDemandeReservation from '../components/cardDemandeReservation'
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
@@ -15,8 +15,8 @@ export default class CheckReservation extends Component {
             <SafeAreaView style={styles.container}>
                 <Text style={styles.title}>Consulter mes réservations</Text>
                 <View style={styles.wrapper}>
-                    <CardReservation></CardReservation>
-                    <CardReservation></CardReservation>
+                    <CardDemandeReservation></CardDemandeReservation>
+                    <CardDemandeReservation></CardDemandeReservation>
 
                     {/* <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit}>
                         <Text style={styles.submit}>Ajouter une réservation</Text>
