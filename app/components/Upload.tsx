@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+    Dimensions,
     Image, Pressable, SafeAreaView,
     StyleSheet,
     Text,
@@ -9,6 +10,11 @@ import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios/index";
 import Svg, {Path} from "react-native-svg";
+import IconDownload from '../assets/moduleSVG/downloadSVG'
+
+
+var width = Dimensions.get('window').width; //full width
+var height = Dimensions.get('window').height; //full height
 
 
 
@@ -25,12 +31,10 @@ export default class Upload extends Component<Props> {
 
     render() {
         return (
-                <View>
-                    <Pressable style={styles.content} onPress={this._pickImage}>
-                        <Text>Importer depuis la Galerie</Text>
-                        <Svg width="37" height="47" viewBox="0 0 37 47" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <Path d="M10.3333 0L0 10.3333H7.75V28.4167H12.9167V10.3333H20.6667M28.4167 36.1667V18.0833H23.25V36.1667H15.5L25.8333 46.5L36.1667 36.1667H28.4167Z" fill="black"/>
-                        </Svg>
+                <View style={styles.wrapper}>
+                    <Pressable style={styles.gallery} onPress={this._pickImage}>
+                        <Text style={styles.textGallery}>Importer depuis la Galerie</Text>
+                        <IconDownload></IconDownload>
                     </Pressable>
                 </View>
         )
@@ -74,14 +78,27 @@ export default class Upload extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
-    content: {
+    wrapper: {
+        width: '100%',
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 20,
+    },
+    gallery: {
         alignItems: "center",
         borderStyle: "dashed",
         borderColor: '#FAD4D4',
-        borderWidth: 4,
+        borderWidth: 3,
         borderRadius: 4,
-        padding: 10,
-        width: '80%',
-
-    }
+        paddingTop: 40,
+        paddingBottom: 40,
+        paddingLeft: 10,
+        paddingRight: 10,
+        width: '100%',
+        marginBottom: 30,
+        justifyContent: 'center',
+    },
+    textGallery: {
+        marginBottom: 15,
+    },
 });

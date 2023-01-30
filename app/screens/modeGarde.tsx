@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Flat
 import { Dimensions } from "react-native";
 import RadioButton from '../components/radioButton';
 import IconDownload from '../assets/moduleSVG/downloadSVG'
+import Upload from '../components/Upload';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -47,6 +48,10 @@ export default class CreationCompteParticulier extends Component {
         },
     ]
 
+    state = {
+        url1: ''
+    }
+
     render() {
         return (
             <SafeAreaView style={styles.container}>
@@ -57,19 +62,19 @@ export default class CreationCompteParticulier extends Component {
                         <RadioButton data={this.typeChoice} onSelect={undefined} />
                     </View>
 
-                    <Text style={styles.text}>Gabari accepté:</Text>
+                    <Text style={styles.text}>Gabari accepté (0 choisi(s)):</Text>
                     <FlatList
                         horizontal={true}
                         data={this.poids}
-                        renderItem={({ item }) => <TouchableOpacity activeOpacity={0.5} style={[{backgroundColor: item.bg}, styles.listItem]}><Text style={styles.gabarit}>{item.gabarit}</Text><Text style={styles.poids}> {item.tranche}</Text></TouchableOpacity>}
+                        renderItem={({ item }) => <TouchableOpacity activeOpacity={0.5} style={[{ backgroundColor: item.bg }, styles.listItem]}><Text style={styles.gabarit}>{item.gabarit}</Text><Text style={styles.poids}> {item.tranche}</Text></TouchableOpacity>}
                         keyExtractor={item => item.gabarit}
                     />
 
+                    <Text style={[styles.text, styles.marge]}>Prix par jour : </Text>
+                    <TextInput style={styles.input}></TextInput>
+
                     <Text style={[styles.text, styles.marge]}>Photos du lieu de garde proposé:</Text>
-                    <View style={styles.gallery}>
-                        <Text style={styles.textGallery}>Importer depuis la Galerie</Text>
-                        <IconDownload></IconDownload>
-                    </View>
+                    <Upload onImageUrlChange={(imageUrl) => {this.setState({url1: imageUrl})}} />
 
                     <TextInput
                         multiline={true}
@@ -118,21 +123,11 @@ const styles = StyleSheet.create({
         margin: 'auto',
         width: '50%',
     },
-    gallery: {
-        borderColor: '#FAD4D4',
-        borderWidth: 3,
-        borderStyle: 'dashed',
-        marginBottom: 30,
-        paddingTop: 40,
-        paddingBottom: 40,
-        paddingLeft: 10,
-        paddingRight: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
+    input: {
+        minHeight: 50,
+        borderRadius: 5,
+        backgroundColor: '#CEEAF0',
         width: '100%',
-    },
-    textGallery: {
-        marginBottom: 15,
     },
     listItem: {
         marginLeft: 8,
