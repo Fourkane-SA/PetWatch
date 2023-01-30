@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Dimensions } from "react-native";
 
@@ -6,42 +7,59 @@ var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
-/*TODO requete pour ajouter le professionnel + "message compte verifier et accepter" puis continuer sur le mode de garde "*/ 
+/*TODO requete pour ajouter le professionnel + "message compte verifier et accepter" puis continuer sur le mode de garde "*/
 
-export default function CreationCompteParticulier() {
+export default class CreationCompteParticulier extends Component {
+    state = {
+        confirm: false
+    }
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>Vous êtes un Professionnel ?</Text>
+    render() {
 
-            <View style={styles.blocInscription}>
-                <View>
-                    <TextInput placeholder="Nom entreprise" style={[styles.champ, styles.identity]}></TextInput>
-                    <TextInput placeholder="Numéro de SIRET" style={[styles.champ, , styles.identity]}></TextInput>
-                    <TextInput placeholder="Site web" style={[styles.champ, , styles.identity]}></TextInput>
-                    <TextInput placeholder="Téléphone professionnel" style={[styles.champ, , styles.identity]}></TextInput>
-                    <TextInput placeholder="Mail professionnel" style={[styles.champ, styles.identity]}></TextInput>
-                </View>
+        return (
+            <SafeAreaView style={styles.container}>
+                {!this.state.confirm &&
+                <><Text style={styles.title}>Vous êtes un Professionnel ?</Text><View style={styles.blocInscription}>
+                        <View>
+                            <TextInput placeholder="Nom entreprise" style={[styles.champ, styles.identity]}></TextInput>
+                            <TextInput placeholder="Numéro de SIRET" style={[styles.champ, , styles.identity]}></TextInput>
+                            <TextInput placeholder="Site web" style={[styles.champ, , styles.identity]}></TextInput>
+                            <TextInput placeholder="Téléphone professionnel" style={[styles.champ, , styles.identity]}></TextInput>
+                            <TextInput placeholder="Mail professionnel" style={[styles.champ, styles.identity]}></TextInput>
+                        </View>
 
-                <View>
-                    <TextInput placeholder="Adresse" style={[styles.champ, styles.adresse]}></TextInput>
-                    <TextInput placeholder="Ville" style={[styles.champ, , styles.adresse]}></TextInput>
-                    <TextInput placeholder="Code postal" style={[styles.champ, styles.adresse]}></TextInput>
-                </View>
+                        <View>
+                            <TextInput placeholder="Adresse" style={[styles.champ, styles.adresse]}></TextInput>
+                            <TextInput placeholder="Ville" style={[styles.champ, , styles.adresse]}></TextInput>
+                            <TextInput placeholder="Code postal" style={[styles.champ, styles.adresse]}></TextInput>
+                        </View>
 
-                <View>
-                    <TextInput placeholder="Mot de passe" style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
-                </View>
+                        <View>
+                            <TextInput placeholder="Mot de passe" style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
+                        </View>
 
-                <View>
-                </View>
+                        <View>
+                        </View>
 
-                <TouchableOpacity activeOpacity={0.8} style={[styles.champ,styles.containerSubmit]}>
-                    <Text style={styles.submit}>Envoyer une demande</Text>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
-    );
+                        <TouchableOpacity activeOpacity={0.8} style={[styles.champ, styles.containerSubmit]} 
+                        onPress={() => this.setState({confirm: true})}>
+                            <Text style={styles.submit}>Envoyer une demande</Text>
+                        </TouchableOpacity>
+                    </View></>
+                }
+
+                {this.state.confirm &&
+                    <View style={styles.container}>
+                        <View >
+                            <Text style={styles.text}>Votre demande a été envoyé</Text>
+                            <Text style={styles.text}>TODO Redirection sur mode de garde ou autre</Text>
+                        </View>
+                        
+                    </View>
+                }
+            </SafeAreaView>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -89,4 +107,7 @@ const styles = StyleSheet.create({
     mdp: {
         backgroundColor: '#CEEAF0',
     },
+    text: {
+        fontSize: 26
+    }
 });
