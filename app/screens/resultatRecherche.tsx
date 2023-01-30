@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Scro
 import { Dimensions } from "react-native";
 import IconCalendar from '../assets/moduleSVG/calendarSVG'
 import CardResultatRecherche from '../components/cardResultatRech'
+import Filter from '../components/filter'
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -12,8 +13,11 @@ export default function ResultatRecherche() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView contentContainerStyle={{width: width}}>
+            <ScrollView contentContainerStyle={[{ width: width }, {minHeight: height}]}>
                 <CardResultatRecherche></CardResultatRecherche>
+                <View style={styles.absolute}>
+                    <Filter></Filter>
+                </View>
             </ScrollView>
         </SafeAreaView>
     );
@@ -25,7 +29,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        width: width
+        width: width,
+        minHeight: height,
+    },
+    absolute: {
+        position: 'absolute',
+        left: '95%',
+        bottom:'5%',
     },
     title: {
         fontSize: 26,
@@ -74,5 +84,5 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 5,
         backgroundColor: '#CEEAF0',
-      },
+    },
 });

@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     },
     blocIcon: {
         flexDirection: 'row',
-        width: '15%',
+        width: '20%',
         justifyContent: 'space-evenly',
     },
     img: {
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
         height: 72,
         position: 'absolute',
         marginTop: -50,
+        borderRadius: 500,
     },
     blocAvis: {
         backgroundColor: '#000',
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        width: '50%',
+        width: '60%',
         marginBottom: 15,
     },
     address: {
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 50,
         marginTop: 20,
-        width: '40%',
+        width: '60%',
         backgroundColor: '#CEEAF0',
     },
     submit: {
