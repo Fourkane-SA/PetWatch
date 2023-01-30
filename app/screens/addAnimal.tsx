@@ -192,7 +192,8 @@ export default class AddAnimal extends Component {
 
           {this.state.etape == 5 &&
             <View style={styles.etape}>
-              <Text>Vous avez ajouté votre animal!</Text>
+              <Image  style={styles.img} source={require('../assets/confetti.png')}></Image>
+              <Text style={styles.confirmAjout}>Vous avez ajouté votre animal!</Text>
             </View>
           }
 
@@ -382,5 +383,16 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 40,
     borderRadius: 5,
+  },
+  img: {
+    width: '100%',
+    minHeight: 220,
+  },
+  confirmAjout: {
+    fontSize: 26,
+    fontWeight: '800',
+    textAlign: 'center',
+    marginTop: 60,
+    marginBottom: 60,
   }
 });
