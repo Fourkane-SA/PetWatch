@@ -96,7 +96,7 @@ export default class AddAnimal extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <View contentContainerStyle= {styles.wrapper}>
+        <ScrollView contentContainerStyle={styles.wrapper}>
           {this.state.etape < 5 &&
             <Text style={styles.pageTitle}> Ajoutez votre animal {this.state.etape}/4</Text>
           }
@@ -157,11 +157,11 @@ export default class AddAnimal extends Component {
               <Text style={styles.question}>Est-ce que votre animal a des allergies et/ou intolérances alimentaires?</Text>
               <RadioButton data={this.genderChoice} onSelect={undefined} />
               <Text style={styles.question}>Si oui, à quoi?</Text>
-              <TextInput></TextInput>
+              <TextInput style={styles.answer} multiline={true} numberOfLines={5}></TextInput>
               <Text style={styles.question}>Est-ce que votre animal a des problèmes de santé?</Text>
               <RadioButton data={this.genderChoice} onSelect={undefined} />
               <Text style={styles.question}>Si oui, lesquels?</Text>
-              <TextInput></TextInput>
+              <TextInput style={styles.answer} multiline={true} numberOfLines={5}></TextInput>
             </View>
           }
 
@@ -170,7 +170,7 @@ export default class AddAnimal extends Component {
               <Text style={styles.question}>Est-ce que votre animal a des médicaments à consommer?</Text>
               <RadioButton data={this.genderChoice} onSelect={undefined} />
               <Text style={styles.question}>Si oui, lesquels et à quelle fréquence?</Text>
-              <TextInput></TextInput>
+              <TextInput style={styles.answer} multiline={true} numberOfLines={5}></TextInput>
               <Text style={styles.question}>Veuillez indiquer la date de la dernière consultation vétérinaire de votre animal.</Text>
               <TextInput value="Date d'adoption" style={styles.btnCalendar}></TextInput>
               <TouchableOpacity activeOpacity={0.5}>
@@ -229,7 +229,7 @@ export default class AddAnimal extends Component {
               </TouchableOpacity>
             }
           </View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     )
   }
@@ -371,7 +371,16 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   retour: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: '#000',
+  },
+  question: {
+    fontSize: 16,
+    marginBottom: 25,
+  },
+  answer: {
+    backgroundColor: '#FFF6E3',
+    width: '100%',
+    marginBottom: 40,
   }
 });
