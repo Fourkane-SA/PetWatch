@@ -21,7 +21,7 @@ class TokenController extends Controller {
         if (!$user)
             return response()->json("Cet adresse mail n'est pas enregistré", Response::HTTP_UNAUTHORIZED);
         if (!Hash::check($request->input(['password']), $user->password))
-            return response()->json("Le mot de passe est incorrect");
+            return response()->json("Le mot de passe est incorrect", Response::HTTP_UNAUTHORIZED);
         $token = TokenService::generate($user);
         return response()->json($token);
     }
