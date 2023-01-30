@@ -6,9 +6,9 @@ var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
-/*Afficher le formulaire d'inscription selon role choisi */ 
+/*Afficher le formulaire d'inscription selon role choisi */
 
-export default function CreationCompteParticulier() {
+export default function CreationCompteParticulier({navigation}) {
 
     return (
         <SafeAreaView style={styles.container}>
@@ -17,14 +17,14 @@ export default function CreationCompteParticulier() {
             <View style={styles.choix}>
                 <Text style={styles.subtitle}>Je suis un...</Text>
 
-                <TouchableOpacity activeOpacity={0.8} style={[styles.btn,styles.particulier]}>
+                <TouchableOpacity activeOpacity={0.8} style={[styles.btn,styles.particulier]} onPress={() => navigation.navigate('CreationCompteParticulier')}>
                     <Text style={styles.btnText}>Particulier</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity activeOpacity={0.8} style={[styles.btn,styles.professionnel]}>
                     <Text style={styles.btnText}>Professionnel</Text>
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity activeOpacity={0.8} style={[styles.btn,styles.petsitter]}>
                     <Text style={styles.btnText}>Pet-Sitter</Text>
                 </TouchableOpacity>

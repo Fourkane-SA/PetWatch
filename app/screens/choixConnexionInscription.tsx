@@ -8,10 +8,10 @@ var height = Dimensions.get('window').height; //full height
 
 
 
-/* TODO : Axios connexion et redirection home , bouton google , lien vers choix role*/ 
+/* TODO : Axios connexion et redirection home , bouton google , lien vers choix role*/
 
 
-export default function App() {
+export default function App({navigation}) {
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Bienvenue</Text>
@@ -28,7 +28,7 @@ export default function App() {
             <Text style={styles.option}>ou</Text>
 
             <View style={styles.blocSignUp}>
-                <TouchableOpacity style={styles.btnPrimary} activeOpacity={0.8}>
+                <TouchableOpacity style={styles.btnPrimary} activeOpacity={0.8} onPress={() => navigation.navigate('ChoixRole')}>
                     <Text style={styles.btnText}>S'inscrire</Text>
                 </TouchableOpacity>
             </View>
