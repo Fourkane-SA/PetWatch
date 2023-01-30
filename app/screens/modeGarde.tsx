@@ -62,7 +62,7 @@ export default class CreationCompteParticulier extends Component {
                         <RadioButton data={this.typeChoice} onSelect={undefined} />
                     </View>
 
-                    <Text style={styles.text}>Gabari accepté (0 choisi(s)):</Text>
+                    <Text style={styles.text}>Gabaris acceptés (0 choisi(s)):</Text>
                     <FlatList
                         horizontal={true}
                         data={this.poids}

@@ -9,16 +9,16 @@ import { FormPro } from "./screens/FormPro";
 import Upload from "./components/Upload";
 import axios from "axios";
 import TestUploadScreen from "./screens/testUploadScreen";
-// import AddAnimal from './screens/addAnimal';
+import AddAnimal from './screens/addAnimal';
 // import FirstLoad from './screens/firstLoad';
 // import ChoixcConexionInscription from './screens/choixConnexionInscription'
 // import CreationCompteParticulier from './screens/creationCompteParticulier'
 // import ChoixRole from './screens/choixRole'
 // import CreationComptepro from './screens/creationComptePro'
-// import ModeGarde from './screens/modeGarde'
+import ModeGarde from './screens/modeGarde'
 // import Home from './screens/home'
 // import CheckDemandeReservation from './screens/checkReservation'
-import FicheDemandeReservation from './components/ficheDemandeReservation'
+// import FicheDemandeReservation from './components/ficheDemandeReservation'
 
 
 axios.defaults.baseURL = "https://petwatcher.fourkane.me/api"
@@ -45,10 +45,12 @@ export default function App() {
         <ModeGarde></ModeGarde>
         <Home></Home>
         <CheckDemandeReservation></CheckDemandeReservation> 
-
+        <FicheDemandeReservation></FicheDemandeReservation>
+        <ModeGarde></ModeGarde>
         <TestUploadScreen></TestUploadScreen> 
         */}
-        <FicheDemandeReservation></FicheDemandeReservation>
+
+      <AddAnimal></AddAnimal>
     </SafeAreaView>
   );
 }

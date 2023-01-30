@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         marginTop: 65,
         marginBottom: 45,
+        alignItems: 'center',
     },
     champ: {
         minHeight: 50,

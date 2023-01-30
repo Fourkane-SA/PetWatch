@@ -23,6 +23,6 @@ const styles = StyleSheet.create({
         width: width
     },
     title: {
-
+        alignItems: 'center',
     }
 });

@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         marginTop: 140,
         marginBottom: 70,
+        alignItems: 'center',
     },
     blocSignIn: {
         width: '90%',

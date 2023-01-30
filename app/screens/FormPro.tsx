@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 25,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        alignItems: 'center',
     },
     header: {
         flex: 1,

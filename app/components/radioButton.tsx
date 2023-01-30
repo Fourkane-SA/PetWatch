@@ -56,13 +56,13 @@ const styles = StyleSheet.create({
 
     },
     beforeSelected: {
-        borderColor: 'blue'
+        borderColor: '#FAD4D4'
     },
     beforeUnselected: {
         borderColor: '#bbb',
     },
     afterSelected: {
-        backgroundColor: 'blue',
+        backgroundColor: '#FAD4D4',
     },
     afterUnselected: {
         backgroundColor: '#bbb',
