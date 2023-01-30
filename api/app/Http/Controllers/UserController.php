@@ -97,18 +97,18 @@ class UserController extends Controller
     public function show(int $id) {
         $user = User::find($id);
         if (!$user)
-            return response()->json(['error' => "Cet utilisateur n'existe pas"], Response::HTTP_NOT_FOUND);
+            return response()->json("Cet utilisateur n'existe pas", Response::HTTP_NOT_FOUND);
         return response()->json($user);
     }
 
     public function update(int $id, Request $request) {
         $user = User::find($id);
         if(!$user)
-            return response()->json(['error' => "Cet utilisateur n'existe pas"], Response::HTTP_NOT_FOUND);
+            return response()->json("Cet utilisateur n'existe pas", Response::HTTP_NOT_FOUND);
         $token = $request->header('Authorization');
         $idConnected = TokenService::decode($token);
         if($idConnected !== $id)
-            return response()->json(['error' => "Vous n'etes pas autorisé à modifier cet utilisateur"], Response::HTTP_UNAUTHORIZED);
+            return response()->json("Vous n'etes pas autorisé à modifier cet utilisateur", Response::HTTP_UNAUTHORIZED);
         if($user->isCompany)
             $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'companyName', 'siretNumber', 'website', 'keepDogs', 'keepCats', 'acceptedWeight', 'description', 'profilImage', 'imageLocation']);
         else if ($user->isPetSitter)
@@ -124,11 +124,11 @@ class UserController extends Controller
     public function destroy(int $id, Request $request) {
         $user = User::find($id);
         if(!$user)
-            return response()->json(['error' => "Cet utilisateur n'existe pas"], Response::HTTP_NOT_FOUND);
+            return response()->json("Cet utilisateur n'existe pas", Response::HTTP_NOT_FOUND);
         $token = $request->header('Authorization');
         $idConnected = TokenService::decode($token);
         if($idConnected !== $id)
-            return response()->json(['error' => "Vous n'etes pas autorisé à supprimer cet utilisateur"], Response::HTTP_UNAUTHORIZED);
+            return response()->json("Vous n'etes pas autorisé à supprimer cet utilisateur", Response::HTTP_UNAUTHORIZED);
         $user->delete();
         return response()->json("L'utilisateur a été supprimé");
     }

@@ -14,14 +14,14 @@ class TokenController extends Controller {
 
     public function generate(Request $request) {
         if (!$request->input(['email']))
-            return response()->json(['error' => 'Le champ email est manquant dans la requête']);
+            return response()->json('Le champ email est manquant dans la requête');
         if (!$request->input(['password']))
-            return response()->json(['error', 'Le champ password est manquant dans la requête']);
+            return response()->json('Le champ password est manquant dans la requête');
         $user = User::whereEmail($request->input(['email']))->first();
         if (!$user)
-            return response()->json(['error' => "Cet adresse mail n'est pas enregistré"], Response::HTTP_UNAUTHORIZED);
+            return response()->json("Cet adresse mail n'est pas enregistré", Response::HTTP_UNAUTHORIZED);
         if (!Hash::check($request->input(['password']), $user->password))
-            return response()->json(['error' => "Le mot de passe est incorrect"]);
+            return response()->json("Le mot de passe est incorrect");
         $token = TokenService::generate($user);
         return response()->json($token);
     }
@@ -33,9 +33,9 @@ class TokenController extends Controller {
             User::findOrFail($id);
             return response()->json($id);
         } catch (ModelNotFoundException $modelNotFoundException) {
-            return response()->json(['error' => "L'utilisateur n'existe pas"], Response::HTTP_NOT_FOUND);
+            return response()->json("L'utilisateur n'existe pas", Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+            return response()->json($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
 
