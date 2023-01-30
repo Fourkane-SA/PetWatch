@@ -53,6 +53,7 @@ class ReservationController extends Controller
         if($reservation->userIdPro !== $userId)
             return response()->json("Vous ne pouvez pas modifier cette reservation", Response::HTTP_UNAUTHORIZED);
         $reservation->status = 'Refusé';
+        $reservation->refuseReasons = $request->input('refuseReasons');
         $reservation->save();
         return response()->json($reservation);
     }

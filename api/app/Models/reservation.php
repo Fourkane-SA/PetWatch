@@ -13,5 +13,5 @@ class reservation extends Model
         'idPets' => 'array'
     ];
 
-    protected $fillable = ['status'];
+    protected $fillable = ['status', 'refuseReasons'];
 }

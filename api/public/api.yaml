@@ -686,6 +686,9 @@ paths:
         - in: path
           name: id
           description: L'identifiant de la reservation
+        - in: query
+          name: refuseReasons
+          description: La raison de refus
       responses:
         200:
           description: La reservation a été refusé

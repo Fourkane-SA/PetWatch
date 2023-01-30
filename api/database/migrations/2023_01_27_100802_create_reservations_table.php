@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('end');
             $table->json('idPets');
             $table->string('status');
+            $table->string('refuseReasons', 2000)->nullable();
         });
     }
 
