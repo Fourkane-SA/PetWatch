@@ -16,7 +16,7 @@ import TestUploadScreen from "./screens/testUploadScreen";
 // import ChoixRole from './screens/choixRole'
 import CreationComptepro from './screens/creationComptePro'
 // import ModeGarde from './screens/modeGarde'
-// import Home from './screens/home'
+import Home from './screens/Home'
 // import CheckDemandeReservation from './screens/checkReservation'
 // import FicheDemandeReservation from './components/ficheDemandeReservation'
 
@@ -49,8 +49,8 @@ export default function App() {
         <ModeGarde></ModeGarde>
         <TestUploadScreen></TestUploadScreen> 
         */}
+         <Home></Home>
 
-<CreationComptepro></CreationComptepro>
     </SafeAreaView>
   );
 }

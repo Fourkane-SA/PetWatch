@@ -286,7 +286,6 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 5,
   },
-
   btnCalendar: {
     backgroundColor: '#FFF6E3',
     paddingLeft: 20,
