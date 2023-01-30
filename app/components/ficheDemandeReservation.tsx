@@ -14,73 +14,117 @@ var height = Dimensions.get('window').height; //full height
 /*Ici passage de parametre par rapport a la page checkReservation car selon l'animal le background change de couleur et egalement l'icon !!!!! */
 
 export default class ficheReservation extends Component {
+    state = {
+        choix: 0
+    }
 
     render() {
         return (
             <SafeAreaView style={styles.container}>
-                <View style={[styles.wrapper, styles.bloc]}>
-                    <View style={styles.header}>
-                        <Text style={styles.title}>Boulette de viande</Text>
+                {this.state.choix == 0 &&
+                    <View style={[styles.wrapper, styles.bloc]}>
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Boulette de viande</Text>
 
-                        <View style={styles.blocIcon}>
-                            <IconMale></IconMale>
-                            <IconChien></IconChien>
+                            <View style={styles.blocIcon}>
+                                <IconMale></IconMale>
+                                <IconChien></IconChien>
+                            </View>
+                        </View>
+
+                        <View style={styles.infos}>
+                            <Image style={styles.image} source={require('../assets/photoChien.png')}></Image>
+                            <View style={styles.infosbloc}>
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Date de naissance :</Text>
+                                    <Text style={styles.reponse}>17/09/2018</Text>
+                                </View>
+
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Gabarit et poids :</Text>
+                                    <Text style={styles.reponse}>Grand, 18-45kg</Text>
+                                </View>
+
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Allergies :</Text>
+                                    <Text style={styles.reponse}>Saumon</Text>
+                                </View>
+
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Vaccins :</Text>
+                                    <Text style={styles.reponse}>Liste des vaccins</Text>
+                                </View>
+
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Propriétaire :</Text>
+                                    <Text style={styles.reponse}>Benoit Dupont</Text>
+                                </View>
+
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Adresse</Text>
+                                    <Text style={styles.reponse}>12 rue de Marseille 69007 Lyon</Text>
+                                </View>
+
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Date de réservation : </Text>
+                                    <Text style={styles.reponse}>11/01/2023 - 16/01/2023</Text>
+                                </View>
+
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Contact : </Text>
+                                    <Text style={styles.reponse}>07 82 39 71 43</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={styles.blocBtn}>
+                            <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.refuse]}
+                                onPress={() => this.setState({ choix: 2 })}>
+                                <Text style={styles.submit}>Refuser</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.confirm]}
+                                onPress={() => this.setState({ choix: 1 })}>
+                                <Text style={styles.submit}>Accepter</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
+                }
 
-                    <View style={styles.infos}>
-                        <Image style={styles.image} source={require('../assets/photoChien.png')}></Image>
-                        <View style={styles.blocCritere}>
-                            <Text style={styles.critere}>Date de naissance :</Text>
-                            <Text style={styles.reponse}>17/09/2018</Text>
+                {this.state.choix == 1 &&
+                    <><View style={[styles.wrapper, styles.bloc]}>
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Boulette de viande</Text>
+
+                            <View style={styles.blocIcon}>
+                                <IconMale></IconMale>
+                                <IconChien></IconChien>
+                            </View>
                         </View>
 
-                        <View style={styles.blocCritere}>
-                            <Text style={styles.critere}>Gabarit et poids :</Text>
-                            <Text style={styles.reponse}>Grand, 18-45kg</Text>
-                        </View>
-
-                        <View style={styles.blocCritere}>
-                            <Text style={styles.critere}>Allergies :</Text>
-                            <Text style={styles.reponse}>Saumon</Text>
-                        </View>
-
-                        <View style={styles.blocCritere}>
-                            <Text style={styles.critere}>Vaccins :</Text>
-                            <Text style={styles.reponse}>Liste des vaccins</Text>
-                        </View>
-
-                        <View style={styles.blocCritere}>
-                            <Text style={styles.critere}>Propriétaire :</Text>
-                            <Text style={styles.reponse}>Benoit Dupont</Text>
-                        </View>
-
-                        <View style={styles.blocCritere}>
-                            <Text style={styles.critere}>Adresse</Text>
-                            <Text style={styles.reponse}>12 rue de Marseille 69007 Lyon</Text>
-                        </View>
-
-                        <View style={styles.blocCritere}>
-                            <Text style={styles.critere}>Date de réservation : </Text>
-                            <Text style={styles.reponse}>11/01/2023 - 16/01/2023</Text>
-                        </View>
-
-                        <View style={styles.blocCritere}>
-                            <Text style={styles.critere}>Contact : </Text>
-                            <Text style={styles.reponse}>07 82 39 71 43</Text>
+                        <View style={styles.infos}>
+                            <Image style={styles.image} source={require('../assets/photoChien.png')}></Image>
                         </View>
                     </View>
+                    <View style={styles.wrapper2}>
+                        <View style={styles.containerConfirmText}>
+                            <Text style={styles.confirmText}>Vous avez accepté la demande !</Text>
+                        </View>
+                        <Text style={styles.tip}>N’hésitez pas à contacter le particulier pour vous mettre au point !</Text>
 
-                    <View style={styles.blocBtn}>
-                        <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.refuse]}>
-                            <Text style={styles.submit}>Refuser</Text>
+                        <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.confirm]}
+                            onPress={() => this.setState({ choix: 1 })}>
+                            <Text style={styles.submit}>Retour à “Mes demandes”</Text>
                         </TouchableOpacity>
+                    </View>  
+                    </>
+                }
 
-                        <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.confirm]}>
-                            <Text style={styles.submit}>Accepter</Text>
-                        </TouchableOpacity>
+                {this.state.choix == 2 &&
+                    <View>
+
                     </View>
-                </View>
+                }
             </SafeAreaView>
         );
     }
@@ -100,6 +144,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 70,
         marginBottom: 20,
+    },
+    wrapper2: {
+        width: '90%',
+        alignItems: 'center',
     },
     bloc: {
         backgroundColor: '#FFF6E3',
@@ -125,11 +173,15 @@ const styles = StyleSheet.create({
     infos: {
         width: '100%',
     },
+    infosbloc: {
+        marginTop: 30,
+    },
     image: {
-        minHeight : 80,
-        minWidth: '50%',
+        minHeight: 80,
+        height: 'auto',
+        width: '50%',
         alignSelf: 'center',
-        marginBottom: 40,
+        marginBottom: 10,
     },
     blocCritere: {
         flexDirection: 'row',
@@ -165,4 +217,26 @@ const styles = StyleSheet.create({
     submit: {
         fontSize: 16,
     },
+    containerConfirmText: {
+        marginTop: 30,
+        backgroundColor: '#D9FFCB',
+        minHeight: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        width: '100%',
+    },
+    confirmText: {
+        fontSize: 16
+    },
+    tip: {
+        fontSize: 16,
+        fontWeight: '700',
+        width: '100%',
+        textAlign: 'center',
+        marginTop: 50,
+        marginBottom: 50,
+
+    },
+
 });

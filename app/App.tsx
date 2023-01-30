@@ -17,7 +17,7 @@ import TestUploadScreen from "./screens/testUploadScreen";
 // import CreationComptepro from './screens/creationComptePro'
 // import ModeGarde from './screens/modeGarde'
 // import Home from './screens/home'
-// import CheckReservation from './screens/checkReservation'
+// import CheckDemandeReservation from './screens/checkReservation'
 import FicheDemandeReservation from './components/ficheDemandeReservation'
 
 
@@ -44,7 +44,7 @@ export default function App() {
         <AddAnimal></AddAnimal>
         <ModeGarde></ModeGarde>
         <Home></Home>
-        <CheckReservation></CheckReservation> 
+        <CheckDemandeReservation></CheckDemandeReservation> 
 
         <TestUploadScreen></TestUploadScreen> 
         */}
