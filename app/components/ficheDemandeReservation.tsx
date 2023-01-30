@@ -106,24 +106,48 @@ export default class ficheReservation extends Component {
                             <Image style={styles.image} source={require('../assets/photoChien.png')}></Image>
                         </View>
                     </View>
-                    <View style={styles.wrapper2}>
-                        <View style={styles.containerConfirmText}>
-                            <Text style={styles.confirmText}>Vous avez accepté la demande !</Text>
-                        </View>
-                        <Text style={styles.tip}>N’hésitez pas à contacter le particulier pour vous mettre au point !</Text>
+                        <View style={styles.wrapper2}>
+                            <View style={styles.containerConfirmText}>
+                                <Text style={styles.confirmText}>Vous avez accepté la demande !</Text>
+                            </View>
+                            <Text style={styles.tip}>N’hésitez pas à contacter le particulier pour vous mettre au point !</Text>
 
-                        <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.confirm]}
-                            onPress={() => this.setState({ choix: 1 })}>
-                            <Text style={styles.submit}>Retour à “Mes demandes”</Text>
-                        </TouchableOpacity>
-                    </View>  
+                            <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.confirm]}
+                                onPress={() => this.setState({ choix: 1 })}>
+                                <Text style={styles.submit}>Retour à “Mes demandes”</Text>
+                            </TouchableOpacity>
+                        </View>
                     </>
                 }
 
                 {this.state.choix == 2 &&
-                    <View>
+                    <><View style={[styles.wrapper, styles.bloc]}>
+                            <View style={styles.header}>
+                                <Text style={styles.title}>Boulette de viande</Text>
 
-                    </View>
+                                <View style={styles.blocIcon}>
+                                    <IconMale></IconMale>
+                                    <IconChien></IconChien>
+                                </View>
+                            </View>
+
+                            <View style={styles.infos}>
+                                <Image style={styles.image} source={require('../assets/photoChien.png')}></Image>
+                            </View>
+                        </View>
+                        <View style={styles.wrapper2}>
+                            <View style={styles.containerRefuseText}>
+                                <Text style={styles.refuseText}>Vous avez refusé la demande</Text>
+                            </View>
+                            <TextInput style={styles.motif} multiline= {true} numberOfLines={7} 
+                            placeholder="Expliquer brièvement les raisons du refus: date, type d’animal..."></TextInput>
+
+                            <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.confirm]}
+                                onPress={() => this.setState({ choix: 1 })}>
+                                <Text style={styles.submit}>Retour à “Mes demandes”</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </>
                 }
             </SafeAreaView>
         );
@@ -236,7 +260,24 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 50,
         marginBottom: 50,
-
     },
+    containerRefuseText: {
+        marginTop: 30,
+        backgroundColor: '#FAD4D4',
+        minHeight: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        width: '100%',
+    },
+    refuseText: {
+        fontSize: 16
+    },
+    motif: {
+        backgroundColor: '#FFF6E3',
+        marginTop: 50,
+        marginBottom: 50,
+        padding: 10,
+    }
 
 });
