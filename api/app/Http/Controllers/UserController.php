@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\GeoposService;
 use App\Http\Services\TokenService;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ class UserController extends Controller
         $city = $request->input(['city']);
         $postalCode = $request->input(['postalCode']);
         $address = $request->input(['address']);
+        $profilImage = $request->input(['profilImage']);
         if (!$password)
             return response()->json('Le champ password est manquant dans la requête', Response::HTTP_BAD_REQUEST);
         if (!$role)
@@ -47,12 +49,14 @@ class UserController extends Controller
         $user->city = $city;
         $user->postalCode = $postalCode;
         $user->address = $address;
+        $user->profilImage = $profilImage;
         $find = User::whereEmail($email)->first();
         if ($find)
             return response()->json('Cette adresse mail est déjà prise', Response::HTTP_UNAUTHORIZED);
         $find = User::wherePhonenumber($phoneNumber)->first();
         if ($find)
             return response()->json('Ce numéro de téléphone est déjà pris', Response::HTTP_UNAUTHORIZED);
+        $user->geopos = GeoposService::getPos($user->address, $user->postalCode);
         $user->isPetSitter = false;
         $user->isIndividual = false;
         $user->isCompany = false;
@@ -82,6 +86,9 @@ class UserController extends Controller
             $user->firstname = $firstname;
             $user->lastname = $lastname;
         }
+
+        if($role === 'petsitter' || $role === 'company')
+            $user->imageLocation = $request->input('imageLocation');
         $user->save();
         $token = TokenService::generate($user);
         return response()->json($token, Response::HTTP_CREATED);
@@ -103,12 +110,14 @@ class UserController extends Controller
         if($idConnected !== $id)
             return response()->json(['error' => "Vous n'etes pas autorisé à modifier cet utilisateur"], Response::HTTP_UNAUTHORIZED);
         if($user->isCompany)
-            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'companyName', 'siretNumber', 'website', 'keepDogs', 'keepCats', 'acceptedWeight', 'description']);
+            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'companyName', 'siretNumber', 'website', 'keepDogs', 'keepCats', 'acceptedWeight', 'description', 'profilImage', 'imageLocation']);
         else if ($user->isPetSitter)
-            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'firstname', 'lastname', 'keepDogs', 'keepCats', 'acceptedWeight', 'description']);
+            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'firstname', 'lastname', 'keepDogs', 'keepCats', 'acceptedWeight', 'description', 'profilImage', 'imageLocation']);
         else
-            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'firstname', 'lastname']);
-        $user->fill($userData)->save();
+            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'firstname', 'lastname', 'profilImage']);
+        $user->fill($userData);
+        $user->geopos = GeoposService::getPos($user->address, $user->postalCode);
+        $user->save();
         return response()->json($user);
     }
 

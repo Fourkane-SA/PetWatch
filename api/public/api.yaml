@@ -106,6 +106,12 @@ paths:
         - in: query
           name: lastname
           description: Le nom de l'utilisateur
+        - in: query
+          name: imageLocation
+          description: Un tableau d'URL des photos du lieu d'hebergement (pour les pro et les petsitters)
+        - in: query
+          name: profilImage
+          description: L'url de la photo de profil
       responses:
         201:
           description: L'utilisateur a été créé. Retourne le token de l'utilisateur
@@ -211,6 +217,12 @@ paths:
         - in: query
           name: description
           description: Des infos supplémentaires sur l'utilisateur  (uniquement pour les pet-sitter et les pro)
+        - in: query
+          name: imageLocation
+          description: Un tableau d'URL des photos du lieu d'hebergement
+        - in: query
+          name: profilImage
+          description: L'url de la photo de profil
       responses:
         200:
           description: L'utilisateur a été supprimé
