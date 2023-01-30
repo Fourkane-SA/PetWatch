@@ -3,8 +3,9 @@ import { SafeAreaView, StyleSheet, Text, TextInput, View, Image, TouchableOpacit
 import RadioButton from '../components/radioButton';
 import { Dimensions } from "react-native";
 // import Calendar from '../components/calendar'
-import Svg, { Path } from 'react-native-svg';
+import IconCalendar from '../assets/moduleSVG/calendarSVG'
 import MultipleSelect from '../components/multipleSelect';
+import Upload from '../components/Upload';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -90,7 +91,8 @@ export default class AddAnimal extends Component {
   ]
 
   state = {
-    etape: 1
+    etape: 1,
+    url1: '',
   }
 
   render() {
@@ -116,9 +118,7 @@ export default class AddAnimal extends Component {
                 <View style={[styles.calendar]}>
                   <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer}>
                     <Text style={styles.btnCalendar}>Date de naissance</Text>
-                    <Svg width="18" height="20" viewBox="0 0 18 20" fill="none">
-                      <Path d="M16 18H2V7H16M13 0V2H5V0H3V2H2C0.89 2 0 2.89 0 4V18C0 18.5304 0.210714 19.0391 0.585786 19.4142C0.960859 19.7893 1.46957 20 2 20H16C16.5304 20 17.0391 19.7893 17.4142 19.4142C17.7893 19.0391 18 18.5304 18 18V4C18 2.89 17.1 2 16 2H15V0M14 11H9V16H14V11Z" fill="black" />
-                    </Svg>
+                    <IconCalendar></IconCalendar>
                   </TouchableOpacity>
                   {/* <Calendar></Calendar> */}
                 </View>
@@ -126,9 +126,7 @@ export default class AddAnimal extends Component {
                 <View style={[styles.calendar]}>
                   <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer}>
                     <Text style={styles.btnCalendar}>Date d'adoption</Text>
-                    <Svg width="18" height="20" viewBox="0 0 18 20" fill="none">
-                      <Path d="M16 18H2V7H16M13 0V2H5V0H3V2H2C0.89 2 0 2.89 0 4V18C0 18.5304 0.210714 19.0391 0.585786 19.4142C0.960859 19.7893 1.46957 20 2 20H16C16.5304 20 17.0391 19.7893 17.4142 19.4142C17.7893 19.0391 18 18.5304 18 18V4C18 2.89 17.1 2 16 2H15V0M14 11H9V16H14V11Z" fill="black" />
-                    </Svg>
+                    <IconCalendar></IconCalendar>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -172,23 +170,23 @@ export default class AddAnimal extends Component {
               <Text style={styles.question}>Si oui, lesquels et à quelle fréquence?</Text>
               <TextInput style={styles.answer} multiline={true} numberOfLines={5}></TextInput>
               <Text style={styles.question}>Veuillez indiquer la date de la dernière consultation vétérinaire de votre animal.</Text>
-              <TextInput value="Date d'adoption" style={styles.btnCalendar}></TextInput>
-              <TouchableOpacity activeOpacity={0.5}>
-                <Image style={{ width: 15, height: 15 }} source={require('../assets/calendar.svg')} />
-              </TouchableOpacity>
 
-              <Text>Vous pouvez saisir une description générale de votre fidèle compagnon/compagnonne :)</Text>
-              <TextInput multiline={true} numberOfLines={5}></TextInput>
+              <View style={[styles.calendar]}>
+                <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer}>
+                  <TextInput value="Date d'adoption" style={styles.btnCalendar}></TextInput>
+                  <IconCalendar></IconCalendar>
+                </TouchableOpacity>
+              </View>
+
+              <Text style={styles.question}>Vous pouvez saisir une description générale de votre fidèle compagnon/compagnonne :)</Text>
+              <TextInput multiline={true} numberOfLines={5} style={styles.answer}></TextInput>
             </View>
           }
 
           {this.state.etape == 4 &&
             <View style={styles.etape}>
-              <Text>Chargez des photos de votre animal</Text>
-              <TouchableOpacity activeOpacity={0.5}>
-                <Text>Importer depuis la Galerie</Text>
-                <Image style={{ width: 15, height: 15 }} source={require('../assets/download.svg')} />
-              </TouchableOpacity>
+              <Text style={styles.question}>Chargez des photos de votre animal</Text>
+              <Upload onImageUrlChange={(imageUrl) => { this.setState({ url: imageUrl }) }} />
             </View>
           }
 
@@ -252,7 +250,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
-  item : {
+  item: {
     width: '100%',
   },
 
@@ -377,10 +375,12 @@ const styles = StyleSheet.create({
   question: {
     fontSize: 16,
     marginBottom: 25,
+    textAlign: 'center',
   },
   answer: {
     backgroundColor: '#FFF6E3',
     width: '100%',
     marginBottom: 40,
+    borderRadius: 5,
   }
 });
