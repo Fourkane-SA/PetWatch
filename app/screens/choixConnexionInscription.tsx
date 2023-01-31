@@ -21,7 +21,7 @@ async function isConnected(navigation) {
     }
 }
 
-export default function App({navigation}) {
+export default function ChoixcConexionInscription({navigation}) {
     isConnected(navigation)
     const [mail, setMail] = React.useState()
     const [motDePasse, setMotDePasse] = React.useState()

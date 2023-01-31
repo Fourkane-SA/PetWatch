@@ -1,11 +1,8 @@
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import Login from "./screens/Login";
-import { ChoiceRole } from "./screens/ChoiceRole";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { FormPro } from "./screens/FormPro";
 import Upload from "./components/Upload";
 import axios from "axios";
 import TestUploadScreen from "./screens/testUploadScreen";
@@ -24,8 +21,10 @@ import CreationComptePro from "./screens/creationComptePro";
 // import Home from './screens/Home'
 // import CheckDemandeReservation from './screens/checkReservation'
 // import FicheDemandeReservation from './components/ficheDemandeReservation'
-import ResultatRecherche from './screens/resultatRecherche'
-import CardResultatRecherche from './components/cardResultatRech'
+// import ResultatRecherche from './screens/resultatRecherche'
+// import CardResultatRecherche from './components/cardResultatRech'
+// import ModifProfilParticulier from './screens/modifProfilParticulier'
+import ModifProfilPro from './screens/modifProfilPro';
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -38,7 +37,7 @@ export default function App() {
   return (
       <NavigationContainer>
           <Stack.Navigator initialRouteName="ChoixcConexionInscription" >
-            <Stack.Screen options={{headerShown: false}} name="ChoixcConexionInscription" component={ChoixcConexionInscription}></Stack.Screen>
+            <Stack.Screen options={{headerShown: false}} name="ChoixConexionInscription" component={ChoixcConexionInscription}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="ChoixRole" component={ChoixRole}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationCompteParticulier" component={CreationCompteParticulier}></Stack.Screen>
               <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationComptePro" component={CreationComptePro}></Stack.Screen>
@@ -46,26 +45,29 @@ export default function App() {
               <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="Home" component={Home}></Stack.Screen>
           </Stack.Navigator>
       </NavigationContainer>
-  );
-  return (
-    <SafeAreaView>
-      {/* <FirstLoad></FirstLoad>
 
-        <ChoixRole></ChoixRole>
-        <CreationCompteParticulier></CreationCompteParticulier>
-        <CreationComptepro></CreationComptepro>
-        <AddAnimal></AddAnimal>
-        <ModeGarde></ModeGarde>
-        <Home></Home>
-        <CheckDemandeReservation></CheckDemandeReservation> 
-        <FicheDemandeReservation></FicheDemandeReservation>
-        <ModeGarde></ModeGarde>
-        <TestUploadScreen></TestUploadScreen> 
-          <CardResultatRecherche></CardResultatRecherche>
-        */}
-        <ResultatRecherche></ResultatRecherche>
-    </SafeAreaView>
   );
+  // return (
+  //   <SafeAreaView>
+  //     {/* <FirstLoad></FirstLoad>
+
+  //       <ChoixRole></ChoixRole>
+  //       <CreationCompteParticulier></CreationCompteParticulier>
+  //       <CreationComptepro></CreationComptepro>
+  //       <AddAnimal></AddAnimal>
+  //       <ModeGarde></ModeGarde>
+  //       <Home></Home>
+  //       <CheckDemandeReservation></CheckDemandeReservation> 
+  //       <FicheDemandeReservation></FicheDemandeReservation>
+  //       <ModeGarde></ModeGarde>
+  //       <TestUploadScreen></TestUploadScreen> 
+  //       <CardResultatRecherche></CardResultatRecherche>
+  //       <ResultatRecherche></ResultatRecherche>
+  //       <ModifProfilParticulier></ModifProfilParticulier>
+  //        <ModifProfilPro></ModifProfilPro>
+  //       */}
+  //   </SafeAreaView>
+  // );
 }
 
 const styles = StyleSheet.create({

@@ -8,7 +8,7 @@ var height = Dimensions.get('window').height; //full height
 
 /*Afficher le formulaire d'inscription selon role choisi */
 
-export default function CreationCompteParticulier({navigation}) {
+export default function ChoixRole({navigation}) {
 
     return (
         <SafeAreaView style={styles.container}>

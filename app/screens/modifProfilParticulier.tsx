@@ -12,7 +12,7 @@ var height = Dimensions.get('window').height; //full height
 
 /*TODO Code A modifier pour faire une modification de profil + value par defaut dans les input sont infos du compte */
 
-export default function CreationCompteParticulier({navigation}) {
+export default function ModifProfilParticulier({navigation}) {
 
     // const [nom, setNom] = React.useState()
     // const [prenom, setPrenom] = React.useState()
