@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Scro
 import { Dimensions } from "react-native";
 import IconCalendar from '../assets/moduleSVG/calendarSVG'
 import IconParameter from '../assets/moduleSVG/parametresSVG'
-import Calendar from '../components/calendar'
+import Calendar from '../components/calendarmulti'
 
 import ModalParameter from '../components/modalParameter'
 
