@@ -21,8 +21,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CreationComptePro from "./screens/creationComptePro";
 // import CreationComptepro from './screens/creationComptePro'
 // import ModeGarde from './screens/modeGarde'
-// import Home from './screens/home'
+// import Home from './screens/Home'
 // import CheckDemandeReservation from './screens/checkReservation'
+// import FicheDemandeReservation from './components/ficheDemandeReservation'
+import ResultatRecherche from './screens/resultatRecherche'
+import CardResultatRecherche from './components/cardResultatRech'
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -54,11 +57,13 @@ export default function App() {
         <AddAnimal></AddAnimal>
         <ModeGarde></ModeGarde>
         <Home></Home>
-        <CheckDemandeReservation></CheckDemandeReservation>
+        <CheckDemandeReservation></CheckDemandeReservation> 
         <FicheDemandeReservation></FicheDemandeReservation>
-        <TestUploadScreen></TestUploadScreen>
+        <ModeGarde></ModeGarde>
+        <TestUploadScreen></TestUploadScreen> 
+          <CardResultatRecherche></CardResultatRecherche>
         */}
-      <ChoixcConexionInscription></ChoixcConexionInscription>
+        <ResultatRecherche></ResultatRecherche>
     </SafeAreaView>
   );
 }

@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native';
+import { Component } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Dimensions } from "react-native";
 import React from "react";
 import axios from "axios/index";
@@ -11,7 +12,58 @@ var height = Dimensions.get('window').height; //full height
 
 /*TODO requete pour ajouter le professionnel + "message compte verifier et accepter" puis continuer sur le mode de garde "*/
 
-export default function CreationComptePro({navigation}) {
+export default class CreationCompteParticulier extends Component {
+    state = {
+        confirm: false
+    }
+
+    render() {
+
+        return (
+            <SafeAreaView style={styles.container}>
+                {!this.state.confirm &&
+                <><Text style={styles.title}>Vous êtes un Professionnel ?</Text><View style={styles.blocInscription}>
+                        <View>
+                            <TextInput placeholder="Nom entreprise" style={[styles.champ, styles.identity]}></TextInput>
+                            <TextInput placeholder="Numéro de SIRET" style={[styles.champ, , styles.identity]}></TextInput>
+                            <TextInput placeholder="Site web" style={[styles.champ, , styles.identity]}></TextInput>
+                            <TextInput placeholder="Téléphone professionnel" style={[styles.champ, , styles.identity]}></TextInput>
+                            <TextInput placeholder="Mail professionnel" style={[styles.champ, styles.identity]}></TextInput>
+                        </View>
+
+                        <View>
+                            <TextInput placeholder="Adresse" style={[styles.champ, styles.adresse]}></TextInput>
+                            <TextInput placeholder="Ville" style={[styles.champ, , styles.adresse]}></TextInput>
+                            <TextInput placeholder="Code postal" style={[styles.champ, styles.adresse]}></TextInput>
+                        </View>
+
+                        <View>
+                            <TextInput placeholder="Mot de passe" style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
+                        </View>
+
+                        <View>
+                        </View>
+
+                        <TouchableOpacity activeOpacity={0.8} style={[styles.champ, styles.containerSubmit]} 
+                        onPress={() => this.setState({confirm: true})}>
+                            <Text style={styles.submit}>Envoyer une demande</Text>
+                        </TouchableOpacity>
+                    </View></>
+                }
+
+                {this.state.confirm &&
+                    <View style={styles.container}>
+                        <View >
+                            <Text style={styles.text}>Votre demande a été envoyé</Text>
+                            <Text style={styles.text}>TODO Redirection sur mode de garde ou autre</Text>
+                        </View>
+                        
+                    </View>
+                }
+            </SafeAreaView>
+        );
+    }
+/*export default function CreationComptePro({navigation}) {
     const [entreprise, setEntreprise] = React.useState()
     const [siret, setSiret] = React.useState()
     const [site, setSite] = React.useState()
@@ -77,7 +129,7 @@ export default function CreationComptePro({navigation}) {
                 </View>
             </SafeAreaView>
         </ScrollView>
-    );
+    );*/
 }
 
 const styles = StyleSheet.create({
@@ -96,6 +148,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         marginTop: 65,
         marginBottom: 45,
+        alignItems: 'center',
     },
     champ: {
         minHeight: 50,
@@ -130,4 +183,7 @@ const styles = StyleSheet.create({
         color: 'red',
         fontSize: 16
     },
+    text: {
+        fontSize: 26
+    }
 });

@@ -3,8 +3,9 @@ import { SafeAreaView, StyleSheet, Text, TextInput, View, Image, TouchableOpacit
 import RadioButton from '../components/radioButton';
 import { Dimensions } from "react-native";
 // import Calendar from '../components/calendar'
-import Svg, { Path } from 'react-native-svg';
+import IconCalendar from '../assets/moduleSVG/calendarSVG'
 import MultipleSelect from '../components/multipleSelect';
+import Upload from '../components/Upload';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -70,29 +71,34 @@ export default class AddAnimal extends Component {
     {
       gabarit: 'Petit',
       tranche: '0-7 kg',
+      bg: '#FFF6E3',
     },
     {
       gabarit: 'Moyen',
-      tranche: '7 - 18 kg',
+      tranche: '7-18 kg',
+      bg: '#D9FFCB',
     },
     {
       gabarit: 'Grand',
-      tranche: '18 - 45 kg',
+      tranche: '18-45 kg',
+      bg: '#CEEAF0',
     },
     {
       gabarit: 'Géant',
       tranche: '45+ kg',
+      bg: '#FAD4D4',
     },
-  ];
+  ]
 
   state = {
-    etape: 1 
+    etape: 1,
+    url1: '',
   }
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.wrapper}>
           {this.state.etape < 5 &&
             <Text style={styles.pageTitle}> Ajoutez votre animal {this.state.etape}/4</Text>
           }
@@ -109,22 +115,18 @@ export default class AddAnimal extends Component {
               </View>
 
               <View style={styles.blocCalendar}>
-                <View style={[styles.calendar, styles.bg]}>
+                <View style={[styles.calendar]}>
                   <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer}>
                     <Text style={styles.btnCalendar}>Date de naissance</Text>
-                    <Svg width="18" height="20" viewBox="0 0 18 20" fill="none">
-                      <Path d="M16 18H2V7H16M13 0V2H5V0H3V2H2C0.89 2 0 2.89 0 4V18C0 18.5304 0.210714 19.0391 0.585786 19.4142C0.960859 19.7893 1.46957 20 2 20H16C16.5304 20 17.0391 19.7893 17.4142 19.4142C17.7893 19.0391 18 18.5304 18 18V4C18 2.89 17.1 2 16 2H15V0M14 11H9V16H14V11Z" fill="black" />
-                    </Svg>
+                    <IconCalendar></IconCalendar>
                   </TouchableOpacity>
                   {/* <Calendar></Calendar> */}
                 </View>
 
-                <View style={[styles.calendar, styles.bg]}>
+                <View style={[styles.calendar]}>
                   <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer}>
                     <Text style={styles.btnCalendar}>Date d'adoption</Text>
-                    <Svg width="18" height="20" viewBox="0 0 18 20" fill="none">
-                      <Path d="M16 18H2V7H16M13 0V2H5V0H3V2H2C0.89 2 0 2.89 0 4V18C0 18.5304 0.210714 19.0391 0.585786 19.4142C0.960859 19.7893 1.46957 20 2 20H16C16.5304 20 17.0391 19.7893 17.4142 19.4142C17.7893 19.0391 18 18.5304 18 18V4C18 2.89 17.1 2 16 2H15V0M14 11H9V16H14V11Z" fill="black" />
-                    </Svg>
+                    <IconCalendar></IconCalendar>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -134,7 +136,7 @@ export default class AddAnimal extends Component {
                 <FlatList
                   horizontal={true}
                   data={this.poids}
-                  renderItem={({ item }) => <View style={styles.listItem}><Text>{item.gabarit}</Text><Text> {item.tranche}</Text></View>}
+                  renderItem={({ item }) => <View style={[{ backgroundColor: item.bg }, styles.listItem]}><Text>{item.gabarit}</Text><Text> {item.tranche}</Text></View>}
                   keyExtractor={item => item.gabarit}
                 />
               </View>
@@ -150,47 +152,48 @@ export default class AddAnimal extends Component {
 
           {this.state.etape == 2 &&
             <View style={styles.etape}>
-              <Text>Est-ce que votre animal a des allergies et/ou intolérances alimentaires?</Text>
+              <Text style={styles.question}>Est-ce que votre animal a des allergies et/ou intolérances alimentaires?</Text>
               <RadioButton data={this.genderChoice} onSelect={undefined} />
-              <Text>Si oui, à quoi?</Text>
-              <TextInput></TextInput>
-              <Text>Est-ce que votre animal a des problèmes de santé?</Text>
+              <Text style={styles.question}>Si oui, à quoi?</Text>
+              <TextInput style={styles.answer} multiline={true} numberOfLines={5}></TextInput>
+              <Text style={styles.question}>Est-ce que votre animal a des problèmes de santé?</Text>
               <RadioButton data={this.genderChoice} onSelect={undefined} />
-              <Text>Si oui, lesquels?</Text>
-              <TextInput></TextInput>
+              <Text style={styles.question}>Si oui, lesquels?</Text>
+              <TextInput style={styles.answer} multiline={true} numberOfLines={5}></TextInput>
             </View>
           }
 
           {this.state.etape == 3 &&
             <View style={styles.etape}>
-              <Text>Est-ce que votre animal a des médicaments à consommer?</Text>
+              <Text style={styles.question}>Est-ce que votre animal a des médicaments à consommer?</Text>
               <RadioButton data={this.genderChoice} onSelect={undefined} />
-              <Text>Si oui, lesquels et à quelle fréquence?</Text>
-              <TextInput></TextInput>
-              <Text>Veuillez indiquer la date de la dernière consultation vétérinaire de votre animal.</Text>
-              <TextInput value="Date d'adoption" style={styles.btnCalendar}></TextInput>
-              <TouchableOpacity activeOpacity={0.5}>
-                <Image style={{ width: 15, height: 15 }} source={require('../assets/calendar.svg')} />
-              </TouchableOpacity>
+              <Text style={styles.question}>Si oui, lesquels et à quelle fréquence?</Text>
+              <TextInput style={styles.answer} multiline={true} numberOfLines={5}></TextInput>
+              <Text style={styles.question}>Veuillez indiquer la date de la dernière consultation vétérinaire de votre animal.</Text>
 
-              <Text>Vous pouvez saisir une description générale de votre fidèle compagnon/compagnonne :)</Text>
-              <TextInput multiline={true} numberOfLines={5}></TextInput>
+              <View style={[styles.calendar]}>
+                <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer}>
+                  <TextInput value="Date d'adoption" style={styles.btnCalendar}></TextInput>
+                  <IconCalendar></IconCalendar>
+                </TouchableOpacity>
+              </View>
+
+              <Text style={styles.question}>Vous pouvez saisir une description générale de votre fidèle compagnon/compagnonne :)</Text>
+              <TextInput multiline={true} numberOfLines={5} style={styles.answer}></TextInput>
             </View>
           }
 
           {this.state.etape == 4 &&
             <View style={styles.etape}>
-              <Text>Chargez des photos de votre animal</Text>
-              <TouchableOpacity activeOpacity={0.5}>
-                <Text>Importer depuis la Galerie</Text>
-                <Image style={{ width: 15, height: 15 }} source={require('../assets/download.svg')} />
-              </TouchableOpacity>
+              <Text style={styles.question}>Chargez des photos de votre animal</Text>
+              <Upload onImageUrlChange={(imageUrl) => { this.setState({ url: imageUrl }) }} />
             </View>
           }
 
           {this.state.etape == 5 &&
             <View style={styles.etape}>
-              <Text>Vous avez ajouté votre animal!</Text>
+              <Image  style={styles.img} source={require('../assets/confetti.png')}></Image>
+              <Text style={styles.confirmAjout}>Vous avez ajouté votre animal!</Text>
             </View>
           }
 
@@ -201,7 +204,7 @@ export default class AddAnimal extends Component {
               </TouchableOpacity>
             }
             {this.state.etape > 1 && this.state.etape < 5 &&
-              <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.bg]} onPress={() => this.setState({ etape: this.state.etape - 1 })}>
+              <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.retour]} onPress={() => this.setState({ etape: this.state.etape - 1 })}>
                 <Text>Revenir en arrière</Text>
               </TouchableOpacity>
             }
@@ -237,12 +240,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    width: width,
+    width: width
   },
-
+  wrapper: {
+    width: '90%',
+    alignItems: 'center',
+  },
   etape: {
     marginTop: 40,
     alignItems: 'center',
+    width: '100%',
+  },
+  item: {
     width: '100%',
   },
 
@@ -271,14 +280,14 @@ const styles = StyleSheet.create({
   },
 
   btnInput: {
-    backgroundColor: '#ddd',
+    backgroundColor: '#FFF6E3',
     padding: 8,
     minHeight: 50,
-    width: '90%',
+    width: '100%',
+    borderRadius: 5,
   },
-
   btnCalendar: {
-    backgroundColor: '#ddd',
+    backgroundColor: '#FFF6E3',
     paddingLeft: 20,
     width: '85%',
   },
@@ -287,7 +296,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 20,
     paddingRight: 8,
-    width: '90%',
+    width: '100%',
+    backgroundColor: '#FFF6E3',
+    borderRadius: 5,
   },
 
   calendarContainer: {
@@ -295,10 +306,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: "center",
     minHeight: 50,
+    backgroundColor: '#FFF6E3',
   },
 
   bg: {
-    backgroundColor: '#ddd',
+    backgroundColor: '#CEEAF0',
   },
 
   txtRadio: {
@@ -306,7 +318,7 @@ const styles = StyleSheet.create({
   },
 
   blocRadio: {
-    width: '90%',
+    width: '100%',
   },
 
   subtitle: {
@@ -320,25 +332,31 @@ const styles = StyleSheet.create({
   },
 
   listItem: {
-    marginLeft: 15,
-    marginRight: 15
+    marginLeft: 8,
+    marginRight: 8,
+    borderRadius: 5,
+    minWidth: 70,
+    minHeight: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+
 
   selVaccin: {
     marginBottom: 30,
-    width: '90%',
+    width: '100%',
   },
 
   btnVaccin: {
     width: '100%',
     marginTop: 20,
+    borderRadius: 5,
   },
 
   footer: {
-    width: '90%',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: '5%',
   },
 
   btnFooter: {
@@ -348,5 +366,32 @@ const styles = StyleSheet.create({
     minHeight: 50,
     textAlign: 'center',
     width: '100%',
+    borderRadius: 5
+  },
+  retour: {
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  question: {
+    fontSize: 16,
+    marginBottom: 25,
+    textAlign: 'center',
+  },
+  answer: {
+    backgroundColor: '#FFF6E3',
+    width: '100%',
+    marginBottom: 40,
+    borderRadius: 5,
+  },
+  img: {
+    width: '100%',
+    minHeight: 220,
+  },
+  confirmAjout: {
+    fontSize: 26,
+    fontWeight: '800',
+    textAlign: 'center',
+    marginTop: 60,
+    marginBottom: 60,
   }
 });

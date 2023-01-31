@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 65,
         minHeight: 70,
+        alignItems: 'center',
     },
     containerSubmit: {
         minHeight: 50,
