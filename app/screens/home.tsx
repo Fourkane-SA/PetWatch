@@ -16,8 +16,7 @@ var height = Dimensions.get('window').height; //full height
 export default function Home({ navigation }) {
 
     const [parameter, setParameter] = React.useState(false);
-    const [calendarDeb, setCalendarDeb] = React.useState(false);
-    const [calendarFin, setCalendarFin] = React.useState(false);
+    const [calendar, setCalendar] = React.useState(false);
     const [dates, setDates] = React.useState([]);
 
     const pull_dates = (dates) => {
@@ -37,36 +36,36 @@ export default function Home({ navigation }) {
                 <Text style={styles.instructions}>Choisissez les dates pour lesquelles vous souhaitez faire garder votre animal</Text>
                 <View style={styles.blocCalendar}>
                     <View style={[styles.calendar]}>
-                        <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setCalendarDeb(true)}>
+                        <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setCalendar(true)}>
                             {dates[1] == null &&
                                 <Text style={styles.btnCalendar}>Date de début </Text>
                             }
                             {dates[1] != '' &&
-                                <Text style={styles.btnCalendar}>{dates[1]}</Text>
+                                <Text style={[styles.btnCalendar2] }>{dates[1]}</Text>
                             }
                             <IconCalendar></IconCalendar>
                         </TouchableOpacity>
                     </View>
                     <View style={[styles.calendar]}>
-                        <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setCalendarFin(true)}>
+                        <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setCalendar(true)}>
                             {dates[2] == null &&
                                 <Text style={styles.btnCalendar}>Date de fin </Text>
                             }
                             {dates[2] != '' &&
-                                <Text style={styles.btnCalendar}>{dates[2]}</Text>
+                                <Text style={styles.btnCalendar2 }>{dates[2]}</Text>
                             }
                             <IconCalendar></IconCalendar>
                         </TouchableOpacity>
                     </View>
-
-                    {calendarDeb == true &&
+                    
+                    {calendar == true &&
                         <Calendar func={pull_dates}></Calendar>
                     }
-
-                    <TouchableOpacity activeOpacity={0.5} style={styles.btnFooter}>
-                        <Text>Rechercher</Text>
-                    </TouchableOpacity>
                 </View>
+
+                <TouchableOpacity activeOpacity={0.5} style={[styles.containerSubmit, {width: (Dimensions.get('window').width *0.9) } ]}>
+                    <Text style={styles.submit}>Rechercher</Text>
+                </TouchableOpacity>
 
                 {parameter == true &&
                     <ModalParameter></ModalParameter>
@@ -113,14 +112,17 @@ const styles = StyleSheet.create({
     btnCalendar: {
         backgroundColor: '#FFF6E3',
         paddingLeft: 20,
+        textAlign: 'left',
         width: '100%',
     },
-
+    btnCalendar2: {
+        width: '100%',
+        paddingLeft: 10,
+    },
     calendar: {
         alignItems: 'flex-start',
         marginBottom: 20,
         paddingRight: 8,
-        width: '100%',
         backgroundColor: '#FFF6E3',
         borderRadius: 5,
     },
@@ -128,20 +130,22 @@ const styles = StyleSheet.create({
     calendarContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: "center",
+        justifyContent: "flex-start",
         minHeight: 50,
         width: '100%',
         backgroundColor: '#FFF6E3',
+        borderRadius: 5,
     },
-    btnFooter: {
-        marginBottom: 10,
-        marginTop: 80,
+    containerSubmit: {
+        minHeight: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: 50,
-        textAlign: 'center',
-        width: '100%',
         borderRadius: 5,
+        marginTop: 20,
         backgroundColor: '#CEEAF0',
+        width: '100%',
+    },
+    submit: {
+        fontSize: 16,
     },
 });

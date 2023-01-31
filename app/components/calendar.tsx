@@ -5,7 +5,7 @@ import React from 'react';
 export default function Calendar(props) {
     const [selectedDates, setSelectedDates] = React.useState<string[]>(['']); // Also possible
 
-    props.func(selectedDates);
+    props.func(selectedDates)
 
     const setMaxNumberOfSelectedDates = React.useCallback((_selectedDates: string[]) => {
         const MAX_DATES = 3
