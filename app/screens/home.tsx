@@ -15,12 +15,12 @@ var height = Dimensions.get('window').height; //full height
 
 export default function Home({ navigation }) {
 
-    const [parameter, setParameter] = React.useState(0);
+    const [parameter, setParameter] = React.useState(false);
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.wrapper}>
-                <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(parameter + 1)}>
+                <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
                     <IconParameter></IconParameter>
                 </TouchableOpacity>
                 <Text style={styles.title}>Trouver un hébergement pour mon animal</Text>
@@ -47,9 +47,10 @@ export default function Home({ navigation }) {
                     </TouchableOpacity>
                 </View>
 
-                { parameter == 1 && 
-                    <ModalParameter></ModalParameter>
+                { parameter == true && 
+                     <ModalParameter></ModalParameter>
                 }
+
             </ScrollView>
         </SafeAreaView>
     );
