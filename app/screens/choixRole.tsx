@@ -21,7 +21,7 @@ export default function CreationCompteParticulier({navigation}) {
                     <Text style={styles.btnText}>Particulier</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity activeOpacity={0.8} style={[styles.btn,styles.professionnel]}>
+                <TouchableOpacity activeOpacity={0.8} style={[styles.btn,styles.professionnel]} onPress={() => navigation.navigate('CreationComptePro')}>
                     <Text style={styles.btnText}>Professionnel</Text>
                 </TouchableOpacity>
 

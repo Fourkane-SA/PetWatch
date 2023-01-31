@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Scrol
 import { Dimensions } from "react-native";
 import React from "react";
 import axios from "axios/index";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -11,27 +12,7 @@ var height = Dimensions.get('window').height; //full height
 
 /*TODO requete pour ajouter utilisateur  et le connecter + ajouter animal ou type d'animal gardé selon role*/
 
-async function inscription(nom, prenom, mail, numero, adresse, ville, codePostal, motDePasse, navigation) {
-    try {
-        const data = {
-            password: motDePasse,
-            email: mail,
-            phoneNumber: numero,
-            role: 'individual',
-            city: ville,
-            postalCode: codePostal,
-            address: adresse,
-            firstname: prenom,
-            lastname: nom
-        }
-        const res =  (await axios.post('/users',data )).data
-        navigation.navigate('AddAnimal')
 
-    } catch (e) {
-        console.log(e.response.data)
-    }
-
-}
 
 export default function CreationCompteParticulier({navigation}) {
     const [nom, setNom] = React.useState()
@@ -42,6 +23,31 @@ export default function CreationCompteParticulier({navigation}) {
     const [ville, setVille] = React.useState()
     const [codePostal, setCodePostal] = React.useState()
     const [motDePasse, setMotDePasse] = React.useState()
+    const [messageErreur, setMessageErreur] = React.useState()
+
+    async function inscription() {
+        try {
+            const data = {
+                password: motDePasse,
+                email: mail,
+                phoneNumber: numero,
+                role: 'individual',
+                city: ville,
+                postalCode: codePostal,
+                address: adresse,
+                firstname: prenom,
+                lastname: nom
+            }
+            const token =  (await axios.post('/users',data )).data
+            await AsyncStorage.setItem('token', token) // connexion
+            navigation.navigate('AddAnimal')
+
+        } catch (e) {
+            //console.log(e.response.data)
+            setMessageErreur(e.response.data)
+        }
+    }
+
     return (
         <ScrollView>
             <SafeAreaView style={styles.container}>
@@ -68,7 +74,8 @@ export default function CreationCompteParticulier({navigation}) {
                     <View>
                     </View>
 
-                    <TouchableOpacity activeOpacity={0.8} style={[styles.champ,styles.containerSubmit]} onPress={() => inscription(nom, prenom, mail, numero, adresse, ville, codePostal, motDePasse, navigation)}>
+                    {messageErreur !== '' && <Text style={styles.erreur}>{messageErreur}</Text>}
+                    <TouchableOpacity activeOpacity={0.8} style={[styles.champ,styles.containerSubmit]} onPress={() => inscription()}>
                         <Text style={styles.submit}>S'inscrire</Text>
                     </TouchableOpacity>
                 </View>
@@ -120,5 +127,11 @@ const styles = StyleSheet.create({
     },
     mdp: {
         backgroundColor: '#CEEAF0',
+    },
+    erreur: {
+    textAlign: "center",
+    marginTop: 10,
+    color: 'red',
+    fontSize: 16
     },
 });

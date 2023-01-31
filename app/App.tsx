@@ -16,14 +16,20 @@ import ChoixcConexionInscription from './screens/choixConnexionInscription'
 import ChoixRole from './screens/choixRole'
 import CreationCompteParticulier from "./screens/creationCompteParticulier";
 import AddAnimal from "./screens/addAnimal";
+import Home from "./screens/home";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CreationComptePro from "./screens/creationComptePro";
 // import CreationComptepro from './screens/creationComptePro'
 // import ModeGarde from './screens/modeGarde'
 // import Home from './screens/home'
 // import CheckDemandeReservation from './screens/checkReservation'
 
+/*const getToken = async () => {
+    await AsyncStorage.getItem('token')
+}*/
 
 axios.defaults.baseURL = "https://petwatcher.fourkane.me/api"
-axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiYWl0IjoxNjc0NjUzNDI3LCJleHAiOjE2NzczMzE4Mjd9.PN9VDxYzFHwDqcuwfbzViDx-kSI4Nzh70P56_nZc9CQ'
+//axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiYWl0IjoxNjc0NjUzNDI3LCJleHAiOjE2NzczMzE4Mjd9.PN9VDxYzFHwDqcuwfbzViDx-kSI4Nzh70P56_nZc9CQ'
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -32,7 +38,9 @@ export default function App() {
             <Stack.Screen options={{headerShown: false}} name="ChoixcConexionInscription" component={ChoixcConexionInscription}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="ChoixRole" component={ChoixRole}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationCompteParticulier" component={CreationCompteParticulier}></Stack.Screen>
-            <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="AddAnimal" component={AddAnimal}></Stack.Screen>
+              <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationComptePro" component={CreationComptePro}></Stack.Screen>
+              <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="AddAnimal" component={AddAnimal}></Stack.Screen>
+              <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="Home" component={Home}></Stack.Screen>
           </Stack.Navigator>
       </NavigationContainer>
   );
