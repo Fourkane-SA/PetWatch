@@ -1,18 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Modal } from 'react-native';
 import { Dimensions } from "react-native";
 import IconCalendar from '../assets/moduleSVG/calendarSVG'
+import IconParameter from '../assets/moduleSVG/parametresSVG'
+import Calendar from '../components/calendar'
+
+import ModalParameter from '../components/modalParameter'
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 /* TODO vrai calendrier */
 
-export default function Home() {
+export default function Home({ navigation }) {
+
+    const [parameter, setParameter] = React.useState(0);
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.wrapper}>
+                <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(parameter + 1)}>
+                    <IconParameter></IconParameter>
+                </TouchableOpacity>
                 <Text style={styles.title}>Trouver un hébergement pour mon animal</Text>
 
                 <Text style={styles.instructions}>Choisissez les dates pour lesquelles vous souhaitez faire garder votre animal</Text>
@@ -36,6 +46,10 @@ export default function Home() {
                         <Text>Rechercher</Text>
                     </TouchableOpacity>
                 </View>
+
+                { parameter == 1 && 
+                    <ModalParameter></ModalParameter>
+                }
             </ScrollView>
         </SafeAreaView>
     );
@@ -52,6 +66,12 @@ const styles = StyleSheet.create({
     wrapper: {
         width: '90%',
         alignItems: 'center',
+        position: 'relative',
+    },
+    abs: {
+        position: 'absolute',
+        top: 35,
+        right: 8,
     },
     title: {
         fontSize: 26,
@@ -100,5 +120,5 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 5,
         backgroundColor: '#CEEAF0',
-      },
+    },
 });
