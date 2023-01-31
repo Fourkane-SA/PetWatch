@@ -2,10 +2,10 @@ import { MultiDateSelectionCalendar, DefaultTheme } from 'react-native-easy-cale
 import frenchLocale from 'dayjs/locale/fr';
 import React from 'react';
 
-export default function Calendar() {
-
+export default function Calendar(props) {
     const [selectedDates, setSelectedDates] = React.useState<string[]>(['']); // Also possible
 
+    props.func(selectedDates);
 
     const setMaxNumberOfSelectedDates = React.useCallback((_selectedDates: string[]) => {
         const MAX_DATES = 3
@@ -16,12 +16,9 @@ export default function Calendar() {
 
     return (
         <MultiDateSelectionCalendar
-            disabledDates={['2020-01-01', '2020-03-04']}
-            initVisibleDate={'2020-02-10'}
-            minDate={'2020-01-10'}
-            maxDate={'2020-04-10'}
+            initVisibleDate={'2023-01-01'}
             allowYearView={true}
-            showExtraDates={false}
+            showExtraDates={true}
             testID={'my-calendar-component'}
             locale={frenchLocale}
             theme={DefaultTheme}

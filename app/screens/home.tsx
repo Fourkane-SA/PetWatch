@@ -16,10 +16,19 @@ var height = Dimensions.get('window').height; //full height
 export default function Home({ navigation }) {
 
     const [parameter, setParameter] = React.useState(false);
+    const [calendarDeb, setCalendarDeb] = React.useState(false);
+    const [calendarFin, setCalendarFin] = React.useState(false);
+    const [dates, setDates] = React.useState([]);
+
+    const pull_dates = (dates) => {
+        console.log(dates);
+        setDates(dates);
+    }
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.wrapper}>
+                {/*Ici le btn a integrer sur une page pour avoir accès aux parametres */}
                 <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
                     <IconParameter></IconParameter>
                 </TouchableOpacity>
@@ -28,27 +37,39 @@ export default function Home({ navigation }) {
                 <Text style={styles.instructions}>Choisissez les dates pour lesquelles vous souhaitez faire garder votre animal</Text>
                 <View style={styles.blocCalendar}>
                     <View style={[styles.calendar]}>
-                        <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer}>
-                            <Text style={styles.btnCalendar}>Date de fin</Text>
+                        <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setCalendarDeb(true)}>
+                            {dates[1] == null &&
+                                <Text style={styles.btnCalendar}>Date de début </Text>
+                            }
+                            {dates[1] != '' &&
+                                <Text style={styles.btnCalendar}>{dates[1]}</Text>
+                            }
                             <IconCalendar></IconCalendar>
                         </TouchableOpacity>
-                        {/* <Calendar></Calendar> */}
+                    </View>
+                    <View style={[styles.calendar]}>
+                        <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setCalendarFin(true)}>
+                            {dates[2] == null &&
+                                <Text style={styles.btnCalendar}>Date de fin </Text>
+                            }
+                            {dates[2] != '' &&
+                                <Text style={styles.btnCalendar}>{dates[2]}</Text>
+                            }
+                            <IconCalendar></IconCalendar>
+                        </TouchableOpacity>
                     </View>
 
-                    <View style={[styles.calendar]}>
-                        <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer}>
-                            <Text style={styles.btnCalendar}>Date de début</Text>
-                            <IconCalendar></IconCalendar>
-                        </TouchableOpacity>
-                    </View>
+                    {calendarDeb == true &&
+                        <Calendar func={pull_dates}></Calendar>
+                    }
 
                     <TouchableOpacity activeOpacity={0.5} style={styles.btnFooter}>
                         <Text>Rechercher</Text>
                     </TouchableOpacity>
                 </View>
 
-                { parameter == true && 
-                     <ModalParameter></ModalParameter>
+                {parameter == true &&
+                    <ModalParameter></ModalParameter>
                 }
 
             </ScrollView>
@@ -109,6 +130,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: "center",
         minHeight: 50,
+        width: '100%',
         backgroundColor: '#FFF6E3',
     },
     btnFooter: {
