@@ -29,19 +29,19 @@ class UserController extends Controller
         $address = $request->input(['address']);
         $profilImage = $request->input(['profilImage']);
         if (!$password)
-            return response()->json('Le champ password est manquant dans la requête', Response::HTTP_BAD_REQUEST);
+            return response()->json('Le mot de passe est manquant', Response::HTTP_BAD_REQUEST);
         if (!$role)
             return response()->json('Le champ role est manquant dans la requête', Response::HTTP_BAD_REQUEST);
         if (!$email)
-            return response()->json('Le champ email est manquant dans la requête', Response::HTTP_BAD_REQUEST);
+            return response()->json("L'adresse mail est manquant", Response::HTTP_BAD_REQUEST);
         if (!$phoneNumber)
-            return response()->json('Le champ phoneNumber est manquant dans la requête', Response::HTTP_BAD_REQUEST);
+            return response()->json("Le numéro de téléphone est manquant", Response::HTTP_BAD_REQUEST);
         if (!$city)
-            return response()->json('Le champ $city est manquant dans la requête', Response::HTTP_BAD_REQUEST);
+            return response()->json("La ville est manquante", Response::HTTP_BAD_REQUEST);
         if (!$postalCode)
-            return response()->json('Le champ $postalCode est manquant dans la requête', Response::HTTP_BAD_REQUEST);
+            return response()->json("Le code postal est manquant", Response::HTTP_BAD_REQUEST);
         if (!$address)
-            return response()->json('Le champ $address est manquant dans la requête', Response::HTTP_BAD_REQUEST);
+            return response()->json("L'adresse est manquante", Response::HTTP_BAD_REQUEST);
         $user = new User();
         $user->password = Hash::make($password);
         $user->email = $email;
@@ -80,9 +80,9 @@ class UserController extends Controller
             $firstname = $request->input(['firstname']);
             $lastname = $request->input(['lastname']);
             if (!$firstname)
-                return response()->json('Le champ firstname est manquant', Response::HTTP_BAD_REQUEST);
+                return response()->json('Le prénom est manquant', Response::HTTP_BAD_REQUEST);
             if (!$lastname)
-                return response()->json('Le champ lastname est manquant', Response::HTTP_BAD_REQUEST);
+                return response()->json('Le nom est manquant', Response::HTTP_BAD_REQUEST);
             $user->firstname = $firstname;
             $user->lastname = $lastname;
         }
