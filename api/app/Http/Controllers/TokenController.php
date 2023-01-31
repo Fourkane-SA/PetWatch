@@ -13,10 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 class TokenController extends Controller {
 
     public function generate(Request $request) {
-        if (!$request->input(['email']))
-            return response()->json('Le champ email est manquant dans la requête');
-        if (!$request->input(['password']))
-            return response()->json('Le champ password est manquant dans la requête');
+        if (!$request->input(['email']) || !$request->input('password'))
+            return response()->json("L'adresse mail et le mot de passe doivent être remplis", Response::HTTP_BAD_REQUEST);
         $user = User::whereEmail($request->input(['email']))->first();
         if (!$user)
             return response()->json("Cet adresse mail n'est pas enregistré", Response::HTTP_UNAUTHORIZED);
