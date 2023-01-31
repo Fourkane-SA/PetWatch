@@ -67,8 +67,12 @@ class UserController extends Controller
             $companyName = $request->input(['companyName']);
             $siretNumber = $request->input(['siretNumber']);
             $website = $request->input(['website']);
-            if(!$companyName || !$siretNumber || !$website)
-                return response()->json('Les champs companyName, siretNumber et website doivent être présents pour un utilisateur de type professionnel', Response::HTTP_BAD_REQUEST);
+            if(!$companyName)
+                return response()->json("Le nom de l'entreprise est manquant", Response::HTTP_BAD_REQUEST);
+            if(!$siretNumber)
+                return response()->json("Le numéro siret l'entreprise est manquant", Response::HTTP_BAD_REQUEST);
+            if(!$website)
+                return response()->json("Le site internet de l'entreprise est manquant", Response::HTTP_BAD_REQUEST);
             $user->companyName = $companyName;
             $user->siretNumber = $siretNumber;
             $user->website = $website;
