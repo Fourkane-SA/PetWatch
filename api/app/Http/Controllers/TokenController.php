@@ -13,15 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 class TokenController extends Controller {
 
     public function generate(Request $request) {
-        if (!$request->input(['login']))
-            return response()->json(['error' => 'Le champ login est manquant dans la requête']);
-        if (!$request->input(['password']))
-            return response()->json(['error', 'Le champ password est manquant dans la requête']);
-        $user = User::whereLogin($request->input(['login']))->first();
+        if (!$request->input(['email']) || !$request->input('password'))
+            return response()->json("L'adresse mail et le mot de passe doivent être remplis", Response::HTTP_BAD_REQUEST);
+        $user = User::whereEmail($request->input(['email']))->first();
         if (!$user)
-            return response()->json(['error' => "Ce login n'existe pas"], Response::HTTP_UNAUTHORIZED);
+            return response()->json("Cet adresse mail n'est pas enregistré", Response::HTTP_UNAUTHORIZED);
         if (!Hash::check($request->input(['password']), $user->password))
-            return response()->json(['error' => "Le mot de passe est incorrect"]);
+            return response()->json("Le mot de passe est incorrect", Response::HTTP_UNAUTHORIZED);
         $token = TokenService::generate($user);
         return response()->json($token);
     }
@@ -33,9 +31,9 @@ class TokenController extends Controller {
             User::findOrFail($id);
             return response()->json($id);
         } catch (ModelNotFoundException $modelNotFoundException) {
-            return response()->json(['error' => "L'utilisateur n'existe pas"], Response::HTTP_NOT_FOUND);
+            return response()->json("L'utilisateur n'existe pas", Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+            return response()->json($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
 

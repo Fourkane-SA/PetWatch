@@ -2,33 +2,65 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
 import { Dimensions } from "react-native";
 import { Link } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React from "react";
+import axios from "axios/index";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
 
-/* TODO : Axios connexion et redirection home , bouton google , lien vers choix role*/ 
+/* TODO : Axios connexion et redirection home , bouton google , lien vers choix role*/
 
+async function isConnected(navigation) {
+    const isConnected = await AsyncStorage.getItem('token');
+    if(isConnected !== null) {
+        axios.defaults.headers.common['Authorization'] = isConnected
+        //navigation.navigate('Home')
+    }
+}
 
-export default function App() {
+export default function App({navigation}) {
+    isConnected(navigation)
+    const [mail, setMail] = React.useState()
+    const [motDePasse, setMotDePasse] = React.useState()
+    const [messageErreur, setMessageErreur] = React.useState()
+
+    async function connexion() {
+        console.log('test')
+        try {
+            const token = (await axios.post('/tokens', {
+                email: mail,
+                password: motDePasse
+            })).data
+            // @ts-ignore
+            setMessageErreur('')
+            await AsyncStorage.setItem('token', token)
+        } catch (e) {
+            setMessageErreur(e.response.data)
+            console.log(e.response.data)
+        }
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Bienvenue</Text>
 
             <View style={styles.blocSignIn}>
-                <TextInput style={styles.textInput} placeholder="Adresse mail"></TextInput>
-                <TextInput style={styles.textInput} secureTextEntry={true} placeholder="Mot de passe" ></TextInput>
+                <TextInput style={styles.textInput} placeholder="Adresse mail" value={mail} onChangeText={setMail}></TextInput>
+                <TextInput style={styles.textInput} secureTextEntry={true} placeholder="Mot de passe" value={motDePasse} onChangeText={setMotDePasse}></TextInput>
 
-                <TouchableOpacity style={styles.btnPrimary} activeOpacity={0.8} >
+                <TouchableOpacity style={styles.btnPrimary} activeOpacity={0.8} onPress={() => connexion()}>
                     <Text style={styles.btnText} >Se connecter</Text>
                 </TouchableOpacity>
+                {messageErreur !== '' && <Text style={styles.erreur}>{messageErreur}</Text>}
             </View>
 
             <Text style={styles.option}>ou</Text>
 
             <View style={styles.blocSignUp}>
-                <TouchableOpacity style={styles.btnPrimary} activeOpacity={0.8}>
+                <TouchableOpacity style={styles.btnPrimary} activeOpacity={0.8} onPress={() => navigation.navigate('ChoixRole')} >
                     <Text style={styles.btnText}>S'inscrire</Text>
                 </TouchableOpacity>
             </View>
@@ -85,5 +117,11 @@ const styles = StyleSheet.create({
     option: {
         fontSize: 18,
         fontWeight: '700',
+    },
+    erreur: {
+        textAlign: "center",
+        marginTop: 10,
+        color: 'red',
+        fontSize: 16
     }
 });

@@ -44,6 +44,7 @@ class PetController extends Controller
         $pet->dateLastVeterinaryConsultation = $request->input('dateLastVeterinaryConsultation');
         $pet->description = $request->input('description');
         $pet->photoUrl = $request->input('photoUrl');
+        $pet->save();
         return response()->json($pet, Response::HTTP_CREATED);
     }
 

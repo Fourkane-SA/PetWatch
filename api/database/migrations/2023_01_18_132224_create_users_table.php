@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('login')->unique();
             $table->string('password');
             $table->boolean('isIndividual');
             $table->boolean('isCompany');
@@ -26,6 +25,8 @@ return new class extends Migration
             $table->string('city');
             $table->string('postalCode');
             $table->string('address');
+            $table->string('profilImage')->nullable();
+            $table->json('geopos')->nullable(); // TODO
 
             // individual / petsitter account only
             $table->string('firstname')->nullable();
@@ -41,7 +42,7 @@ return new class extends Migration
             $table->boolean('keepCats')->nullable();
             $table->string('acceptedWeight')->nullable();
             $table->string('description', 2000)->nullable();
-            $table->string('imageURL')->nullable();
+            $table->json('imageLocation')->nullable();
         });
     }
 

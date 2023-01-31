@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\TokenService;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -41,5 +42,46 @@ class ReviewController extends Controller {
         if(!$review)
             return response()->json("Cet avis n'existe pas", Response::HTTP_NOT_FOUND);
         return response()->json($review);
+    }
+
+    public function countStars(int $id) {
+        $user = User::find($id);
+        if(!$user)
+            return response()->json("Cet utilisateur n'existe pas", Response::HTTP_NOT_FOUND);
+        $reviews = Review::whereUserreceiverid($id)->get();
+        if($reviews->count() === 0)
+            return response()->json(0);
+        $count = 0;
+        for($i=0; $i<$reviews->count(); $i++)
+            $count+=$reviews[$i]->stars;
+        $count /= $reviews->count();
+        return response()->json($count);
+    }
+
+    public function byUserId(int $id) {
+        $user = User::find($id);
+        if(!$user)
+            return response()->json("Cet utilisateur n'existe pas", Response::HTTP_NOT_FOUND);
+        $reviews = Review::whereUserreceiverid($id)->get();
+        return response()->json($reviews);
+    }
+
+    public function sendByUserId(int $id) {
+        $user = User::find($id);
+        if(!$user)
+            return response()->json("Cet utilisateur n'existe pas", Response::HTTP_NOT_FOUND);
+        $reviews = Review::whereUsersenderid($id)->get();
+        return response()->json($reviews);
+    }
+
+    public function destroy(int $id, Request $request) {
+        $userId = TokenService::decode($request->input('Authorisation'));
+        $review = Review::find($id);
+        if(!$review)
+            return response()->json("Cet avis n'existe pas", Response::HTTP_NOT_FOUND);
+        if($review->userSenderId !== $userId)
+            return response()->json("Vous ne pouvez pas supprimer cet avis", Response::HTTP_UNAUTHORIZED);
+        $review->delete();
+        return response()->json("Avis supprimé");
     }
 }

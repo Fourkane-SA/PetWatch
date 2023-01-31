@@ -1,45 +1,86 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native';
 import { Dimensions } from "react-native";
+import React from "react";
+import axios from "axios/index";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
-/*TODO requete pour ajouter utilisateur  et le connecter + ajouter animal ou type d'animal gardé selon role*/ 
 
-export default function CreationCompteParticulier() {
+/*TODO requete pour ajouter utilisateur  et le connecter + ajouter animal ou type d'animal gardé selon role*/
+
+
+
+export default function CreationCompteParticulier({navigation}) {
+    const [nom, setNom] = React.useState()
+    const [prenom, setPrenom] = React.useState()
+    const [mail, setMail] = React.useState()
+    const [numero, setNumero] = React.useState()
+    const [adresse, setAdresse] = React.useState()
+    const [ville, setVille] = React.useState()
+    const [codePostal, setCodePostal] = React.useState()
+    const [motDePasse, setMotDePasse] = React.useState()
+    const [messageErreur, setMessageErreur] = React.useState()
+
+    async function inscription() {
+        try {
+            const data = {
+                password: motDePasse,
+                email: mail,
+                phoneNumber: numero,
+                role: 'individual',
+                city: ville,
+                postalCode: codePostal,
+                address: adresse,
+                firstname: prenom,
+                lastname: nom
+            }
+            const token =  (await axios.post('/users',data )).data
+            await AsyncStorage.setItem('token', token) // connexion
+            navigation.navigate('AddAnimal')
+
+        } catch (e) {
+            //console.log(e.response.data)
+            setMessageErreur(e.response.data)
+        }
+    }
 
     return (
-        <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>Vous êtes un Particulier ?</Text>
+        <ScrollView>
+            <SafeAreaView style={styles.container}>
+                <Text style={styles.title}>Vous êtes un Particulier ?</Text>
 
-            <View style={styles.blocInscription}>
-                <View>
-                    <TextInput placeholder="Nom" style={[styles.champ, styles.identity]}></TextInput>
-                    <TextInput placeholder="Prénom" style={[styles.champ, , styles.identity]}></TextInput>
-                    <TextInput placeholder="Adresse mail" style={[styles.champ, , styles.identity]}></TextInput>
-                    <TextInput placeholder="Nom" style={[styles.champ, styles.identity]}></TextInput>
+                <View style={styles.blocInscription}>
+                    <View>
+                        <TextInput placeholder="Nom" style={[styles.champ, styles.identity]} value={nom} onChangeText={setNom}></TextInput>
+                        <TextInput placeholder="Prénom" style={[styles.champ, styles.identity]} onChangeText={setPrenom}></TextInput>
+                        <TextInput placeholder="Adresse mail" style={[styles.champ, styles.identity]} onChangeText={setMail}></TextInput>
+                        <TextInput placeholder="Numéro de téléphone" style={[styles.champ, styles.identity]} onChangeText={setNumero}></TextInput>
+                    </View>
+
+                    <View>
+                        <TextInput placeholder="Adresse" style={[styles.champ, styles.adresse]} onChangeText={setAdresse}></TextInput>
+                        <TextInput placeholder="Ville" style={[styles.champ, styles.adresse]} onChangeText={setVille}></TextInput>
+                        <TextInput placeholder="Code postal" style={[styles.champ, styles.adresse]} onChangeText={setCodePostal}></TextInput>
+                    </View>
+
+                    <View>
+                        <TextInput placeholder="Mot de passe" style={[styles.champ, styles.mdp]} secureTextEntry={true} onChangeText={setMotDePasse}></TextInput>
+                    </View>
+
+                    <View>
+                    </View>
+
+                    {messageErreur !== '' && <Text style={styles.erreur}>{messageErreur}</Text>}
+                    <TouchableOpacity activeOpacity={0.8} style={[styles.champ,styles.containerSubmit]} onPress={() => inscription()}>
+                        <Text style={styles.submit}>S'inscrire</Text>
+                    </TouchableOpacity>
                 </View>
-
-                <View>
-                    <TextInput placeholder="Adresse" style={[styles.champ, styles.adresse]}></TextInput>
-                    <TextInput placeholder="Ville" style={[styles.champ, , styles.adresse]}></TextInput>
-                    <TextInput placeholder="Code postal" style={[styles.champ, styles.adresse]}></TextInput>
-                </View>
-
-                <View>
-                    <TextInput placeholder="Mot de passe" style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
-                </View>
-
-                <View>
-                </View>
-
-                <TouchableOpacity activeOpacity={0.8} style={[styles.champ,styles.containerSubmit]}>
-                    <Text style={styles.submit}>S'inscrire</Text>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
+            </SafeAreaView>
+        </ScrollView>
     );
 }
 
@@ -87,5 +128,11 @@ const styles = StyleSheet.create({
     },
     mdp: {
         backgroundColor: '#CEEAF0',
+    },
+    erreur: {
+    textAlign: "center",
+    marginTop: 10,
+    color: 'red',
+    fontSize: 16
     },
 });

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
@@ -39,14 +40,34 @@ Route::get('/pets/byUserId/{id}', [PetController::class, 'findByUserId']);
 Route::get('/reviews', [ReviewController::class, 'index']);
 Route::post('/reviews', [ReviewController::class, 'store'])->middleware('verifyToken');
 Route::get('/reviews/{id}', [ReviewController::class, 'show']);
+Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->middleware('verifyToken');
+Route::get('/reviews/stars/{id}', [ReviewController::class, 'countStars']);
+Route::get('/reviews/byUserId/{id}', [ReviewController::class, 'byUserId']);
+Route::get('/reviews/sendByUserId/{id}', [ReviewController::class, 'sendByUserId']);
 
+Route::get('/reservations', [ReservationController::class, 'index']);
+Route::post('/reservations', [ReservationController::class, 'store'])->middleware('verifyToken');
+Route::get('/reservations/{id}', [ReservationController::class, 'show']);
+Route::patch('/reservations/accept/{id}', [ReservationController::class, 'accept'])->middleware('verifyToken');
+Route::patch('/reservations/refuse/{id}', [ReservationController::class, 'refuse'])->middleware('verifyToken');
+Route::get('/reservations/byUserId/client/{id}', [ReservationController::class, 'byUserIdClient']);
+Route::get('/reservations/byUserId/petSitterPro/{id}', [ReservationController::class, 'byUserIdPetSitterPro']);
 /**
  * Client => Demande d'hebergement
  *        => Reserver à un pet-sitter pour un/des animaux
- *        => Laisser un avis
+ *        => Laisser un avis [EN COURS] => TODO : tout tester
  *
- * Messagerie => Envoie de message
+ * Messagerie [pusher ?] => Envoie de message
  *            => Liste les conversations
  *
  * gestion des demandes
+ *
+ *
+ * demandes =>
+ *      UserId du client
+ *      UserId du pro / pet-sitter
+ *      Date de début
+ *      Date de fin
+ *      Id Animaux concernés
+ *      Status [En attente, acceptée, refusé]
  */

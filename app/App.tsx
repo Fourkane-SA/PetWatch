@@ -11,9 +11,14 @@ import axios from "axios";
 import TestUploadScreen from "./screens/testUploadScreen";
 // import AddAnimal from './screens/addAnimal';
 // import FirstLoad from './screens/firstLoad';
-// import ChoixcConexionInscription from './screens/choixConnexionInscription'
+import ChoixcConexionInscription from './screens/choixConnexionInscription'
 // import CreationCompteParticulier from './screens/creationCompteParticulier'
-// import ChoixRole from './screens/choixRole'
+import ChoixRole from './screens/choixRole'
+import CreationCompteParticulier from "./screens/creationCompteParticulier";
+import AddAnimal from "./screens/addAnimal";
+import Home from "./screens/home";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CreationComptePro from "./screens/creationComptePro";
 // import CreationComptepro from './screens/creationComptePro'
 // import ModeGarde from './screens/modeGarde'
 // import Home from './screens/Home'
@@ -22,24 +27,30 @@ import TestUploadScreen from "./screens/testUploadScreen";
 import ResultatRecherche from './screens/resultatRecherche'
 import CardResultatRecherche from './components/cardResultatRech'
 
+/*const getToken = async () => {
+    await AsyncStorage.getItem('token')
+}*/
 
 axios.defaults.baseURL = "https://petwatcher.fourkane.me/api"
-axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiYWl0IjoxNjc0NjUzNDI3LCJleHAiOjE2NzczMzE4Mjd9.PN9VDxYzFHwDqcuwfbzViDx-kSI4Nzh70P56_nZc9CQ'
+//axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiYWl0IjoxNjc0NjUzNDI3LCJleHAiOjE2NzczMzE4Mjd9.PN9VDxYzFHwDqcuwfbzViDx-kSI4Nzh70P56_nZc9CQ'
 const Stack = createNativeStackNavigator();
 export default function App() {
-  /*return (
+  return (
       <NavigationContainer>
-          <Stack.Navigator initialRouteName="login" >
-              <Stack.Screen options={{headerShown: false}} name="login" component={Login}></Stack.Screen>
-              <Stack.Screen options={{headerShown: false}} name="choiceRole" component={ChoiceRole}></Stack.Screen>
-              <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="formPro" component={FormPro} ></Stack.Screen>
+          <Stack.Navigator initialRouteName="ChoixcConexionInscription" >
+            <Stack.Screen options={{headerShown: false}} name="ChoixcConexionInscription" component={ChoixcConexionInscription}></Stack.Screen>
+            <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="ChoixRole" component={ChoixRole}></Stack.Screen>
+            <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationCompteParticulier" component={CreationCompteParticulier}></Stack.Screen>
+              <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationComptePro" component={CreationComptePro}></Stack.Screen>
+              <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="AddAnimal" component={AddAnimal}></Stack.Screen>
+              <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="Home" component={Home}></Stack.Screen>
           </Stack.Navigator>
       </NavigationContainer>
-  );*/
+  );
   return (
     <SafeAreaView>
       {/* <FirstLoad></FirstLoad>
-        <ChoixcConexionInscription></ChoixcConexionInscription>
+
         <ChoixRole></ChoixRole>
         <CreationCompteParticulier></CreationCompteParticulier>
         <CreationComptepro></CreationComptepro>
@@ -53,7 +64,6 @@ export default function App() {
           <CardResultatRecherche></CardResultatRecherche>
         */}
         <ResultatRecherche></ResultatRecherche>
-
     </SafeAreaView>
   );
 }
