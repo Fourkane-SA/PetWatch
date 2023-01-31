@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { SafeAreaView, StyleSheet, Text, TextInput, View, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import RadioButton from '../components/radioButton';
 import { Dimensions } from "react-native";
-// import Calendar from '../components/calendar'
+import Calendar from '../components/calendar'
 import IconCalendar from '../assets/moduleSVG/calendarSVG'
 import MultipleSelect from '../components/multipleSelect';
 import Upload from '../components/Upload';
