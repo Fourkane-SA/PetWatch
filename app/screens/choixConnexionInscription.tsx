@@ -17,7 +17,7 @@ async function isConnected(navigation) {
     const isConnected = await AsyncStorage.getItem('token');
     if(isConnected !== null) {
         axios.defaults.headers.common['Authorization'] = isConnected
-        //navigation.navigate('Home')
+        navigation.navigate('Home')
     }
 }
 

@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         width: width
     },
     wrapper: {
-        width: '90%',
+        width: width*0.9,
         alignItems: 'center',
         position: 'relative',
     },

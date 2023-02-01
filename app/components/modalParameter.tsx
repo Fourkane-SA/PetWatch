@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { Component } from 'react';
 import { Modal, StyleSheet, Text, Pressable, View, TouchableOpacity, Dimensions } from 'react-native';
 
@@ -11,6 +12,11 @@ class ModalParameter extends Component {
     state = {
         modalVisible: true,
     };
+
+    async deconnexion() {
+        await AsyncStorage.clear()
+        
+    }
 
     render() {
         const { modalVisible } = this.state;
@@ -31,8 +37,8 @@ class ModalParameter extends Component {
                                 <Text style={styles.textStyle}>X</Text>
                             </Pressable>
 
-                            <TouchableOpacity style={styles.profil}>Modifier mon profil</TouchableOpacity>
-                            <TouchableOpacity style={styles.deconnexion}>Déconnexion</TouchableOpacity>
+                            <TouchableOpacity style={styles.profil}><Text>Modifier mon profil</Text></TouchableOpacity>
+                            <TouchableOpacity style={styles.deconnexion}><Text>Déconnexion</Text></TouchableOpacity>
                         </View>
                     </View>
                 </Modal>
