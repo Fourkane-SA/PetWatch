@@ -63,7 +63,7 @@ export default function Home({ navigation }) {
                     }
                 </View>
 
-                <TouchableOpacity activeOpacity={0.5} style={[styles.containerSubmit, {width: (Dimensions.get('window').width *0.9) } ]}>
+                <TouchableOpacity activeOpacity={0.5} style={[styles.containerSubmit, {width: (Dimensions.get('window').width *0.9) } ]} onPress= {() => navigation.navigate('ResultatsRecherche')}>
                     <Text style={styles.submit}>Rechercher</Text>
                 </TouchableOpacity>
 

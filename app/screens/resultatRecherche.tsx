@@ -9,7 +9,7 @@ var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
-export default function ResultatRecherche() {
+export default function ResultatRecherche({navigation}) {
 
     return (
         <SafeAreaView style={styles.container}>
@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
     },
     absolute: {
         position: 'absolute',
-        left: '95%',
+        marginRight: '5%',
+        right: 0,
         bottom:'15%',
     },
 });

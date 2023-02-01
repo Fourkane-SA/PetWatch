@@ -6,7 +6,6 @@ import * as React from 'react';
 import Upload from "./components/Upload";
 import axios from "axios";
 import TestUploadScreen from "./screens/testUploadScreen";
-// import AddAnimal from './screens/addAnimal';
 // import FirstLoad from './screens/firstLoad';
 import ChoixcConexionInscription from './screens/choixConnexionInscription'
 // import CreationCompteParticulier from './screens/creationCompteParticulier'
@@ -16,16 +15,13 @@ import AddAnimal from "./screens/addAnimal";
 import Home from "./screens/home";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CreationComptePro from "./screens/creationComptePro";
-// import CreationComptepro from './screens/creationComptePro'
 // import ModeGarde from './screens/modeGarde'
-// import Home from './screens/Home'
 // import CheckDemandeReservation from './screens/checkReservation'
 // import FicheDemandeReservation from './components/ficheDemandeReservation'
-// import ResultatRecherche from './screens/resultatRecherche'
-// import CardResultatRecherche from './components/cardResultatRech'
-// import ModifProfilParticulier from './screens/modifProfilParticulier'
+import ResultatRecherche from './screens/resultatRecherche'
 import ModifProfilPro from './screens/modifProfilPro';
 import ModifProfilParticulier from "./screens/modifProfilParticulier";
+import FicheProfilPro from './screens/ficheProfilPro';
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -36,18 +32,20 @@ axios.defaults.baseURL = "https://petwatcher.fourkane.me/api"
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
-      <NavigationContainer>
-          <Stack.Navigator initialRouteName="ChoixConexionInscription" >
-            <Stack.Screen options={{headerShown: false}} name="ChoixConexionInscription" component={ChoixcConexionInscription}></Stack.Screen>
-            <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="ChoixRole" component={ChoixRole}></Stack.Screen>
-            <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationCompteParticulier" component={CreationCompteParticulier}></Stack.Screen>
-              <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationComptePro" component={CreationComptePro}></Stack.Screen>
-              <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="AddAnimal" component={AddAnimal}></Stack.Screen>
-              <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="Home" component={Home}></Stack.Screen>
-            <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilParticulier" component={ModifProfilParticulier}></Stack.Screen>
-            <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilPro" component={ModifProfilPro}></Stack.Screen>
-          </Stack.Navigator>
-      </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="ChoixConexionInscription" >
+        <Stack.Screen options={{ headerShown: false }} name="ChoixConexionInscription" component={ChoixcConexionInscription}></Stack.Screen>
+        <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="ChoixRole" component={ChoixRole}></Stack.Screen>
+        <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="CreationCompteParticulier" component={CreationCompteParticulier}></Stack.Screen>
+        <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="CreationComptePro" component={CreationComptePro}></Stack.Screen>
+        <Stack.Screen options={{ headerShown: false, headerTitle: '' }} name="AddAnimal" component={AddAnimal}></Stack.Screen>
+        <Stack.Screen options={{ headerShown: false, headerTitle: '' }} name="Home" component={Home}></Stack.Screen>
+        <Stack.Screen options={{ headerShown: true, headerTitle: 'Modifier le profil' }} name="ModifProfilParticulier" component={ModifProfilParticulier}></Stack.Screen>
+        <Stack.Screen options={{ headerShown: true, headerTitle: 'Modifier le profil' }} name="ModifProfilPro" component={ModifProfilPro}></Stack.Screen>
+        <Stack.Screen options={{ headerShown: true, headerTitle: 'Pensions et Pet Sitter disponibles' }} name="ResultatsRecherche" component={ResultatRecherche}></Stack.Screen>
+        <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheProfilPro" component={FicheProfilPro}></Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
   // return (
   //   <SafeAreaView>

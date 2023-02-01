@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList, Image, Pressable, Modal } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList, Image, Pressable, Modal, ScrollView } from 'react-native';
 import { Dimensions } from "react-native";
 
 import IconFilter from '../assets/moduleSVG/filterSVG'
+import IconStarFilled from '../assets/moduleSVG/starFilledPink'
+import IconStar from '../assets/moduleSVG/starNotFilled'
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
-/*Ici passage de parametre par rapport a la page checkReservation car selon l'animal le background change de couleur et egalement l'icon !!!!! */
+/* TODO modification affichage des etoiles selon selection */
 
 export default class Filter extends Component {
 
@@ -117,43 +119,93 @@ export default class Filter extends Component {
     }
 
     render() {
+
+        var stars = [];
+
+        for(let i = 0; i < 5; i++){
+    
+            stars.push(
+                <Pressable key = {i} style={styles.star}>
+                    <IconStar></IconStar>
+                </Pressable>
+            )
+        }
+
         return (
-            <SafeAreaView>
-                <TouchableOpacity activeOpacity={.7} style={styles.content}
-                    onPress={() => this.setState({ modalVisible: true })}>
-                    <IconFilter></IconFilter>
-                </TouchableOpacity>
+            <ScrollView>
+                <SafeAreaView>
+                    <TouchableOpacity activeOpacity={.7} style={styles.content}
+                        onPress={() => this.setState({ modalVisible: true })}>
+                        <IconFilter></IconFilter>
+                    </TouchableOpacity>
 
-                <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.modalVisible}
-                
-                    onRequestClose={() => {
-                        this.setState({ modalVisible: 2 })
-                    }
-                    }>
-                    <View style={styles.modal}>
+                    <Modal
+                        animationType="slide"
+                        transparent={false}
+                        visible={this.state.modalVisible}
+
+                        onRequestClose={() => {
+                            this.setState({ modalVisible: 2 })
+                        }
+                        }>
                         <View style={styles.modal}>
-                            <Text style={styles.modalText}>Type</Text>
-                            <Text style={styles.modalText}>Animaux</Text>
-                            <Text style={styles.modalText}>Poids</Text>
-                            <Text style={styles.modalText}>Distance km</Text>
-                            <Text style={styles.modalText}>Avis</Text>
-                            <Text style={styles.modalText}>Prix</Text>
+                            <Pressable
+                                style={[styles.button, styles.buttonClose]}
+                                onPress={() => this.setState({ modalVisible: false })
+                                }>
+                                <Text style={styles.textStyle}>X</Text>
+                            </Pressable>
+                            <View style={styles.modalContainer}>
+                                <View>
+                                    <Text style={styles.modalText}>Type</Text>
+                                    <FlatList
+                                        horizontal={true}
+                                        data={this.typePro}
+                                        renderItem={({ item }) => <TouchableOpacity activeOpacity={.7} style={[{ backgroundColor: item.bg }, styles.listItem]}><Text>{item.value}</Text></TouchableOpacity>}
+                                        keyExtractor={item => item.id}
+                                    />
+                                </View>
 
+                                <View>
+                                    <Text style={styles.modalText}>Poids</Text>
+                                    <FlatList
+                                        horizontal={true}
+                                        data={this.typeChoice}
+                                        renderItem={({ item }) => <TouchableOpacity activeOpacity={.7} style={[{ backgroundColor: item.bg }, styles.listItem]}><Text>{item.value}</Text></TouchableOpacity>}
+                                        keyExtractor={item => item.id}
+                                    />
+                                </View>
 
+                                <View>
+                                    <Text style={styles.modalText}>Poids</Text>
+                                    <FlatList
+                                        horizontal={true}
+                                        data={this.poids}
+                                        renderItem={({ item }) => <TouchableOpacity activeOpacity={.7} style={[{ backgroundColor: item.bg }, styles.listItem]}><Text>{item.gabarit} :  {item.tranche}</Text></TouchableOpacity>}
+                                        keyExtractor={item => item.gabarit}
+                                    />
+                                </View>
+                                <Text style={styles.modalText}>Distance km</Text>
 
+                                <View>
+                                    <Text style={styles.modalText}>Avis</Text>
+                                    <View style={styles.starContainer}>
+                                        {stars}
+                                    </View>
+                                </View>
 
-                            <TouchableOpacity activeOpacity={0.8}
-                                style={styles.containerSubmit}
-                                onPress={() => this.setState({ modalVisible: false })}>
-                                <Text style={styles.submit}>Appliquer mes choix</Text>
-                            </TouchableOpacity>
+                                <Text style={styles.modalText}>Prix</Text>
+
+                                <TouchableOpacity activeOpacity={0.8}
+                                    style={styles.containerSubmit}
+                                    onPress={() => this.setState({ modalVisible: false })}>
+                                    <Text style={styles.submit}>Appliquer mes choix</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                </Modal>
-            </SafeAreaView>
+                    </Modal>
+                </SafeAreaView>
+            </ScrollView>
         );
     }
 }
@@ -169,13 +221,54 @@ const styles = StyleSheet.create({
     },
     modal: {
         width: width,
-        minHeight: height,
         margin: 'auto',
+        padding: 20,
+    },
+    modalContainer: {
+        backgroundColor: '#FFF',
+
     },
     modalText: {
         fontWeight: '700',
         fontSize: 16,
-        textAlign: 'left'
+        textAlign: 'left',
+        marginBottom: 20,
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        width: 50,
+        alignSelf: 'flex-end',
+        marginRight: '5%',
+    },
+    buttonClose: {
+        backgroundColor: '#CEEAF0',
+        marginBottom: 20,
+    },
+    textStyle: {
+        color: '#000',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    listItem: {
+        marginLeft: 8,
+        marginRight: 8,
+        borderRadius: 100,
+        minHeight: 30,
+        paddingLeft: 8,
+        paddingRight: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 30,
+        flexWrap: 'wrap',
+    },
+    starContainer: {
+        flexDirection: 'row',
+        marginBottom: 30,
+    },
+    star: {
+        marginRight : 30,
     },
     containerSubmit: {
         minHeight: 40,
