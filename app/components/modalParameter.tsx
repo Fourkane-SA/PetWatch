@@ -1,51 +1,102 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { Component } from 'react';
 import { Modal, StyleSheet, Text, Pressable, View, TouchableOpacity, Dimensions } from 'react-native';
+import {useNavigation} from "@react-navigation/native";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
 /*TODO Clique sur deconnexion appel fct deconnexion, clique sur modifier profil redirige sur le bon lien selon role utilisateur */
+class Props {
+    navigation
+    onVisibleChange
+}
 
-class ModalParameter extends Component {
+export default class ModalParameter extends Component<Props> {
     state = {
         modalVisible: true,
-    };
-
-    async deconnexion() {
-        await AsyncStorage.clear()
-        
     }
 
     render() {
-        const { modalVisible } = this.state;
+
+        const deconnexion = async () =>  {
+            await AsyncStorage.clear()
+            this.setState({modalVisible: false})
+            this.props.navigation.navigate('ChoixConexionInscription')
+        }
+
         return (
             <View style={styles.centeredView}>
                 <Modal
                     animationType="slide"
                     transparent={false}
-                    visible={modalVisible}
+                    visible={this.state.modalVisible}
                     onRequestClose={() => {
-                        this.setState({ modalVisible: !modalVisible });
+                        this.setState({modalVisible: false}, () => {
+                            this.props.onVisibleChange(false)
+                            console.log('test2')
+                        })
                     }}>
                     <View style={styles.modal}>
                         <View style={styles.modal}>
                             <Pressable
                                 style={[styles.button, styles.buttonClose]}
-                                onPress={() => this.setState({ modalVisible: !modalVisible })}>
+                                onPress={() => this.setState({modalVisible: false}, () => {
+                                        this.props.onVisibleChange(false)})}>
                                 <Text style={styles.textStyle}>X</Text>
                             </Pressable>
 
                             <TouchableOpacity style={styles.profil}><Text>Modifier mon profil</Text></TouchableOpacity>
-                            <TouchableOpacity style={styles.deconnexion}><Text>Déconnexion</Text></TouchableOpacity>
+                            <TouchableOpacity style={styles.deconnexion} onPress={() => deconnexion()}><Text>Déconnexion</Text></TouchableOpacity>
                         </View>
                     </View>
                 </Modal>
             </View>
-        );
+        )
     }
 }
+
+
+/*export default function ModalParameter({navigation}, {visible}) {
+
+
+    const [modalVisible, setVisible] = React.useState(true)
+
+    async function deconnexion() {
+        await AsyncStorage.clear()
+        setVisible(false)
+        navigation.navigate('ChoixConexionInscription')
+    }
+
+    return (
+        <View style={styles.centeredView}>
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setVisible(false)
+                }}>
+                <View style={styles.modal}>
+                    <View style={styles.modal}>
+                        <Pressable
+                            style={[styles.button, styles.buttonClose]}
+                            onPress={() => setVisible(false)}>
+                            <Text style={styles.textStyle}>X</Text>
+                        </Pressable>
+
+                        <TouchableOpacity style={styles.profil}><Text>Modifier mon profil</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.deconnexion} onPress={() => deconnexion()}><Text>Déconnexion</Text></TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+        </View>
+    )
+}
+*/
+
+
 
 const styles = StyleSheet.create({
     centeredView: {
@@ -103,5 +154,3 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
 });
-
-export default ModalParameter;

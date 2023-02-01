@@ -23,7 +23,7 @@ export default function Home({ navigation }) {
         console.log(dates);
         setDates(dates);
     }
-
+    console.log(parameter)
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.wrapper}>
@@ -57,7 +57,7 @@ export default function Home({ navigation }) {
                             <IconCalendar></IconCalendar>
                         </TouchableOpacity>
                     </View>
-                    
+
                     {calendar == true &&
                         <Calendar func={pull_dates}></Calendar>
                     }
@@ -68,7 +68,10 @@ export default function Home({ navigation }) {
                 </TouchableOpacity>
 
                 {parameter == true &&
-                    <ModalParameter></ModalParameter>
+                    <ModalParameter navigation={navigation}  onVisibleChange={(change) => {
+                        setParameter(change)
+                        console.log('test')
+                    }}></ModalParameter>
                 }
 
             </ScrollView>

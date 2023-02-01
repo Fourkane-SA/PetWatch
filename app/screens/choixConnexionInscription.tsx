@@ -37,6 +37,7 @@ export default function ChoixcConexionInscription({navigation}) {
             // @ts-ignore
             setMessageErreur('')
             await AsyncStorage.setItem('token', token)
+            navigation.navigate('Home')
         } catch (e) {
             setMessageErreur(e.response.data)
             console.log(e.response.data)
