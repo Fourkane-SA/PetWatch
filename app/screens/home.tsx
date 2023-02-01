@@ -70,7 +70,6 @@ export default function Home({ navigation }) {
                 {parameter == true &&
                     <ModalParameter navigation={navigation}  onVisibleChange={(change) => {
                         setParameter(change)
-                        console.log('test')
                     }}></ModalParameter>
                 }
 

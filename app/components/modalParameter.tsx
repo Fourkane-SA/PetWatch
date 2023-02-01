@@ -2,6 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { Component } from 'react';
 import { Modal, StyleSheet, Text, Pressable, View, TouchableOpacity, Dimensions } from 'react-native';
 import {useNavigation} from "@react-navigation/native";
+import {users} from "../models/user";
+import axios from "axios/index";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -22,8 +24,22 @@ export default class ModalParameter extends Component<Props> {
 
         const deconnexion = async () =>  {
             await AsyncStorage.clear()
-            this.setState({modalVisible: false})
+            this.setState({modalVisible: false}, () => {
+                this.props.onVisibleChange(false)
+            })
             this.props.navigation.navigate('ChoixConexionInscription')
+        }
+
+        const editProfil = async () => {
+            this.setState({modalVisible: false}, () => {
+                this.props.onVisibleChange(false)
+            })
+            const userId = (await axios.get('/tokens')).data
+            const user : users = (await axios.get('/users/' + userId)).data
+            if(user.isCompany)
+                this.props.navigation.navigate('ModifProfilPro')
+            else
+                this.props.navigation.navigate('ModifProfilParticulier')
         }
 
         return (
@@ -35,7 +51,6 @@ export default class ModalParameter extends Component<Props> {
                     onRequestClose={() => {
                         this.setState({modalVisible: false}, () => {
                             this.props.onVisibleChange(false)
-                            console.log('test2')
                         })
                     }}>
                     <View style={styles.modal}>
@@ -47,7 +62,7 @@ export default class ModalParameter extends Component<Props> {
                                 <Text style={styles.textStyle}>X</Text>
                             </Pressable>
 
-                            <TouchableOpacity style={styles.profil}><Text>Modifier mon profil</Text></TouchableOpacity>
+                            <TouchableOpacity style={styles.profil} onPress={() => editProfil()}><Text>Modifier mon profil</Text></TouchableOpacity>
                             <TouchableOpacity style={styles.deconnexion} onPress={() => deconnexion()}><Text>Déconnexion</Text></TouchableOpacity>
                         </View>
                     </View>

@@ -25,6 +25,7 @@ import CreationComptePro from "./screens/creationComptePro";
 // import CardResultatRecherche from './components/cardResultatRech'
 // import ModifProfilParticulier from './screens/modifProfilParticulier'
 import ModifProfilPro from './screens/modifProfilPro';
+import ModifProfilParticulier from "./screens/modifProfilParticulier";
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -43,6 +44,8 @@ export default function App() {
               <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationComptePro" component={CreationComptePro}></Stack.Screen>
               <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="AddAnimal" component={AddAnimal}></Stack.Screen>
               <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="Home" component={Home}></Stack.Screen>
+            <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilParticulier" component={ModifProfilParticulier}></Stack.Screen>
+            <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilPro" component={ModifProfilPro}></Stack.Screen>
           </Stack.Navigator>
       </NavigationContainer>
   );
@@ -56,10 +59,10 @@ export default function App() {
   //       <AddAnimal></AddAnimal>
   //       <ModeGarde></ModeGarde>
   //       <Home></Home>
-  //       <CheckDemandeReservation></CheckDemandeReservation> 
+  //       <CheckDemandeReservation></CheckDemandeReservation>
   //       <FicheDemandeReservation></FicheDemandeReservation>
   //       <ModeGarde></ModeGarde>
-  //       <TestUploadScreen></TestUploadScreen> 
+  //       <TestUploadScreen></TestUploadScreen>
   //       <CardResultatRecherche></CardResultatRecherche>
   //       <ResultatRecherche></ResultatRecherche>
   //       <ModifProfilParticulier></ModifProfilParticulier>
