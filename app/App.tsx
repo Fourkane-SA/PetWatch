@@ -33,7 +33,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="ChoixConexionInscription" >
+      <Stack.Navigator initialRouteName="Home" >
         <Stack.Screen options={{ headerShown: false }} name="ChoixConexionInscription" component={ChoixcConexionInscription}></Stack.Screen>
         <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="ChoixRole" component={ChoixRole}></Stack.Screen>
         <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="CreationCompteParticulier" component={CreationCompteParticulier}></Stack.Screen>

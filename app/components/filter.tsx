@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList, Image, Pressable, Modal, ScrollView } from 'react-native';
 import { Dimensions } from "react-native";
@@ -6,6 +6,8 @@ import { Dimensions } from "react-native";
 import IconFilter from '../assets/moduleSVG/filterSVG'
 import IconStarFilled from '../assets/moduleSVG/starFilledPink'
 import IconStar from '../assets/moduleSVG/starNotFilled'
+import RadioButtonBis from './radioButtonBis';
+import Svg, { Path } from 'react-native-svg';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -75,19 +77,15 @@ export default class Filter extends Component {
         },
         {
             id: 'd25',
-            value: '40'
+            value: '25'
         },
         {
             id: 'd40',
-            value: 'Chat'
+            value: '40'
         },
         {
             id: 'd50',
             value: '50+'
-        },
-        {
-            id: 'chatType',
-            value: 'Chat'
         },
     ]
 
@@ -102,11 +100,11 @@ export default class Filter extends Component {
         },
         {
             id: 'p25',
-            value: '40'
+            value: '25'
         },
         {
             id: 'p40',
-            value: 'Chat'
+            value: '40'
         },
         {
             id: 'p50',
@@ -115,39 +113,58 @@ export default class Filter extends Component {
     ]
 
     state = {
-        modalVisible: false
+        modalVisible: false,
     }
 
     render() {
 
+        var bg = ['#B4B4B4', '#FAD4D4'];
+
+
         var stars = [];
 
-        for(let i = 0; i < 5; i++){
-    
+        for (let i = 0; i < 5; i++) {
+
             stars.push(
-                <Pressable key = {i} style={styles.star}>
-                    <IconStar></IconStar>
+                <Pressable key={i} style={styles.star}>
+                    <IconStar fill= {bg[0]}></IconStar>
                 </Pressable>
             )
         }
 
+        var modifStars = (x) => {
+            for (let i = 0; i < x; i++) {
+                stars.map((i) => <Pressable key={i} style={styles.star} onPress={() => modifStars(i)}>
+                     <IconStar fill= {bg[1]}></IconStar>
+                </Pressable>)
+            }
+
+            for (let i = x; i < 5; i++) {
+                stars.map((i) => <Pressable key={i} style={styles.star} onPress={() => modifStars(i)}>
+                     <IconStar fill= {bg[0]}></IconStar>
+                </Pressable>)
+            }
+
+            console.log(stars);
+        }
+
         return (
-            <ScrollView>
-                <SafeAreaView>
-                    <TouchableOpacity activeOpacity={.7} style={styles.content}
-                        onPress={() => this.setState({ modalVisible: true })}>
-                        <IconFilter></IconFilter>
-                    </TouchableOpacity>
+            <SafeAreaView>
+                <TouchableOpacity activeOpacity={.7} style={styles.content}
+                    onPress={() => this.setState({ modalVisible: true })}>
+                    <IconFilter></IconFilter>
+                </TouchableOpacity>
 
-                    <Modal
-                        animationType="slide"
-                        transparent={false}
-                        visible={this.state.modalVisible}
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.modalVisible}
 
-                        onRequestClose={() => {
-                            this.setState({ modalVisible: 2 })
-                        }
-                        }>
+                    onRequestClose={() => {
+                        this.setState({ modalVisible: 2 })
+                    }
+                    }>
+                    <ScrollView>
                         <View style={styles.modal}>
                             <Pressable
                                 style={[styles.button, styles.buttonClose]}
@@ -167,7 +184,7 @@ export default class Filter extends Component {
                                 </View>
 
                                 <View>
-                                    <Text style={styles.modalText}>Poids</Text>
+                                    <Text style={styles.modalText}>Animaux</Text>
                                     <FlatList
                                         horizontal={true}
                                         data={this.typeChoice}
@@ -185,7 +202,14 @@ export default class Filter extends Component {
                                         keyExtractor={item => item.gabarit}
                                     />
                                 </View>
-                                <Text style={styles.modalText}>Distance km</Text>
+
+                                <View>
+                                    <Text style={styles.modalText}>Distance km</Text>
+                                    <View>
+                                        <View style={styles.line}></View>
+                                        <RadioButtonBis data={this.distance} onSelect={undefined} />
+                                    </View>
+                                </View>
 
                                 <View>
                                     <Text style={styles.modalText}>Avis</Text>
@@ -194,18 +218,26 @@ export default class Filter extends Component {
                                     </View>
                                 </View>
 
-                                <Text style={styles.modalText}>Prix</Text>
+                                <View>
+                                    <Text style={styles.modalText}>Prix</Text>
+                                    <View>
+                                        <View style={styles.line}></View>
+                                        <RadioButtonBis data={this.prix} onSelect={undefined} />
+                                    </View>
+                                </View>
 
-                                <TouchableOpacity activeOpacity={0.8}
-                                    style={styles.containerSubmit}
-                                    onPress={() => this.setState({ modalVisible: false })}>
-                                    <Text style={styles.submit}>Appliquer mes choix</Text>
-                                </TouchableOpacity>
+                                <View style={styles.bloc}>
+                                    <TouchableOpacity activeOpacity={0.8}
+                                        style={styles.containerSubmit}
+                                        onPress={() => this.setState({ modalVisible: false })}>
+                                        <Text style={styles.submit}>Appliquer mes choix</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </View>
-                    </Modal>
-                </SafeAreaView>
-            </ScrollView>
+                    </ScrollView>
+                </Modal>
+            </SafeAreaView>
         );
     }
 }
@@ -244,7 +276,7 @@ const styles = StyleSheet.create({
     },
     buttonClose: {
         backgroundColor: '#CEEAF0',
-        marginBottom: 20,
+        marginBottom: 10,
     },
     textStyle: {
         color: '#000',
@@ -252,12 +284,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     listItem: {
-        marginLeft: 8,
-        marginRight: 8,
+        marginRight: 15,
         borderRadius: 100,
         minHeight: 30,
-        paddingLeft: 8,
-        paddingRight: 8,
+        paddingLeft: 12,
+        paddingRight: 12,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 30,
@@ -268,15 +299,26 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     star: {
-        marginRight : 30,
+        marginRight: 30,
+    },
+    line: {
+        position: 'absolute',
+        top: 9,
+        width: '90%',
+        height: 2,
+        backgroundColor: '#000',
+    },
+    bloc: {
+        width: '100%',
+        alignItems: 'center',
     },
     containerSubmit: {
-        minHeight: 40,
+        minHeight: 50,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 50,
         marginTop: 20,
-        width: '40%',
+        width: '80%',
         backgroundColor: '#FAD4D4',
     },
     submit: {

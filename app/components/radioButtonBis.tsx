@@ -15,9 +15,8 @@ export default function RadioButton({ data, onSelect }) {
         <SafeAreaView style={styles.blocRadioGroup}>
             {data.map((item) => {
                 return (
-                    <Pressable key={item.id} style={styles.blocRadioItem}  onPress={() => setUserOption(item.value)}>
+                    <Pressable key={item.id} style={styles.blocRadioItem} onPress={() => setUserOption(item.value)} >
                         <View style={[styles.before, item.value === userOption ? styles.beforeSelected : styles.beforeUnselected]} >
-                            <View style={[styles.after, item.value === userOption ? styles.afterSelected : styles.afterUnselected]}></View>
                         </View>
                         
                         <Text> {item.value}</Text>
@@ -36,37 +35,23 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     blocRadioItem: {
-        flexDirection: 'row',
-        width: '50%',
+        width: '12%',
         marginRight: 25,
-    },
-    before: {
-        backgroundColor: 'transparent',
-        borderWidth: 2,
-        width: 18,
-        height: 18,
-        borderRadius: 50,
-        marginRight: 5,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    after: {
-        width: 10,
-        height: 10,
-        backgroundColor: '#bbb',
-        borderRadius: 50
-
+    before: {
+        backgroundColor: 'transparent',
+        width: 18,
+        height: 18,
+        borderRadius: 50,
+        marginBottom: 20,
     },
     beforeSelected: {
-        borderColor: '#FAD4D4'
+        backgroundColor: '#000',
+        borderColor: '#000',
     },
     beforeUnselected: {
-        borderColor: '#bbb',
-    },
-    afterSelected: {
-        backgroundColor: '#FAD4D4',
-    },
-    afterUnselected: {
-        backgroundColor: '#bbb',
+        backgroundColor: 'transparent',
     },
 });

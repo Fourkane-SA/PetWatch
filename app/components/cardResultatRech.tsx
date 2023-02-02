@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList, Image } from 'react-native';
 import { Dimensions } from "react-native";
+import {useNavigation} from "@react-navigation/native";
 
 import IconChien from '../assets/moduleSVG/chienSVG'
 import IconChat from '../assets/moduleSVG/chatSVG'
@@ -21,6 +22,10 @@ class Props {
 export default class CardDemandeReservation extends Component<Props> {
 
     render() {
+        const redirection = () => {
+            this.props.navigation.navigate('FicheProfilPro');
+        }
+        
         return (
             <SafeAreaView style={styles.container}>
                 <View style={[styles.wrapper, styles.bloc]}>
@@ -61,7 +66,7 @@ export default class CardDemandeReservation extends Component<Props> {
                         <Text style={styles.text}>20€/jour</Text>
                     </View>
 
-                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => this.props.navigation.navigate('FicheProfilPro')}>
+                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => redirection()}>
                         <Text style={styles.submit}>Voir profil</Text>
                     </TouchableOpacity>
                 </View>

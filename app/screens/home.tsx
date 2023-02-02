@@ -36,25 +36,23 @@ export default function Home({ navigation }) {
                 <Text style={styles.instructions}>Choisissez les dates pour lesquelles vous souhaitez faire garder votre animal</Text>
                 <View style={styles.blocCalendar}>
                     <View style={[styles.calendar]}>
-                        <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setCalendar(true)}>
+                        <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setCalendar(!calendar)}>
                             {dates[1] == null &&
-                                <Text style={styles.btnCalendar}>Date de début </Text>
+                                <><Text style={styles.btnCalendar}>Date de début </Text><IconCalendar></IconCalendar></>
                             }
                             {dates[1] != '' &&
-                                <Text style={[styles.btnCalendar2] }>{dates[1]}</Text>
+                                <><Text style={[styles.btnCalendar2]}>{dates[1]}</Text><IconCalendar></IconCalendar></>
                             }
-                            <IconCalendar></IconCalendar>
                         </TouchableOpacity>
                     </View>
                     <View style={[styles.calendar]}>
-                        <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setCalendar(true)}>
+                        <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setCalendar(!calendar)}>
                             {dates[2] == null &&
-                                <Text style={styles.btnCalendar}>Date de fin </Text>
+                                <><Text style={styles.btnCalendar}>Date de fin </Text><IconCalendar></IconCalendar></>
                             }
                             {dates[2] != '' &&
-                                <Text style={styles.btnCalendar2 }>{dates[2]}</Text>
+                                <><Text style={styles.btnCalendar2}>{dates[2]}</Text><IconCalendar></IconCalendar></>
                             }
-                            <IconCalendar></IconCalendar>
                         </TouchableOpacity>
                     </View>
 
@@ -115,11 +113,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF6E3',
         paddingLeft: 20,
         textAlign: 'left',
-        width: '100%',
+        width: '80%',
     },
     btnCalendar2: {
-        width: '100%',
-        paddingLeft: 10,
+        width: '80%',
+        paddingLeft: 20,
     },
     calendar: {
         alignItems: 'flex-start',
@@ -134,7 +132,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: "flex-start",
         minHeight: 50,
-        width: '100%',
+        width: width *0.9,
         backgroundColor: '#FFF6E3',
         borderRadius: 5,
     },
