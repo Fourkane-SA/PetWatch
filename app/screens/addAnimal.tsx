@@ -12,7 +12,7 @@ import Upload from '../components/Upload';
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-export default function AddAnimal() {
+export default function AddAnimal({navigation}) {
 
   const booleanChoiceAllergie = [
     {
@@ -266,7 +266,7 @@ export default function AddAnimal() {
 
 
           {etape == 5 &&
-            <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.bg]} >
+            <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.bg]} onPress={() => navigation.navigate('Home')}>
               <Text>Accueil</Text>
             </TouchableOpacity>
           }

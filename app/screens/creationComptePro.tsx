@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Button} from 'react-native';
 import { Dimensions } from "react-native";
 import React from "react";
 import axios from "axios/index";
@@ -14,53 +14,92 @@ var height = Dimensions.get('window').height; //full height
 
 export default class CreationCompteParticulier extends Component {
     state = {
-        confirm: false
+        confirm: false,
+        entreprise: '',
+        siret: '',
+        site: '',
+        telephone: '',
+        mail: '',
+        adresse: '',
+        ville: '',
+        codePostal: '',
+        motDePasse: '',
+        messageErreur: ''
+    }
+
+    async inscription() {
+        try {
+            const token = (await axios.post('/users', {
+                password: this.state.motDePasse,
+                email: this.state.mail,
+                phoneNumber: this.state.telephone,
+                role: 'company',
+                city: this.state.ville,
+                postalCode: this.state.codePostal,
+                address: this.state.adresse,
+                companyName: this.state.entreprise,
+                siretNumber: this.state.siret,
+                website: this.state.site
+            })).data
+            await AsyncStorage.setItem('token', token)
+            this.setState({confirm: true})
+        } catch (e) {
+            this.setState({messageErreur: e.response.data})
+        }
     }
 
     render() {
 
         return (
-            <SafeAreaView style={styles.container}>
-                {!this.state.confirm &&
-                <><Text style={styles.title}>Vous êtes un Professionnel ?</Text><View style={styles.blocInscription}>
-                        <View>
-                            <TextInput placeholder="Nom entreprise" style={[styles.champ, styles.identity]}></TextInput>
-                            <TextInput placeholder="Numéro de SIRET" style={[styles.champ, , styles.identity]}></TextInput>
-                            <TextInput placeholder="Site web" style={[styles.champ, , styles.identity]}></TextInput>
-                            <TextInput placeholder="Téléphone professionnel" style={[styles.champ, , styles.identity]}></TextInput>
-                            <TextInput placeholder="Mail professionnel" style={[styles.champ, styles.identity]}></TextInput>
-                        </View>
+            <ScrollView>
+                <SafeAreaView style={styles.container}>
+                    {!this.state.confirm &&
+                    <><Text style={styles.title}>Vous êtes un Professionnel ?</Text><View style={styles.blocInscription}>
+                            <View>
+                                <TextInput placeholder="Nom entreprise" style={[styles.champ, styles.identity]} value={this.state.entreprise} onChangeText={(value) => this.setState({entreprise: value})}></TextInput>
+                                <TextInput placeholder="Numéro de SIRET" style={[styles.champ, , styles.identity]} value={this.state.siret} onChangeText={(value) => this.setState({siret: value})}></TextInput>
+                                <TextInput placeholder="Site web" style={[styles.champ, , styles.identity]} value={this.state.site} onChangeText={(value) => this.setState({site: value})}></TextInput>
+                                <TextInput placeholder="Téléphone professionnel" style={[styles.champ, , styles.identity]} value={this.state.telephone} onChangeText={(value) => this.setState({telephone: value})}></TextInput>
+                                <TextInput placeholder="Mail professionnel" style={[styles.champ, styles.identity]} value={this.state.mail} onChangeText={(value) => this.setState({mail: value})}></TextInput>
+                            </View>
 
-                        <View>
-                            <TextInput placeholder="Adresse" style={[styles.champ, styles.adresse]}></TextInput>
-                            <TextInput placeholder="Ville" style={[styles.champ, , styles.adresse]}></TextInput>
-                            <TextInput placeholder="Code postal" style={[styles.champ, styles.adresse]}></TextInput>
-                        </View>
+                            <View>
+                                <TextInput placeholder="Adresse" style={[styles.champ, styles.adresse]} value={this.state.adresse} onChangeText={(value) => this.setState({adresse: value})}></TextInput>
+                                <TextInput placeholder="Ville" style={[styles.champ, , styles.adresse]} value={this.state.ville} onChangeText={(value) => this.setState({ville: value})}></TextInput>
+                                <TextInput placeholder="Code postal" style={[styles.champ, styles.adresse]} value={this.state.codePostal} onChangeText={(value) => this.setState({codePostal: value})}></TextInput>
+                            </View>
 
-                        <View>
-                            <TextInput placeholder="Mot de passe" style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
-                        </View>
+                            <View>
+                                <TextInput placeholder="Mot de passe" style={[styles.champ, styles.mdp]} secureTextEntry={true} value={this.state.motDePasse} onChangeText={(value) => this.setState({motDePasse: value})}></TextInput>
+                            </View>
 
-                        <View>
-                        </View>
+                            <View>
+                            </View>
+                        {this.state.messageErreur !== '' &&
+                            <Text style={styles.erreur}>{this.state.messageErreur}</Text>
+                        }
+                            <TouchableOpacity activeOpacity={0.8} style={[styles.champ, styles.containerSubmit]}
+                            onPress={() => this.inscription()}>
+                                <Text style={styles.submit}>Envoyer une demande</Text>
+                            </TouchableOpacity>
+                        </View></>
+                    }
 
-                        <TouchableOpacity activeOpacity={0.8} style={[styles.champ, styles.containerSubmit]} 
-                        onPress={() => this.setState({confirm: true})}>
-                            <Text style={styles.submit}>Envoyer une demande</Text>
-                        </TouchableOpacity>
-                    </View></>
-                }
+                    {this.state.confirm &&
+                        <View style={styles.container}>
+                            <View >
+                                <Text style={styles.text}>Votre demande a été envoyé</Text>
+                                <TouchableOpacity activeOpacity={0.8} style={[styles.champ, styles.containerSubmit]}
+                                onPress={() => this.props.navigation.navigate('ModeGarde')}>
+                                    <Text>Definir le mode de garde</Text>
+                                </TouchableOpacity>
 
-                {this.state.confirm &&
-                    <View style={styles.container}>
-                        <View >
-                            <Text style={styles.text}>Votre demande a été envoyé</Text>
-                            <Text style={styles.text}>TODO Redirection sur mode de garde ou autre</Text>
+                            </View>
+
                         </View>
-                        
-                    </View>
-                }
-            </SafeAreaView>
+                    }
+                </SafeAreaView>
+            </ScrollView>
         );
     }
 /*export default function CreationComptePro({navigation}) {

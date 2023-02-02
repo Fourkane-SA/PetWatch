@@ -26,6 +26,10 @@ import CreationComptePro from "./screens/creationComptePro";
 // import ModifProfilParticulier from './screens/modifProfilParticulier'
 import ModifProfilPro from './screens/modifProfilPro';
 import ModifProfilParticulier from "./screens/modifProfilParticulier";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import SearchSVG from "./assets/moduleSVG/searchSVG";
+import ModeGarde from "./screens/modeGarde";
+import FirstLoad from "./screens/FirstLoad";
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -34,16 +38,35 @@ import ModifProfilParticulier from "./screens/modifProfilParticulier";
 axios.defaults.baseURL = "https://petwatcher.fourkane.me/api"
 //axios.defaults.headers.common['Authorization'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiYWl0IjoxNjc0NjUzNDI3LCJleHAiOjE2NzczMzE4Mjd9.PN9VDxYzFHwDqcuwfbzViDx-kSI4Nzh70P56_nZc9CQ'
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function Tabs() {
+  return (
+      <Tab.Navigator
+          screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                  if (route.name === 'home')
+                      return <View style={styles.container}><SearchSVG></SearchSVG></View>
+              },
+          })}
+      >
+        <Tab.Screen name="home" options={{headerShown: false, tabBarLabel: ''}}  component={Home}></Tab.Screen>
+      </Tab.Navigator>
+  )
+}
+
 export default function App() {
   return (
       <NavigationContainer>
-          <Stack.Navigator initialRouteName="ChoixConexionInscription" >
+          <Stack.Navigator initialRouteName="FirstLoad" >
+              <Stack.Screen options={{headerShown: false}} name="FirstLoad" component={FirstLoad}></Stack.Screen>
             <Stack.Screen options={{headerShown: false}} name="ChoixConexionInscription" component={ChoixcConexionInscription}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="ChoixRole" component={ChoixRole}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationCompteParticulier" component={CreationCompteParticulier}></Stack.Screen>
-              <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationComptePro" component={CreationComptePro}></Stack.Screen>
-              <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="AddAnimal" component={AddAnimal}></Stack.Screen>
-              <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="Home" component={Home}></Stack.Screen>
+            <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationComptePro" component={CreationComptePro}></Stack.Screen>
+            <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="AddAnimal" component={AddAnimal}></Stack.Screen>
+              <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="ModeGarde" component={ModeGarde}></Stack.Screen>
+            <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="Home" component={Tabs}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilParticulier" component={ModifProfilParticulier}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilPro" component={ModifProfilPro}></Stack.Screen>
           </Stack.Navigator>
@@ -78,5 +101,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+      marginTop: 30
   },
 });

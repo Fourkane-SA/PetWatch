@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { Component } from 'react';
 import { Modal, StyleSheet, Text, Pressable, View, TouchableOpacity, Dimensions } from 'react-native';
 import {useNavigation} from "@react-navigation/native";
-import {users} from "../models/user";
+import {User} from "../models/User";
 import axios from "axios/index";
 
 var width = Dimensions.get('window').width; //full width
@@ -35,10 +35,10 @@ export default class ModalParameter extends Component<Props> {
                 this.props.onVisibleChange(false)
             })
             const userId = (await axios.get('/tokens')).data
-            const user : users = (await axios.get('/users/' + userId)).data
+            const user : User = (await axios.get('/users/' + userId)).data
             if(user.isCompany)
                 this.props.navigation.navigate('ModifProfilPro')
-            else
+            else if(user.isIndividual)
                 this.props.navigation.navigate('ModifProfilParticulier')
         }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList, ScrollView} from 'react-native';
 import { Dimensions } from "react-native";
 import RadioButton from '../components/radioButton';
 import IconDownload from '../assets/moduleSVG/downloadSVG'
@@ -13,7 +13,7 @@ var height = Dimensions.get('window').height; //full height
 /*TODO requete pour ajouter les infos du professionnel sur le mode de garde + voir sur l'upload de fichier
 + voir pour scroll vertical https://reactscript.com/fullscreen-scrollview/ ? */
 
-export default class CreationCompteParticulier extends Component {
+export default class ModeGarde extends Component {
     typeChoice = [
         {
             id: 'chienType',
@@ -54,6 +54,7 @@ export default class CreationCompteParticulier extends Component {
 
     render() {
         return (
+            <ScrollView>
             <SafeAreaView style={styles.container}>
                 <View style={styles.wrapper}>
                     <Text style={styles.title}>Quel type d'animal gardez-vous?</Text>
@@ -83,11 +84,12 @@ export default class CreationCompteParticulier extends Component {
                         placeholder="Saisissez une description afin d’en savoir plus sur les conditions de la garde">
                     </TextInput>
 
-                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit}>
+                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={()=> this.props.navigation.navigate('Home')}>
                         <Text style={styles.submit}>Mettre à jour</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
+            </ScrollView>
         );
     }
 }

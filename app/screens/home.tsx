@@ -7,6 +7,8 @@ import IconParameter from '../assets/moduleSVG/parametresSVG'
 import Calendar from '../components/calendarmulti'
 
 import ModalParameter from '../components/modalParameter'
+import {NavigationContainer} from "@react-navigation/native";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -23,7 +25,7 @@ export default function Home({ navigation }) {
         console.log(dates);
         setDates(dates);
     }
-    console.log(parameter)
+    const Tab = createBottomTabNavigator();
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.wrapper}>
@@ -74,6 +76,7 @@ export default function Home({ navigation }) {
                 }
 
             </ScrollView>
+
         </SafeAreaView>
     );
 }
