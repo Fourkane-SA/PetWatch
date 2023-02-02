@@ -1,4 +1,4 @@
-export type users = {
+export type User = {
     id: number,
     isIndividual: boolean,
     isCompany: boolean,

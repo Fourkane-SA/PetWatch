@@ -5,6 +5,8 @@ import { Link } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import axios from "axios/index";
+import {User} from "../models/User";
+import {Pet} from "../models/Pet";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -17,7 +19,18 @@ async function isConnected(navigation) {
     const isConnected = await AsyncStorage.getItem('token');
     if(isConnected !== null) {
         axios.defaults.headers.common['Authorization'] = isConnected
-        navigation.navigate('Home')
+        const userId = (await axios.get('/tokens')).data
+        const user: User = (await axios.get('/users/' + userId)).data
+        if(user.isIndividual) {
+            const pets: Pet[] = (await axios.get('/pets/byUserId/' + userId)).data
+            if(pets.length === 0)
+                navigation.navigate('Home')
+                //navigation.navigate('AddAnimal')
+        } else if(user.isCompany) {
+            if(user.keepCats === undefined)
+                navigation.navigate('ProGarde')
+        }
+
     }
 }
 

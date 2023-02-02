@@ -14,6 +14,7 @@ export default function ResultatRecherche({navigation}) {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={[{ width: width }, {minHeight: height}]}>
+
                 <CardResultatRecherche navigation={navigation}  ></CardResultatRecherche>
                 <View style={styles.absolute}>
                     <Filter></Filter>
