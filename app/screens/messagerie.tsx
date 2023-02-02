@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
     },
     nom: {
         fontWeight: '700',
+        marginBottom: 8,
     },
     img: {
         borderRadius: 50,
