@@ -31,7 +31,6 @@ import FenetreChat from './screens/chat'
 import ChoixAnimauxResa from './screens/choixAnimauxResa'
 import MesAnimaux from './screens/mesAnimaux'
 import FicheAnimal from './screens/ficheAnimal'
-import ModifAnimal from './screens/modifAnimal'
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -79,7 +78,6 @@ export default function App() {
               <Stack.Screen options={{ headerShown: true, headerTitle: 'Choisir animaux' }} name="ChoixAnimauxResa" component={ChoixAnimauxResa}></Stack.Screen>
               <Stack.Screen options={{ headerShown: true, headerTitle: 'Mes animaux' }} name="MesAnimaux" component={MesAnimaux}></Stack.Screen>
               <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheAnimal" component={FicheAnimal}></Stack.Screen>
-              {/* <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheAnimal" component={}></Stack.Screen> */}
           </Stack.Navigator>
       </NavigationContainer>
   );
