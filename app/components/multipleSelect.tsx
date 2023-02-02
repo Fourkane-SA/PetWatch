@@ -22,11 +22,13 @@ export default function MultipleSelect() {
 
     const onSelectedItemsChange = (selectedItems) => {
         setSelectedItems(selectedItems);
-
+        let names = []
         for (let i = 0; i < selectedItems.length; i++) {
-            var tempItem = data.find(item => item.id === selectedItems[i]);
-            console.log(tempItem);
+            const tempItem = data.find(item => item.id === selectedItems[i]);
+            console.log(tempItem.name);
+            names.push(tempItem.name)
         }
+        console.log(names)
     };
 
     return (

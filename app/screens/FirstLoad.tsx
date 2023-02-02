@@ -22,8 +22,9 @@ async function isConnected(navigation) {
     if(user.isIndividual) {
       const pets: Pet[] = (await axios.get('/pets/byUserId/' + userId)).data
       if(pets.length === 0)
-        navigation.navigate('Home')
-      //navigation.navigate('AddAnimal')
+        navigation.navigate('AddAnimal')
+      else
+          navigation.navigate('Home')
     } else if(user.isCompany) {
       if(user.keepCats === undefined)
         navigation.navigate('ProGarde')
@@ -36,37 +37,20 @@ async function isConnected(navigation) {
 
 
 export default function FirstLoad({navigation}) {
-  const [click, setClick] = React.useState(false)
-
   return (
-      <>
-        {!click &&
-            <SafeAreaView style={styles.container} onTouchStart={() => setClick(true)}>
-              <Logo></Logo>
-            </SafeAreaView>}
-        {click &&
-        <SafeAreaView style={styles.containerClicked}>
+        <SafeAreaView style={styles.container}>
           <Text style={{fontSize: 30, fontWeight: '700'}}>Bienvenue sur </Text>
           <Text style={{fontSize: 40, fontWeight: '800'}}>PetWatcher</Text>
           <BienvenueSVG></BienvenueSVG>
           <TouchableOpacity activeOpacity={0.8} style={styles.commencer} onPress={() => isConnected(navigation)}>
             <Text style={styles.submit}>Commencer</Text>
           </TouchableOpacity>
-        </SafeAreaView>}
-      </>
+        </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FAD4D4',
-    width : width,
-    height: height,
-  },
-  containerClicked: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',

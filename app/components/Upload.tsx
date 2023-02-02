@@ -50,7 +50,7 @@ export default class Upload extends Component<Props> {
                 base64: true,
                 aspect: [4, 3],
             });
-            if (!pickerResult.cancelled) {
+            if (!pickerResult.canceled) {
                 await this.uploadImageAsync(pickerResult.uri);
                 this.setState({ image: pickerResult.uri}, () => {
                     this.props.onImageUrlChange(this.state.imageUrl)

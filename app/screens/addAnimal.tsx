@@ -8,9 +8,26 @@ import Calendar3 from '../components/calendarsimple'
 import IconCalendar from '../assets/moduleSVG/calendarSVG'
 import MultipleSelect from '../components/multipleSelect';
 import Upload from '../components/Upload';
+import {Pet} from "../models/Pet";
+import axios from "axios";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
+
+const ImagesPreview = (props) => {
+  const props2: string[] = ["https://petwatcher.fourkane.me/storage/vjU2wmpdxymd37vHWokMcHm3NTQ7tvuZWsBJRSMs.jpg"]
+  const res = []
+  props2.forEach(img =>  {
+    res.push(
+        <Image source={{uri: img}} key={img}></Image>
+    )
+  })
+  return (
+      <View>
+        {res}
+      </View>
+  )
+}
 
 export default function AddAnimal({navigation}) {
 
@@ -101,6 +118,18 @@ export default function AddAnimal({navigation}) {
   const [dateAdoption, setDateAdoption] = React.useState('');
   const [dateVeterinaire, setDateVeterinaire] = React.useState('');
   const [nomAnimal, setNomAnimal] = React.useState('');
+  const [genderAnimal, setGenderAnimal] = React.useState('');
+  const [typeAnimal, setTypeAnimal] = React.useState('');
+  const [vaccins, setVaccins] = React.useState('');
+  const [isAllergies, setIsAllergies] = React.useState('');
+  const [allergies, setAllergies] = React.useState('');
+  const [sante, setSante] = React.useState('');
+  const [isSante, setIsSante] = React.useState('');
+  const [medicaments, setMedicaments] = React.useState('');
+  const [isMedicaments, setIsMedicaments] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  const [gabarit, setGabarit] = React.useState('');
+  const [messageErreur, setMessageErreur] = React.useState('');
 
   const pull_dateNaiss = (datenaiss) => {
     setDateNaiss(datenaiss)
@@ -112,6 +141,54 @@ export default function AddAnimal({navigation}) {
 
   const pull_dateVeterinaire = (datevet) => {
     setDateVeterinaire(datevet);
+  }
+
+  async function ajouter() {
+    let pet : Pet = {
+      adoptionDate: dateAdoption,
+      birth: dateNaiss,
+      dateLastVeterinaryConsultation: dateVeterinaire,
+      description: description,
+      gender: genderAnimal,
+      id: 0,
+      isAllergies: isAllergies === 'Oui',
+      isHealthProblems: isSante === 'Oui',
+      isMedications: isMedicaments === 'Oui',
+      name: nomAnimal,
+      photoUrl: JSON.stringify(url),
+      type: typeAnimal,
+      userId: 0,
+      vaccines: vaccins,
+      weight: gabarit,
+      allergies: allergies,
+      medicationsAndFrequences: medicaments,
+      healthProblems: sante
+    }
+    console.log(pet)
+    try {
+      await axios.post('/pets', {
+        name: pet.name,
+        gender: pet.gender,
+        type: pet.type,
+        birth: pet.birth,
+        adoptionDate: pet.adoptionDate,
+        weight: pet.weight,
+        vaccines: pet.vaccines,
+        isAllergies: pet.isAllergies,
+        allergies: pet.allergies,
+        isMedications: pet.isMedications,
+        medicationsAndFrequences: pet.medicationsAndFrequences,
+        isHealthProblems: pet.isHealthProblems,
+        healthProblems: pet.healthProblems,
+        dateLastVeterinaryConsultation: pet.dateLastVeterinaryConsultation,
+        description: pet.description,
+        photoUrl: pet.photoUrl
+      })
+      setEtape(etape + 1)
+    } catch (e) {
+      console.log(e.response.data)
+      setMessageErreur('Veuillez remplir tous les champs')
+    }
   }
 
   return (
@@ -128,8 +205,8 @@ export default function AddAnimal({navigation}) {
             </View>
 
             <View style={styles.blocRadio}>
-              <RadioButton data={genderChoice} onSelect={undefined} />
-              <RadioButton data={typeChoice} onSelect={undefined} />
+              <RadioButton data={genderChoice} onSelect={(res) => setGenderAnimal(res)} />
+              <RadioButton data={typeChoice} onSelect={res => setTypeAnimal(res)} />
             </View>
 
             <View style={styles.blocCalendar}>
@@ -152,7 +229,7 @@ export default function AddAnimal({navigation}) {
               <View style={[styles.calendar]}>
                 <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setAdopt(!affAdopt)}>
                   {dateAdoption == '' &&
-                    <Text style={styles.btnCalendar}>Date de naissance</Text>
+                    <Text style={styles.btnCalendar}>Date d'adoption</Text>
                   }
                   {dateAdoption != '' &&
                     <Text style={styles.btnCalendar}>{dateAdoption}</Text>
@@ -171,7 +248,7 @@ export default function AddAnimal({navigation}) {
               <FlatList
                 horizontal={true}
                 data={poids}
-                renderItem={({ item }) => <TouchableOpacity activeOpacity={.7} style={[{ backgroundColor: item.bg }, styles.listItem]}><Text>{item.gabarit}</Text><Text> {item.tranche}</Text></TouchableOpacity>}
+                renderItem={({ item }) => <TouchableOpacity activeOpacity={.7} style={[{ backgroundColor: item.bg }, styles.listItem]} onPress={() => setGabarit(item.gabarit)}><Text>{item.gabarit}</Text><Text> {item.tranche}</Text></TouchableOpacity>}
                 keyExtractor={item => item.gabarit}
               />
             </View>
@@ -180,7 +257,7 @@ export default function AddAnimal({navigation}) {
             <View style={styles.selVaccin}>
               <Text style={styles.subtitle}>Indiquez les vaccins reçus par votre animal :</Text>
               <MultipleSelect></MultipleSelect>
-              <TextInput style={[styles.btnInput, styles.btnVaccin]} placeholder="Autres vaccins"></TextInput>
+              <TextInput style={[styles.btnInput, styles.btnVaccin]} placeholder="Autres vaccins" value={vaccins} onChangeText={setVaccins}></TextInput>
             </View>
           </View>
         }
@@ -188,28 +265,28 @@ export default function AddAnimal({navigation}) {
         {etape == 2 &&
           <View style={styles.etape}>
             <Text style={styles.question}>Est-ce que votre animal a des allergies et/ou intolérances alimentaires?</Text>
-            <RadioButton data={genderChoice} onSelect={undefined} />
+            <RadioButton data={booleanChoiceAllergie} onSelect={(res) => setIsAllergies(res)} />
             <Text style={styles.question}>Si oui, à quoi?</Text>
-            <TextInput style={styles.answer} multiline={true} numberOfLines={5}></TextInput>
+            <TextInput style={styles.answer} multiline={true} numberOfLines={5} value={allergies} onChangeText={setAllergies}></TextInput>
             <Text style={styles.question}>Est-ce que votre animal a des problèmes de santé?</Text>
-            <RadioButton data={genderChoice} onSelect={undefined} />
+            <RadioButton data={booleanChoiceMaladie} onSelect={(res)=> setIsSante(res)} />
             <Text style={styles.question}>Si oui, lesquels?</Text>
-            <TextInput style={styles.answer} multiline={true} numberOfLines={5}></TextInput>
+            <TextInput style={styles.answer} multiline={true} numberOfLines={5} value={sante} onChangeText={setSante}></TextInput>
           </View>
         }
 
         {etape == 3 &&
           <View style={styles.etape}>
             <Text style={styles.question}>Est-ce que votre animal a des médicaments à consommer?</Text>
-            <RadioButton data={genderChoice} onSelect={undefined} />
+            <RadioButton data={booleanChoiceMedicament} onSelect={res => setIsMedicaments(res)} />
             <Text style={styles.question}>Si oui, lesquels et à quelle fréquence?</Text>
-            <TextInput style={styles.answer} multiline={true} numberOfLines={5}></TextInput>
+            <TextInput style={styles.answer} multiline={true} numberOfLines={5} value={medicaments} onChangeText={setMedicaments}></TextInput>
             <Text style={styles.question}>Veuillez indiquer la date de la dernière consultation vétérinaire de votre animal.</Text>
 
             <View style={[styles.calendar]}>
               <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setAffVet(!affVet)}>
                 {dateVeterinaire == '' &&
-                  <Text style={styles.btnCalendar}>Date de naissance</Text>
+                  <Text style={styles.btnCalendar}>Date de derniere consultation vétérinaire</Text>
                 }
                 {dateVeterinaire != '' &&
                   <Text style={styles.btnCalendar}>{dateVeterinaire}</Text>
@@ -223,18 +300,20 @@ export default function AddAnimal({navigation}) {
             }
 
             <Text style={styles.question}>Vous pouvez saisir une description générale de votre fidèle compagnon/compagnonne :)</Text>
-            <TextInput multiline={true} numberOfLines={5} style={styles.answer}></TextInput>
+            <TextInput multiline={true} numberOfLines={5} style={styles.answer} value={description} onChangeText={setDescription}></TextInput>
           </View>
         }
 
         {etape == 4 &&
           <View style={styles.etape}>
             <Text style={styles.question}>Chargez des photos de votre animal</Text>
-            <Upload onImageUrlChange={(imageUrl) => { url.push(imageUrl) ; setUrl(url); }} />
-            {url.length > 0 &&
-                <Image style={{width: 50, height: 50}} source={{ uri: url[0] }} />
-            }
-
+            <Upload onImageUrlChange={(imageUrl) => {
+              const newUrl = url.slice();
+              newUrl.push(imageUrl);
+              setUrl(newUrl);}}
+            />
+            {/*<ImagesPreview images={url}></ImagesPreview>*/}
+            <Text style={styles.question} key={url.length}>{url.length} images ajoutés</Text>
           </View>
         }
 
@@ -264,9 +343,13 @@ export default function AddAnimal({navigation}) {
           }
 
           {etape == 4 &&
-            <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.bg]} onPress={() => setEtape(etape + 1)}>
-              <Text>Ajouter mon animal {etape}/4</Text>
-            </TouchableOpacity>
+              <View style={{width: '100%'}}>
+                <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.bg]} onPress={() => /*setEtape(etape + 1)*/ ajouter()}>
+                  <Text>Ajouter mon animal {etape}/4</Text>
+                </TouchableOpacity>
+                {messageErreur !== '' &&
+                <Text style={styles.erreur}>{messageErreur}</Text>}
+              </View>
           }
 
 
@@ -442,5 +525,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 60,
     marginBottom: 60,
+  },
+  erreur: {
+    fontSize: 16,
+    marginBottom: 25,
+    textAlign: 'center',
+    color: 'red',
   }
 });

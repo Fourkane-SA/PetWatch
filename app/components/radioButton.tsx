@@ -1,31 +1,37 @@
-import React, { useState } from 'react';
+import React, {Component, useState} from 'react';
 import { StyleSheet, View, Text, Pressable, SafeAreaView } from 'react-native';
 
-export default function RadioButton({ data, onSelect }) {
-    const [userOption, setUserOption] = useState(null);
-
-    const selectHandler = (value) => {
-        onSelect(value);
-        this.setUserOption(value);
-    };
-
-    return (
-        <SafeAreaView style={styles.blocRadioGroup}>
-            {data.map((item) => {
-                return (
-                    <Pressable key={item.id} style={styles.blocRadioItem}  onPress={() => setUserOption(item.value)}>
-                        <View style={[styles.before, item.value === userOption ? styles.beforeSelected : styles.beforeUnselected]} >
-                            <View style={[styles.after, item.value === userOption ? styles.afterSelected : styles.afterUnselected]}></View>
-                        </View>
-                        
-                        <Text> {item.value}</Text>
-                    </Pressable>
-                );
-            })}
-            {/* <Text> User option: {userOption}</Text> */}
-        </SafeAreaView>
-    );
+type Props = {
+    data
+    onSelect
 }
+
+export default class RadioButton extends Component<Props> {
+
+    state = {
+        userOption: null
+    }
+
+    render() {
+        return (
+            <SafeAreaView style={styles.blocRadioGroup}>
+                {this.props.data.map((item) => {
+                    return (
+                        <Pressable key={item.id} style={styles.blocRadioItem}  onPress={() => this.setState({userOption: item.value}, () => {this.props.onSelect(item.value)})}>
+                            <View style={[styles.before, item.value === this.state.userOption ? styles.beforeSelected : styles.beforeUnselected]} >
+                                <View style={[styles.after, item.value === this.state.userOption ? styles.afterSelected : styles.afterUnselected]}></View>
+                            </View>
+
+                            <Text> {item.value}</Text>
+                        </Pressable>
+                    );
+                })}
+                {/* <Text> User option: {userOption}</Text> */}
+        </SafeAreaView>
+        )
+    }
+}
+
 
 const styles = StyleSheet.create({
     blocRadioGroup: {
