@@ -31,6 +31,7 @@ import FenetreChat from './screens/chat'
 import ChoixAnimauxResa from './screens/choixAnimauxResa'
 import MesAnimaux from './screens/mesAnimaux'
 import FicheAnimal from './screens/ficheAnimal'
+import Messagerie from './screens/messagerie'
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -60,7 +61,7 @@ function Tabs() {
 export default function App() {
   return (
       <NavigationContainer>
-          <Stack.Navigator initialRouteName="MesAnimaux" >
+          <Stack.Navigator initialRouteName="Messagerie" >
               <Stack.Screen options={{headerShown: false}} name="FirstLoad" component={FirstLoad}></Stack.Screen>
             <Stack.Screen options={{headerShown: false}} name="ChoixConexionInscription" component={ChoixcConexionInscription}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="ChoixRole" component={ChoixRole}></Stack.Screen>
@@ -78,6 +79,7 @@ export default function App() {
               <Stack.Screen options={{ headerShown: true, headerTitle: 'Choisir animaux' }} name="ChoixAnimauxResa" component={ChoixAnimauxResa}></Stack.Screen>
               <Stack.Screen options={{ headerShown: true, headerTitle: 'Mes animaux' }} name="MesAnimaux" component={MesAnimaux}></Stack.Screen>
               <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheAnimal" component={FicheAnimal}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: 'Mes messages' }} name="Messagerie" component={Messagerie}></Stack.Screen>
           </Stack.Navigator>
       </NavigationContainer>
   );
