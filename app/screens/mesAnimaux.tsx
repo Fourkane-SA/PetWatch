@@ -35,9 +35,9 @@ export default function ChoixAnimauxResa({ navigation }) {
                     <IconParameter></IconParameter>
                 </TouchableOpacity>
                 <View style={[styles.wrapper, styles.bloc]}>
-                    <CardAjoutAnimaux label="Ajouter" lien="" navigation={navigation}></CardAjoutAnimaux>
-                    <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit]} onPress={() => navigation.navigate('MesDemandes')}>
-                        <Text style={styles.submit}>Confirmer</Text>
+                    <CardAjoutAnimaux label="Voir fiche" navigation={navigation} lien='FicheAnimal'></CardAjoutAnimaux>
+                    <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit]} onPress={() => navigation.navigate('AddAnimal')}>
+                        <Text style={styles.submit}>Ajouter un animal</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>

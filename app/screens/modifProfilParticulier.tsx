@@ -55,7 +55,7 @@ export default function ModifProfilParticulier({navigation}) {
                         <Image style={[styles.img]} source={require('../assets/photo-profil.png')}/>
                         <View style={[styles.icon, {left: (Dimensions.get('window').width *0.9) /2 + 15 } ]}>
                             <TouchableOpacity activeOpacity={.7}>
-                                <IconModif></IconModif>
+                                <IconModif width="30" height="30" ></IconModif>
                             </TouchableOpacity>
                         </View>
                     </View>

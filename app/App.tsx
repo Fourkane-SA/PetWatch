@@ -29,6 +29,9 @@ import FicheProfilPro from './screens/ficheProfilPro';
 import FicheReservation from './screens/ficheReservation'
 import FenetreChat from './screens/chat'
 import ChoixAnimauxResa from './screens/choixAnimauxResa'
+import MesAnimaux from './screens/mesAnimaux'
+import FicheAnimal from './screens/ficheAnimal'
+import ModifAnimal from './screens/modifAnimal'
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -47,6 +50,7 @@ function Tabs() {
                   if (route.name === 'home')
                       return <View style={styles.container}><SearchSVG></SearchSVG></View>
               },
+              
           })}
       >
         <Tab.Screen name="home" options={{headerShown: false, tabBarLabel: ''}}  component={Home}></Tab.Screen>
@@ -57,7 +61,7 @@ function Tabs() {
 export default function App() {
   return (
       <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home" >
+          <Stack.Navigator initialRouteName="MesAnimaux" >
               <Stack.Screen options={{headerShown: false}} name="FirstLoad" component={FirstLoad}></Stack.Screen>
             <Stack.Screen options={{headerShown: false}} name="ChoixConexionInscription" component={ChoixcConexionInscription}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="ChoixRole" component={ChoixRole}></Stack.Screen>
@@ -73,6 +77,9 @@ export default function App() {
               <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheReservation" component={FicheReservation}></Stack.Screen>
               <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FenetreChat" component={FenetreChat}></Stack.Screen>
               <Stack.Screen options={{ headerShown: true, headerTitle: 'Choisir animaux' }} name="ChoixAnimauxResa" component={ChoixAnimauxResa}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: 'Mes animaux' }} name="MesAnimaux" component={MesAnimaux}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheAnimal" component={FicheAnimal}></Stack.Screen>
+              {/* <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheAnimal" component={}></Stack.Screen> */}
           </Stack.Navigator>
       </NavigationContainer>
   );

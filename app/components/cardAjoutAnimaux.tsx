@@ -13,9 +13,25 @@ var height = Dimensions.get('window').height; //full height
 
 /*Ici passage de parametre par rapport a la page checkReservation car selon l'animal le background change de couleur et egalement l'icon !!!!! */
 
-export default class CardAjoutAnimaux extends Component {
+
+class Props {
+    label
+    lien
+    navigation
+}
+
+export default class CardAjoutAnimaux extends Component<Props> {
 
     render() {
+        const doSomething = () => {
+            if (this.props.label != '') {
+                this.props.navigation.navigate(this.props.lien);
+            } else {
+                // Ajout d'un animal a la reservation 
+                return;
+            }
+        }
+
         return (
             <View style={[styles.wrapper, styles.bloc]}>
                     <View style={styles.header}>
@@ -31,8 +47,8 @@ export default class CardAjoutAnimaux extends Component {
                         <Image style={styles.image} source={require('../assets/photoChien.png')}></Image>
                     </View>
 
-                <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit}>
-                    <Text style={styles.submit}>Ajouter</Text>
+                <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => doSomething()}>
+                    <Text style={styles.submit}>{this.props.label}</Text>
                 </TouchableOpacity>
             </View>
         );
