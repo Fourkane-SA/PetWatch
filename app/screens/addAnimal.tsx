@@ -93,13 +93,14 @@ export default function AddAnimal({navigation}) {
   ]
 
   const [etape, setEtape] = React.useState(1);
-  const [url, setUrl] = React.useState('');
+  const [url, setUrl] = React.useState([]);
   const [affNaiss, setAffNaiss] = React.useState(false);
   const [affAdopt, setAdopt] = React.useState(false);
   const [affVet, setAffVet] = React.useState(false);
   const [dateNaiss, setDateNaiss] = React.useState('');
   const [dateAdoption, setDateAdoption] = React.useState('');
   const [dateVeterinaire, setDateVeterinaire] = React.useState('');
+  const [nomAnimal, setNomAnimal] = React.useState('');
 
   const pull_dateNaiss = (datenaiss) => {
     setDateNaiss(datenaiss)
@@ -123,7 +124,7 @@ export default function AddAnimal({navigation}) {
         {etape == 1 &&
           <View style={styles.etape}>
             <View style={styles.blocName}>
-              <TextInput value='Nom animal' style={styles.btnInput}></TextInput>
+              <TextInput value={nomAnimal} onChangeText={setNomAnimal} placeholder="Nom d'animal" style={styles.btnInput}></TextInput>
             </View>
 
             <View style={styles.blocRadio}>
@@ -229,7 +230,11 @@ export default function AddAnimal({navigation}) {
         {etape == 4 &&
           <View style={styles.etape}>
             <Text style={styles.question}>Chargez des photos de votre animal</Text>
-            <Upload onImageUrlChange={(imageUrl) => { this.setUrl(imageUrl) }} />
+            <Upload onImageUrlChange={(imageUrl) => { url.push(imageUrl) ; setUrl(url); }} />
+            {url.length > 0 &&
+                <Image style={{width: 50, height: 50}} source={{ uri: url[0] }} />
+            }
+
           </View>
         }
 
@@ -285,7 +290,7 @@ const styles = StyleSheet.create({
     width: width
   },
   wrapper: {
-    width: '90%',
+    width: width*0.9,
     alignItems: 'center',
   },
   etape: {
@@ -425,6 +430,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 40,
     borderRadius: 5,
+    minHeight: 50,
   },
   img: {
     width: '100%',

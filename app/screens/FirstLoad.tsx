@@ -4,13 +4,37 @@ import Logo from '../assets/moduleSVG/logoSVG'
 import { Dimensions } from "react-native";
 import React from "react";
 import BienvenueSVG from "../assets/moduleSVG/bienvenueSVG";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import {User} from "../models/User";
+import {Pet} from "../models/Pet";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-//
-// TODO : Verification connexion puis si oui redirection home sinon redirection page connexion
-//
+
+async function isConnected(navigation) {
+  const isConnected = await AsyncStorage.getItem('token');
+  if(isConnected !== null) {
+    axios.defaults.headers.common['Authorization'] = isConnected
+    const userId = (await axios.get('/tokens')).data
+    const user: User = (await axios.get('/users/' + userId)).data
+    if(user.isIndividual) {
+      const pets: Pet[] = (await axios.get('/pets/byUserId/' + userId)).data
+      if(pets.length === 0)
+        navigation.navigate('Home')
+      //navigation.navigate('AddAnimal')
+    } else if(user.isCompany) {
+      if(user.keepCats === undefined)
+        navigation.navigate('ProGarde')
+    }
+
+  } else {
+    navigation.navigate('ChoixConexionInscription')
+  }
+}
+
+
 export default function FirstLoad({navigation}) {
   const [click, setClick] = React.useState(false)
 
@@ -25,7 +49,7 @@ export default function FirstLoad({navigation}) {
           <Text style={{fontSize: 30, fontWeight: '700'}}>Bienvenue sur </Text>
           <Text style={{fontSize: 40, fontWeight: '800'}}>PetWatcher</Text>
           <BienvenueSVG></BienvenueSVG>
-          <TouchableOpacity activeOpacity={0.8} style={styles.commencer} onPress={() => navigation.navigate('ChoixConexionInscription')}>
+          <TouchableOpacity activeOpacity={0.8} style={styles.commencer} onPress={() => isConnected(navigation)}>
             <Text style={styles.submit}>Commencer</Text>
           </TouchableOpacity>
         </SafeAreaView>}

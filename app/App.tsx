@@ -26,6 +26,8 @@ import SearchSVG from "./assets/moduleSVG/searchSVG";
 import ModeGarde from "./screens/modeGarde";
 import FirstLoad from "./screens/FirstLoad";
 import FicheProfilPro from './screens/ficheProfilPro';
+import CheckReservation from "./screens/checkDemandeReservation";
+import CalendarSVG from "./assets/moduleSVG/calendarSVG";
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -43,10 +45,16 @@ function Tabs() {
               tabBarIcon: ({ focused, color, size }) => {
                   if (route.name === 'home')
                       return <View style={styles.container}><SearchSVG></SearchSVG></View>
+                  else if(route.name === 'CheckReservation')
+                      return <View style={styles.container}><CalendarSVG></CalendarSVG></View>
               },
+              tabBarStyle: {
+                  backgroundColor: '#FFF6E3'
+              }
           })}
       >
         <Tab.Screen name="home" options={{headerShown: false, tabBarLabel: ''}}  component={Home}></Tab.Screen>
+          <Tab.Screen name="CheckReservation" options={{headerShown: false, tabBarLabel: ''}}  component={CheckReservation}></Tab.Screen>
       </Tab.Navigator>
   )
 }

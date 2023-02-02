@@ -15,27 +15,9 @@ var height = Dimensions.get('window').height; //full height
 
 /* TODO : Axios connexion et redirection home , bouton google , lien vers choix role*/
 
-async function isConnected(navigation) {
-    const isConnected = await AsyncStorage.getItem('token');
-    if(isConnected !== null) {
-        axios.defaults.headers.common['Authorization'] = isConnected
-        const userId = (await axios.get('/tokens')).data
-        const user: User = (await axios.get('/users/' + userId)).data
-        if(user.isIndividual) {
-            const pets: Pet[] = (await axios.get('/pets/byUserId/' + userId)).data
-            if(pets.length === 0)
-                navigation.navigate('Home')
-                //navigation.navigate('AddAnimal')
-        } else if(user.isCompany) {
-            if(user.keepCats === undefined)
-                navigation.navigate('ProGarde')
-        }
 
-    }
-}
 
 export default function ChoixcConexionInscription({navigation}) {
-    isConnected(navigation)
     const [mail, setMail] = React.useState()
     const [motDePasse, setMotDePasse] = React.useState()
     const [messageErreur, setMessageErreur] = React.useState()
