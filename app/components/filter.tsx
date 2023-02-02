@@ -123,7 +123,7 @@ export default class Filter extends Component {
         var stars = [];
 
         for(let i = 0; i < 5; i++){
-    
+
             stars.push(
                 <Pressable key = {i} style={styles.star}>
                     <IconStar></IconStar>
@@ -148,6 +148,7 @@ export default class Filter extends Component {
                             this.setState({ modalVisible: 2 })
                         }
                         }>
+                        <SafeAreaView>
                         <View style={styles.modal}>
                             <Pressable
                                 style={[styles.button, styles.buttonClose]}
@@ -203,6 +204,7 @@ export default class Filter extends Component {
                                 </TouchableOpacity>
                             </View>
                         </View>
+                        </SafeAreaView>
                     </Modal>
                 </SafeAreaView>
             </ScrollView>
