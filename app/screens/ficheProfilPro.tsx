@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList, Image, ScrollView } from 'react-native';
 import { Dimensions } from "react-native";
 
 import IconChien from '../assets/moduleSVG/chienSVG'
@@ -13,16 +13,12 @@ import IconStarFilled from '../assets/moduleSVG/starFilled'
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-class Props {
-    navigation
-}
 
+export default function FicheProfilPro({navigation}) {
 
-export default class CardDemandeReservation extends Component<Props> {
-
-    render() {
-        return (
-            <SafeAreaView style={styles.container}>
+    return (
+        <ScrollView>
+             <SafeAreaView style={styles.container}>
                 <View style={[styles.wrapper, styles.bloc]}>
                     <View style={styles.header}>
                         <View style={styles.blocAvis}>
@@ -61,13 +57,13 @@ export default class CardDemandeReservation extends Component<Props> {
                         <Text style={styles.text}>20€/jour</Text>
                     </View>
 
-                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => this.props.navigation.navigate('FicheProfilPro')}>
+                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit}>
                         <Text style={styles.submit}>Voir profil</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
-        );
-    }
+        </ScrollView>
+    );
 }
 
 const styles = StyleSheet.create({
