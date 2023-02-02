@@ -26,6 +26,9 @@ import SearchSVG from "./assets/moduleSVG/searchSVG";
 import ModeGarde from "./screens/modeGarde";
 import FirstLoad from "./screens/FirstLoad";
 import FicheProfilPro from './screens/ficheProfilPro';
+import FicheReservation from './screens/ficheReservation'
+import FenetreChat from './screens/chat'
+import ChoixAnimauxResa from './screens/choixAnimauxResa'
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -54,7 +57,7 @@ function Tabs() {
 export default function App() {
   return (
       <NavigationContainer>
-          <Stack.Navigator initialRouteName="FirstLoad" >
+          <Stack.Navigator initialRouteName="Home" >
               <Stack.Screen options={{headerShown: false}} name="FirstLoad" component={FirstLoad}></Stack.Screen>
             <Stack.Screen options={{headerShown: false}} name="ChoixConexionInscription" component={ChoixcConexionInscription}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="ChoixRole" component={ChoixRole}></Stack.Screen>
@@ -67,6 +70,9 @@ export default function App() {
             <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilPro" component={ModifProfilPro}></Stack.Screen>
               <Stack.Screen options={{ headerShown: true, headerTitle: 'Pensions et Pet Sitter disponibles' }} name="ResultatsRecherche" component={ResultatRecherche}></Stack.Screen>
               <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheProfilPro" component={FicheProfilPro}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheReservation" component={FicheReservation}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FenetreChat" component={FenetreChat}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: 'Choisir animaux' }} name="ChoixAnimauxResa" component={ChoixAnimauxResa}></Stack.Screen>
           </Stack.Navigator>
       </NavigationContainer>
   );
