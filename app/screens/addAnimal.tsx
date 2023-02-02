@@ -134,7 +134,7 @@ export default function AddAnimal({navigation}) {
 
             <View style={styles.blocCalendar}>
               <View style={[styles.calendar]}>
-                <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setAffNaiss(true)} >
+                <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setAffNaiss(!affNaiss)} >
                   {dateNaiss == '' &&
                     <Text style={styles.btnCalendar}>Date de naissance</Text>
                   }
@@ -150,7 +150,7 @@ export default function AddAnimal({navigation}) {
               </View>
 
               <View style={[styles.calendar]}>
-                <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setAdopt(true)}>
+                <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setAdopt(!affAdopt)}>
                   {dateAdoption == '' &&
                     <Text style={styles.btnCalendar}>Date de naissance</Text>
                   }
@@ -207,7 +207,7 @@ export default function AddAnimal({navigation}) {
             <Text style={styles.question}>Veuillez indiquer la date de la dernière consultation vétérinaire de votre animal.</Text>
 
             <View style={[styles.calendar]}>
-              <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setAffVet(true)}>
+              <TouchableOpacity activeOpacity={0.5} style={styles.calendarContainer} onPress={() => setAffVet(!affVet)}>
                 {dateVeterinaire == '' &&
                   <Text style={styles.btnCalendar}>Date de naissance</Text>
                 }
