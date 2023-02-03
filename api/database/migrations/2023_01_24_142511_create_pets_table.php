@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('birth');
             $table->string('adoptionDate');
             $table->string('weight'); // [Petit, Moyen, Grand, Géant]
-            $table->string('vaccines');
+            $table->string('vaccines')->nullable();
             $table->boolean('isAllergies');
             $table->string('allergies')->nullable();
             $table->boolean('isMedications');
