@@ -40,7 +40,8 @@ export default class CardAjoutAnimaux extends Component<Props> {
     render() {
         const doSomething = () => {
             if (this.props.label != '') {
-                this.props.navigation.navigate(this.props.lien);
+                console.log(this.props.id)
+                this.props.navigation.navigate(this.props.lien,{id: this.props.id});
             } else {
                 // Ajout d'un animal a la reservation
                 return;
@@ -83,6 +84,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF6E3',
         borderRadius: 5,
         padding: 18,
+        marginBottom: 15
     },
     header: {
         flexDirection: 'row',

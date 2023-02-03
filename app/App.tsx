@@ -49,7 +49,7 @@ axios.defaults.baseURL = "https://petwatcher.fourkane.me/api"
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function StackConnected() {
+function StackAccueil() {
     return (
         <Stack.Navigator initialRouteName='Accueil'>
             <Stack.Screen name="Accueil" options={{headerShown: false, headerTitle: ''}}  component={Home}></Stack.Screen>
@@ -60,6 +60,15 @@ function StackConnected() {
             <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheReservation" component={FicheReservation}></Stack.Screen>
             <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FenetreChat" component={FenetreChat}></Stack.Screen>
             <Stack.Screen options={{ headerShown: true, headerTitle: 'Choisir animaux' }} name="ChoixAnimauxResa" component={ChoixAnimauxResa}></Stack.Screen>
+
+        </Stack.Navigator>
+    )
+}
+
+function StackAnimaux() {
+    return (
+        <Stack.Navigator initialRouteName='MesAnimauxEcrans'>
+            <Stack.Screen options={{ headerShown: true, headerTitle: 'Mes animaux' }} name="MesAnimauxEcrans" component={MesAnimaux}></Stack.Screen>
             <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheAnimal" component={FicheAnimal}></Stack.Screen>
         </Stack.Navigator>
     )
@@ -86,8 +95,8 @@ function Tabs() {
               }
           })}
       >
-        <Tab.Screen name="home" options={{headerShown: false, tabBarLabel: ''}}  component={StackConnected}></Tab.Screen>
-          <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes animaux', tabBarLabel: '' }} name="MesAnimaux" component={MesAnimaux}></Tab.Screen>
+        <Tab.Screen name="home" options={{headerShown: false, tabBarLabel: ''}}  component={StackAccueil}></Tab.Screen>
+          <Tab.Screen options={{ headerShown: false, headerTitle: '', tabBarLabel: '' }} name="MesAnimaux" component={StackAnimaux}></Tab.Screen>
           <Tab.Screen name="CheckReservation" options={{headerShown: false, tabBarLabel: ''}}  component={CheckReservation}></Tab.Screen>
           <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes demandes', tabBarLabel: '' }} name="MesDemandes" component={MesDemandes}></Tab.Screen>
           <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes messages', tabBarLabel: '' }} name="Messagerie" component={Messagerie}></Tab.Screen>
