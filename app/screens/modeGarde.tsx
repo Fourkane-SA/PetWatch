@@ -161,6 +161,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: '#FFF6E3',
         width: '100%',
+        paddingLeft: 20,
     },
     containerSubmit: {
         minHeight: 50,

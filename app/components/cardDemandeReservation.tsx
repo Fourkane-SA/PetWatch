@@ -13,7 +13,7 @@ var height = Dimensions.get('window').height; //full height
 /*Ici passage de parametre par rapport a la page checkReservation car selon l'animal le background change de couleur et egalement l'icon !!!!! */
 
 class Props {
-    navigation,
+    navigation
 }
 
 export default class CardDemandeReservation extends Component<Props> {
