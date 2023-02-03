@@ -6,6 +6,7 @@ import { Dimensions } from "react-native";
 import IconChien from '../assets/moduleSVG/chienSVG'
 import IconChat from '../assets/moduleSVG/chatSVG'
 import IconPro from '../assets/moduleSVG/iconPro'
+import Calendar from '../components/calendarmulti'
 import IconParticulier from '../assets/moduleSVG/iconParticulier'
 import IconMarker from '../assets/moduleSVG/iconMarker'
 import IconStarFilled from '../assets/moduleSVG/starFilled'
@@ -15,42 +16,16 @@ var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
-export default function FicheProfilPro({ navigation }) {
+export default function FicheReservation({ navigation }) {
 
-    const [reservation, setReservation] = React.useState(0);
+    const [reservation, setReservation] = React.useState(false);
+    const [dates, setDates] = React.useState([]);
     const [parameter, setParameter] = React.useState(false);
 
-    var poids = [
-        {
-            gabarit: 'Petit',
-            tranche: '0-7 kg',
-            bg: '#FFF6E3',
-            borderWidth: 1,
-        },
-        {
-            gabarit: 'Moyen',
-            tranche: '7-18 kg',
-            bg: '#D9FFCB',
-            borderWidth: 0,
-        },
-        {
-            gabarit: 'Grand',
-            tranche: '18-45 kg',
-            bg: '#CEEAF0',
-            borderWidth: 0,
-        },
-    ]
-
-    var gallery = [
-        {
-            id: 'img1',
-            src: require('../assets/galerie1.png')
-        },
-        {
-            id: 'img2',
-            src: require('../assets/galerie2.png')
-        },
-    ]
+    const pull_dates = (dates) => {
+        console.log(dates);
+        setDates(dates);
+    }
 
     return (
         <ScrollView>
@@ -58,6 +33,7 @@ export default function FicheProfilPro({ navigation }) {
             <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
                 <IconParameter></IconParameter>
             </TouchableOpacity>
+            
                 <View style={[styles.wrapper, styles.bloc]}>
                     <View style={styles.header}>
                         <View style={styles.blocAvis}>
@@ -96,36 +72,34 @@ export default function FicheProfilPro({ navigation }) {
                         <Text style={styles.text}>20€/jour</Text>
                     </View>
 
-                    <FlatList
-                        horizontal={true}
-                        data={poids}
-                        renderItem={({ item }) => <View style={[{ backgroundColor: item.bg }, { borderWidth: item.borderWidth }, styles.listItem]}><Text>{item.gabarit} :  {item.tranche}</Text></View>}
-                        keyExtractor={item => item.gabarit}
-                    />
+                    <ScrollView>
+                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => setReservation(!reservation)}>
+                        <Text style={styles.submit}>Sélectionner mes dates </Text>
+                    </TouchableOpacity>
 
-                    <View style={styles.description}>
-                        <Text >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. </Text>
-                    </View>
+                    { dates[1] != null && 
+                        <View style={styles.blocDate}>
+                            {dates[1] != null &&
+                                <Text> Du {dates[1]}</Text>
+                            }
+                            {dates[2] != null &&
+                                <Text> au {dates[2]}</Text>
+                            }
+                        </View>
+                    }
 
-                    <View style={styles.blocGallery}>
-                        <FlatList
-                            horizontal={true}
-                            data={gallery}
-                            renderItem={({ item }) => <Image source={item.src}></Image>}
-                            keyExtractor={item => item.id}
-                        />
-                    </View>
+                    {
+                        reservation == true &&
+                        <View style={styles.blocCalendar}>
+                            <Calendar func={pull_dates}></Calendar>
+                        </View>
+                    }
 
-                    <View style={styles.btnFooter}>
-                        <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => navigation.navigate('FicheReservation')}>
-                            <Text style={styles.submit}>Réserver</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.bgRed]} onPress={() => navigation.navigate('ChoixAnimauxResa')}>
+                        <Text style={styles.submit}>Selectionner mes animaux</Text>
+                    </TouchableOpacity>
 
-                        <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.bgRed]} onPress={() => navigation.navigate('FenetreChat')}>
-                            <Text style={styles.submit}>Contacter</Text>
-                        </TouchableOpacity>
-                    </View>
+                    </ScrollView>
                 </View>
             </SafeAreaView>
         </ScrollView>
@@ -143,7 +117,7 @@ const styles = StyleSheet.create({
     wrapper: {
         margin: 'auto',
         alignItems: 'center',
-        marginTop: 80,
+        marginTop: 90,
         marginBottom: 20,
         width: '90%',
     },
@@ -211,33 +185,14 @@ const styles = StyleSheet.create({
     critere: {
         fontWeight: '500',
     },
-    description: {
-        marginTop: 10,
-        marginBottom: 30,
-        fontWeight: '400',
-    },
     text: {
         textAlign: 'center',
     },
-    listItem: {
-        marginRight: 15,
-        borderRadius: 100,
-        minHeight: 30,
-        paddingLeft: 12,
-        paddingRight: 12,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 30,
-        flexWrap: 'wrap',
-        borderColor: '#000'
-    },
-    blocGallery: {
+    blocDate: {
+        marginTop: 20,
         flexDirection: 'row',
     },
-    btnFooter: {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        width: '100%',
+    blocCalendar: {
         marginTop: 20,
     },
     containerSubmit: {
@@ -246,7 +201,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 50,
         marginTop: 20,
-        width: '40%',
+        width: width * 0.8,
         backgroundColor: '#CEEAF0',
     },
     bgRed: {

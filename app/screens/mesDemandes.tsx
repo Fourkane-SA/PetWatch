@@ -1,96 +1,56 @@
 import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList, Image, ScrollView } from 'react-native';
 import { Dimensions } from "react-native";
-import {useNavigation} from "@react-navigation/native";
 
 import IconChien from '../assets/moduleSVG/chienSVG'
 import IconChat from '../assets/moduleSVG/chatSVG'
 import IconPro from '../assets/moduleSVG/iconPro'
+import Calendar from '../components/calendarmulti'
 import IconParticulier from '../assets/moduleSVG/iconParticulier'
 import IconMarker from '../assets/moduleSVG/iconMarker'
 import IconStarFilled from '../assets/moduleSVG/starFilled'
+import CardAjoutAnimaux from '../components/cardAjoutAnimaux';
+import IconParameter from '../assets/moduleSVG/parametresSVG'
+import CardMesDemandes from '../components/cardMesDemandes';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-class Props {
-    navigation
-}
 
+export default function MesDemandes({ navigation }) {
 
-export default class CardDemandeReservation extends Component<Props> {
+    const [parameter, setParameter] = React.useState(false);
 
-    render() {
-        const redirection = () => {
-            this.props.navigation.navigate('FicheProfilPro');
-        }
-        
-        return (
+    return (
+        <ScrollView>
             <SafeAreaView style={styles.container}>
+                <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
+                    <IconParameter></IconParameter>
+                </TouchableOpacity>
                 <View style={[styles.wrapper, styles.bloc]}>
-                    <View style={styles.header}>
-                        <View style={styles.blocAvis}>
-                            <Text style={styles.textAvis}>8 avis</Text>
-                        </View>
-
-                        <Image style={[styles.img, {left: Dimensions.get('window').width /2 - 72}]} source={require('../assets/photo-profil.png')} />
-
-                        <View style={styles.blocIcon}>
-                            <IconChien></IconChien>
-                            <IconChat></IconChat>
-                        </View>
-                    </View>
-
-                    <View style={styles.identity}>
-                        <Text style={styles.text}>KeepPet</Text>
-                        <IconPro></IconPro>
-                        <Text style={styles.text}>Professionnel</Text>
-                    </View>
-
-                    <View style={styles.address}>
-                        <IconMarker></IconMarker>
-                        <Text style={[styles.text, styles.city]}>Lyon, 69001</Text>
-                    </View>
-
-                    <View style={styles.stars}>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                    </View>
-
-                    <View style={styles.pricing}>
-                        <Text style={styles.critere}>Tarifs : </Text>
-                        <Text style={styles.text}>20€/jour</Text>
-                    </View>
-
-                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => redirection()}>
-                        <Text style={styles.submit}>Voir profil</Text>
-                    </TouchableOpacity>
+                    <CardMesDemandes></CardMesDemandes>
                 </View>
             </SafeAreaView>
-        );
-    }
+        </ScrollView>
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'transparent',
+        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        width: width
+        width: width,
+        minHeight: height,
     },
     wrapper: {
         margin: 'auto',
         alignItems: 'center',
-        marginTop: 60,
         marginBottom: 20,
         width: '90%',
     },
     bloc: {
-        backgroundColor: '#FFF6E3',
         borderRadius: 5,
         padding: 18,
     },
@@ -145,6 +105,7 @@ const styles = StyleSheet.create({
     pricing: {
         flexDirection: 'row',
         alignItems: 'center',
+        marginBottom: 40,
     },
     city: {
         marginLeft: 7,
@@ -156,15 +117,20 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     containerSubmit: {
-        minHeight: 40,
+        minHeight: 50,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 50,
-        marginTop: 20,
-        width: '60%',
+        marginTop: 25,
+        width: '100%',
         backgroundColor: '#CEEAF0',
     },
     submit: {
         fontSize: 16,
+    },
+    abs: {
+        position: 'absolute',
+        top: 30,
+        right: '5%',
     },
 });

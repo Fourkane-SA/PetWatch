@@ -40,7 +40,7 @@ export default function CreationCompteParticulier({navigation}) {
             }
             const token =  (await axios.post('/users',data )).data
             await AsyncStorage.setItem('token', token) // connexion
-            navigation.navigate('AddAnimal')
+            navigation.navigate('AddAnimal', {title: "Ajouter votre animal", word:"Ajouter", word2:"ajouté", redirection:'AddAnimal'})
 
         } catch (e) {
             //console.log(e.response.data)

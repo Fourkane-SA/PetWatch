@@ -26,8 +26,15 @@ import SearchSVG from "./assets/moduleSVG/searchSVG";
 import ModeGarde from "./screens/modeGarde";
 import FirstLoad from "./screens/FirstLoad";
 import FicheProfilPro from './screens/ficheProfilPro';
-import CheckReservation from "./screens/checkDemandeReservation";
+import FicheReservation from './screens/ficheReservation'
+import FenetreChat from './screens/chat'
+import ChoixAnimauxResa from './screens/choixAnimauxResa'
+import MesAnimaux from './screens/mesAnimaux'
+import FicheAnimal from './screens/ficheAnimal'
+import Messagerie from './screens/messagerie'
+import MesDemandes from './screens/mesDemandes'
 import CalendarSVG from "./assets/moduleSVG/calendarSVG";
+import CheckReservation from "./screens/checkDemandeReservation";
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -75,6 +82,13 @@ export default function App() {
             <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilPro" component={ModifProfilPro}></Stack.Screen>
               <Stack.Screen options={{ headerShown: true, headerTitle: 'Pensions et Pet Sitter disponibles' }} name="ResultatsRecherche" component={ResultatRecherche}></Stack.Screen>
               <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheProfilPro" component={FicheProfilPro}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheReservation" component={FicheReservation}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FenetreChat" component={FenetreChat}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: 'Choisir animaux' }} name="ChoixAnimauxResa" component={ChoixAnimauxResa}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: 'Mes animaux' }} name="MesAnimaux" component={MesAnimaux}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheAnimal" component={FicheAnimal}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: 'Mes messages' }} name="Messagerie" component={Messagerie}></Stack.Screen>
+              <Stack.Screen options={{ headerShown: true, headerTitle: 'Mes demandes' }} name="MesDemandes" component={MesDemandes}></Stack.Screen>
           </Stack.Navigator>
       </NavigationContainer>
   );

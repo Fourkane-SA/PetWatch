@@ -14,27 +14,17 @@ import IconStarFilled from '../assets/moduleSVG/starFilled'
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-class Props {
-    navigation
-}
-
-
-export default class CardDemandeReservation extends Component<Props> {
+export default class CardMesDemandes extends Component {
 
     render() {
-        const redirection = () => {
-            this.props.navigation.navigate('FicheProfilPro');
-        }
         
         return (
             <SafeAreaView style={styles.container}>
                 <View style={[styles.wrapper, styles.bloc]}>
                     <View style={styles.header}>
-                        <View style={styles.blocAvis}>
-                            <Text style={styles.textAvis}>8 avis</Text>
+                        <View>
+                            <Text style={styles.nom}>Pet Sitter</Text>
                         </View>
-
-                        <Image style={[styles.img, {left: Dimensions.get('window').width /2 - 72}]} source={require('../assets/photo-profil.png')} />
 
                         <View style={styles.blocIcon}>
                             <IconChien></IconChien>
@@ -43,9 +33,8 @@ export default class CardDemandeReservation extends Component<Props> {
                     </View>
 
                     <View style={styles.identity}>
-                        <Text style={styles.text}>KeepPet</Text>
-                        <IconPro></IconPro>
-                        <Text style={styles.text}>Professionnel</Text>
+                        <Text style={styles.text}>Benoit</Text>
+                        <IconParticulier></IconParticulier>
                     </View>
 
                     <View style={styles.address}>
@@ -53,22 +42,9 @@ export default class CardDemandeReservation extends Component<Props> {
                         <Text style={[styles.text, styles.city]}>Lyon, 69001</Text>
                     </View>
 
-                    <View style={styles.stars}>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                    </View>
-
-                    <View style={styles.pricing}>
-                        <Text style={styles.critere}>Tarifs : </Text>
-                        <Text style={styles.text}>20€/jour</Text>
-                    </View>
-
-                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => redirection()}>
-                        <Text style={styles.submit}>Voir profil</Text>
-                    </TouchableOpacity>
+                    <Text style={styles.statusAttente}>
+                        En attente
+                    </Text>
                 </View>
             </SafeAreaView>
         );
@@ -106,29 +82,14 @@ const styles = StyleSheet.create({
         width: '20%',
         justifyContent: 'space-evenly',
     },
-    img: {
-        width: 72,
-        height: 72,
-        position: 'absolute',
-        marginTop: -50,
-        borderRadius: 500,
-    },
-    blocAvis: {
-        backgroundColor: '#000',
-        borderRadius: 5,
-    },
-    textAvis: {
-        color: '#FFF',
-        paddingTop: 5,
-        paddingBottom: 5,
-        paddingLeft: 10,
-        paddingRight: 10,
+    nom: {
+        fontWeight:'700',
     },
     identity: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
-        width: '60%',
+        justifyContent: 'center',
+        width: width *0.9,
         marginBottom: 15,
     },
     address: {
@@ -136,24 +97,30 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 25,
     },
-    stars: {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        width: '50%',
-        marginBottom: 25,
-    },
-    pricing: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
     city: {
         marginLeft: 7,
     },
-    critere: {
-        fontWeight: '500',
-    },
     text: {
         textAlign: 'center',
+        marginRight: 8,
+    },
+    statusConfirm: {
+        marginTop: 20,
+        minHeight: 40,
+        borderRadius: 50,
+        width: '80%',
+        backgroundColor: '#D9FFCB',
+        textAlign: 'center',
+        textAlignVertical:'center',
+    },
+    statusAttente: {
+        marginTop: 20,
+        minHeight: 40,
+        width: '80%',
+        borderRadius: 50,
+        backgroundColor: '#CEEAF0',
+        textAlign:'center',
+        textAlignVertical:'center',
     },
     containerSubmit: {
         minHeight: 40,

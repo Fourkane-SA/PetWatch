@@ -22,7 +22,7 @@ async function isConnected(navigation) {
     if(user.isIndividual) {
       const pets: Pet[] = (await axios.get('/pets/byUserId/' + userId)).data
       if(pets.length === 0)
-        navigation.navigate('AddAnimal')
+        navigation.navigate('AddAnimal', {title: "Ajouter votre animal", word:"Ajouter", word2:"ajouté", redirection:'AddAnimal'})
       else
           navigation.navigate('Home')
     } else if(user.isCompany) {

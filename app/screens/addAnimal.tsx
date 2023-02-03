@@ -14,22 +14,9 @@ import axios from "axios";
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-const ImagesPreview = (props) => {
-  const props2: string[] = ["https://petwatcher.fourkane.me/storage/vjU2wmpdxymd37vHWokMcHm3NTQ7tvuZWsBJRSMs.jpg"]
-  const res = []
-  props2.forEach(img =>  {
-    res.push(
-        <Image source={{uri: img}} key={img}></Image>
-    )
-  })
-  return (
-      <View>
-        {res}
-      </View>
-  )
-}
+export default function AddAnimal({ navigation, route}) {
 
-export default function AddAnimal({navigation}) {
+  const { title, word, word2 } = route.params;
 
   const booleanChoiceAllergie = [
     {
@@ -190,12 +177,11 @@ export default function AddAnimal({navigation}) {
       setMessageErreur('Veuillez remplir tous les champs')
     }
   }
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.wrapper}>
         {etape < 5 &&
-          <Text style={styles.pageTitle}> Ajoutez votre animal {etape}/4</Text>
+          <Text style={styles.pageTitle}> {title} {etape}/4</Text>
         }
 
         {etape == 1 &&
@@ -320,16 +306,23 @@ export default function AddAnimal({navigation}) {
         {etape == 5 &&
           <View style={styles.etape}>
             <Image style={styles.img} source={require('../assets/confetti.png')}></Image>
-            <Text style={styles.confirmAjout}>Vous avez ajouté votre animal!</Text>
+            <Text style={styles.confirmAjout}>Vous avez {word2} votre animal!</Text>
           </View>
         }
 
         <View style={styles.footer}>
-          {etape == 5 &&
+          {etape == 5 && word === 'Ajouter' &&
             <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.bg]} onPress={() => setEtape(1)}>
-              <Text>Ajouter un autre animal</Text>
+            <Text>{word} un autre animal</Text>
+          </TouchableOpacity>
+          }
+
+          {etape == 5 &&  word == 'Modifier' &&
+            <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.bg]} onPress={() => navigation.navigate('MesAnimaux')}>
+            <Text>{word} un autre animal</Text>
             </TouchableOpacity>
           }
+
           {etape > 1 && etape < 5 &&
             <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.retour]} onPress={() => setEtape(etape - 1)}>
               <Text>Revenir en arrière</Text>
@@ -344,8 +337,8 @@ export default function AddAnimal({navigation}) {
 
           {etape == 4 &&
               <View style={{width: '100%'}}>
-                <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.bg]} onPress={() => /*setEtape(etape + 1)*/ ajouter()}>
-                  <Text>Ajouter mon animal {etape}/4</Text>
+                <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.bg]} onPress={() => ajouter()}>
+                  <Text>{word} mon animal {etape}/4</Text>
                 </TouchableOpacity>
                 {messageErreur !== '' &&
                 <Text style={styles.erreur}>{messageErreur}</Text>}
