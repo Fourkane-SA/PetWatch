@@ -5,6 +5,7 @@ import { Dimensions } from "react-native";
 import RadioButton from '../components/radioButton';
 import IconDownload from '../assets/moduleSVG/downloadSVG'
 import Upload from '../components/Upload';
+import axios from "axios/index";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -49,9 +50,54 @@ export default class ModeGarde extends Component {
     ]
 
     state = {
-        url1: '',
-        choix1: false,
-        choix2: false,
+        keepCat: false,
+        keepDogs: false,
+        gabarit: [],
+        prix: '',
+        url: [],
+        description: ''
+    }
+
+    async submit() {
+        console.log(this.state)
+        if(this.state.description === '' || this.state.url.length === 0 || this.state.prix == '' || this.state.gabarit.length === 0){
+            console.log('Tous les champs ne sont pas remplis')
+        } else {
+            const userId = (await axios.get('/tokens')).data
+            try {
+                await axios.patch('/users/' + userId, {
+                    keepCats: this.state.keepCat,
+                    keepDogs: this.state.keepDogs,
+                    acceptedWeight: JSON.stringify(this.state.gabarit),
+                    description: this.state.description,
+                    imageLocation: JSON.stringify(this.state.url)
+                })
+                this.props.navigation.navigate('Home')
+            }
+            catch (e) {
+                console.log(e.response)
+            }
+        }
+
+    }
+
+
+    updateGabarit(gabarit: string) {
+        let newGabarit = this.state.gabarit
+        if(this.state.gabarit.includes(gabarit)) {
+            const index = newGabarit.indexOf(gabarit)
+            newGabarit.splice(index, 1)
+            this.setState({gabarit: newGabarit})
+        } else {
+            newGabarit.push(gabarit)
+            this.setState({gabarit: newGabarit})
+        }
+    }
+
+    addImage(url: string) {
+        const newUrl = this.state.url.slice()
+        newUrl.push(url)
+        this.setState({url: newUrl})
     }
 
     render() {
@@ -62,36 +108,39 @@ export default class ModeGarde extends Component {
                         <Text style={styles.title}>Quel type d'animal gardez-vous?</Text>
 
                         <View style={styles.blocRadio}>
-                            <TouchableOpacity activeOpacity={0.5} style={[styles.btnCheckbox]} onPress= { () => this.setState({choix1: !this.state.choix1}) }><View style={[styles.before, this.state.choix1 ? styles.beforeSelected : styles.beforeUnselected]} >
-                                <View style={[styles.after, this.state.choix1 ? styles.afterSelected : styles.afterUnselected]}></View>
+                            <TouchableOpacity activeOpacity={0.5} style={[styles.btnCheckbox]} onPress= { () => this.setState({keepCat: !this.state.keepCat}) }><View style={[styles.before, this.state.keepCat ? styles.beforeSelected : styles.beforeUnselected]} >
+                                <View style={[styles.after, this.state.keepCat ? styles.afterSelected : styles.afterUnselected]}></View>
                             </View><Text style={styles.checkbox}>{this.typeChoice[0].value}</Text></TouchableOpacity>
-                            <TouchableOpacity activeOpacity={0.5} style={[styles.btnCheckbox]} onPress= { () => this.setState({choix2: !this.state.choix2}) }><View style={[styles.before, this.state.choix2 ? styles.beforeSelected : styles.beforeUnselected]} >
-                                <View style={[styles.after, this.state.choix2 ? styles.afterSelected : styles.afterUnselected]}></View>
+                            <TouchableOpacity activeOpacity={0.5} style={[styles.btnCheckbox]} onPress= { () => this.setState({keepDogs: !this.state.keepDogs}) }><View style={[styles.before, this.state.keepDogs ? styles.beforeSelected : styles.beforeUnselected]} >
+                                <View style={[styles.after, this.state.keepDogs ? styles.afterSelected : styles.afterUnselected]}></View>
                             </View><Text style={styles.checkbox}>{this.typeChoice[1].value}</Text></TouchableOpacity>
                         </View>
 
-                        <Text style={styles.text}>Gabaris acceptés (0 choisi(s)):</Text>
+                        <Text style={styles.text}>Gabaris acceptés ({this.state.gabarit.length} choisi(s)):</Text>
                         <FlatList
                             horizontal={true}
                             data={this.poids}
-                            renderItem={({ item }) => <TouchableOpacity activeOpacity={0.5} style={[{ backgroundColor: item.bg }, styles.listItem]}><Text style={styles.gabarit}>{item.gabarit}</Text><Text style={styles.poids}> {item.tranche}</Text></TouchableOpacity>}
+                            renderItem={({ item }) => <TouchableOpacity activeOpacity={0.5} style={[{ backgroundColor: item.bg }, styles.listItem]} onPress={() => this.updateGabarit(item.gabarit)}><Text style={styles.gabarit}>{item.gabarit}</Text><Text style={styles.poids}> {item.tranche}</Text></TouchableOpacity>}
                             keyExtractor={item => item.gabarit}
                         />
 
                         <Text style={[styles.text, styles.marge]}>Prix par jour : </Text>
-                        <TextInput style={styles.input} placeholder="Indiquez votre prix"></TextInput>
+                        <TextInput style={styles.input} placeholder="Indiquez votre prix" value={this.state.prix} onChangeText={res => this.setState({prix: res})}></TextInput>
 
                         <Text style={[styles.text, styles.marge]}>Photos du lieu de garde proposé:</Text>
-                        <Upload onImageUrlChange={(imageUrl) => { this.setState({ url1: imageUrl }) }} />
+                        <Upload onImageUrlChange={(imageUrl) => this.addImage(imageUrl)} />
+                        <Text style={styles.text} key={this.state.url.length}>{this.state.url.length} images ajoutés</Text>
 
                         <TextInput
                             multiline={true}
                             numberOfLines={7}
                             style={styles.description}
-                            placeholder="Saisissez une description afin d’en savoir plus sur les conditions de la garde">
+                            placeholder="Saisissez une description afin d’en savoir plus sur les conditions de la garde"
+                            value={this.state.description}
+                            onChangeText={res => this.setState({description: res})}>
                         </TextInput>
 
-                        <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => this.props.navigation.navigate('Home')}>
+                        <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => this.submit()}>
                             <Text style={styles.submit}>Mettre à jour</Text>
                         </TouchableOpacity>
                     </View>
@@ -110,7 +159,7 @@ const styles = StyleSheet.create({
         width: width
     },
     wrapper: {
-        width: '90%',
+        width: width*0.9,
         alignItems: 'center',
     },
     title: {

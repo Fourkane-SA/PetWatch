@@ -25,10 +25,13 @@ async function isConnected(navigation) {
       if (pets.length === 0)
         navigation.navigate('AddAnimal', { title: "Ajouter votre animal", word: "Ajouter", word2: "ajouté", redirection: 'AddAnimal' })
       else
-        navigation.navigate('Home')
-    } else if (user.isCompany) {
-      if (user.keepCats === null)
+          navigation.navigate('Home')
+    } else if(user.isCompany) {
+      console.log(user)
+      if(user.description === null)
         navigation.navigate('ModeGarde')
+      else
+        navigation.navigate('Home')
     }
 
   } else {
