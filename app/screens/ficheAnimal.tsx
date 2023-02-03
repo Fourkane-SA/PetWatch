@@ -16,7 +16,7 @@ var height = Dimensions.get('window').height; //full height
 
 /*Ici passage de parametre par rapport a la page checkReservation car selon l'animal le background change de couleur et egalement l'icon !!!!! */
 
-export default function ficheAnimal({ navigation }) {
+export default function FicheAnimal({ navigation }) {
     const [parameter, setParameter] = React.useState(false);
 
     return (

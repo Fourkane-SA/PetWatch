@@ -1,7 +1,7 @@
 import Svg, { Circle, Path } from 'react-native-svg';
 import { View } from 'react-native'
 
-export default function SearchSVG() {
+export default function AnimSVG() {
     return (
         <View>
             <Svg width="30" height="28" viewBox="0 0 30 28" fill="none">

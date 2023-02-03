@@ -1,7 +1,7 @@
 import Svg, { Circle, Path } from 'react-native-svg';
 import { View } from 'react-native'
 
-export default function CalendarSVG() {
+export default function MessagerieSVG() {
     return (
         <View>
             <Svg width="28" height="28" viewBox="0 0 28 28" fill="none">

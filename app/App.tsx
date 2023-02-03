@@ -35,6 +35,9 @@ import Messagerie from './screens/messagerie'
 import MesDemandes from './screens/mesDemandes'
 import CalendarSVG from "./assets/moduleSVG/calendarSVG";
 import CheckReservation from "./screens/checkDemandeReservation";
+import AnimSVG from "./assets/moduleSVG/animSVG";
+import MessagerieSVG from "./assets/moduleSVG/messagerieSVG";
+import NotifSVG from "./assets/moduleSVG/notifSVG";
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -45,6 +48,22 @@ axios.defaults.baseURL = "https://petwatcher.fourkane.me/api"
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+function StackConnected() {
+    return (
+        <Stack.Navigator initialRouteName='Accueil'>
+            <Stack.Screen name="Accueil" options={{headerShown: false, headerTitle: ''}}  component={Home}></Stack.Screen>
+            <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilParticulier" component={ModifProfilParticulier}></Stack.Screen>
+            <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilPro" component={ModifProfilPro}></Stack.Screen>
+            <Stack.Screen options={{ headerShown: true, headerTitle: 'Pensions et Pet Sitter disponibles' }} name="ResultatsRecherche" component={ResultatRecherche}></Stack.Screen>
+            <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheProfilPro" component={FicheProfilPro}></Stack.Screen>
+            <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheReservation" component={FicheReservation}></Stack.Screen>
+            <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FenetreChat" component={FenetreChat}></Stack.Screen>
+            <Stack.Screen options={{ headerShown: true, headerTitle: 'Choisir animaux' }} name="ChoixAnimauxResa" component={ChoixAnimauxResa}></Stack.Screen>
+            <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheAnimal" component={FicheAnimal}></Stack.Screen>
+        </Stack.Navigator>
+    )
+}
+
 function Tabs() {
   return (
       <Tab.Navigator
@@ -52,16 +71,25 @@ function Tabs() {
               tabBarIcon: ({ focused, color, size }) => {
                   if (route.name === 'home')
                       return <View style={styles.container}><SearchSVG></SearchSVG></View>
+                  else if(route.name === 'MesAnimaux')
+                      return <View style={styles.container}><AnimSVG></AnimSVG></View>
                   else if(route.name === 'CheckReservation')
                       return <View style={styles.container}><CalendarSVG></CalendarSVG></View>
+                  else if(route.name === 'MesDemandes')
+                      return <View style={styles.container}><NotifSVG></NotifSVG></View>
+                  else if(route.name === 'Messagerie')
+                      return <View style={styles.container}><MessagerieSVG></MessagerieSVG></View>
               },
               tabBarStyle: {
                   backgroundColor: '#FFF6E3'
               }
           })}
       >
-        <Tab.Screen name="home" options={{headerShown: false, tabBarLabel: ''}}  component={Home}></Tab.Screen>
+        <Tab.Screen name="home" options={{headerShown: false, tabBarLabel: ''}}  component={StackConnected}></Tab.Screen>
+          <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes animaux', tabBarLabel: '' }} name="MesAnimaux" component={MesAnimaux}></Tab.Screen>
           <Tab.Screen name="CheckReservation" options={{headerShown: false, tabBarLabel: ''}}  component={CheckReservation}></Tab.Screen>
+          <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes demandes', tabBarLabel: '' }} name="MesDemandes" component={MesDemandes}></Tab.Screen>
+          <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes messages', tabBarLabel: '' }} name="Messagerie" component={Messagerie}></Tab.Screen>
       </Tab.Navigator>
   )
 }
@@ -78,17 +106,9 @@ export default function App() {
             <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="AddAnimal" component={AddAnimal}></Stack.Screen>
               <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="ModeGarde" component={ModeGarde}></Stack.Screen>
             <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="Home" component={Tabs}></Stack.Screen>
-            <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilParticulier" component={ModifProfilParticulier}></Stack.Screen>
-            <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilPro" component={ModifProfilPro}></Stack.Screen>
-              <Stack.Screen options={{ headerShown: true, headerTitle: 'Pensions et Pet Sitter disponibles' }} name="ResultatsRecherche" component={ResultatRecherche}></Stack.Screen>
-              <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheProfilPro" component={FicheProfilPro}></Stack.Screen>
-              <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheReservation" component={FicheReservation}></Stack.Screen>
-              <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FenetreChat" component={FenetreChat}></Stack.Screen>
-              <Stack.Screen options={{ headerShown: true, headerTitle: 'Choisir animaux' }} name="ChoixAnimauxResa" component={ChoixAnimauxResa}></Stack.Screen>
-              <Stack.Screen options={{ headerShown: true, headerTitle: 'Mes animaux' }} name="MesAnimaux" component={MesAnimaux}></Stack.Screen>
-              <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheAnimal" component={FicheAnimal}></Stack.Screen>
-              <Stack.Screen options={{ headerShown: true, headerTitle: 'Mes messages' }} name="Messagerie" component={Messagerie}></Stack.Screen>
-              <Stack.Screen options={{ headerShown: true, headerTitle: 'Mes demandes' }} name="MesDemandes" component={MesDemandes}></Stack.Screen>
+
+
+
           </Stack.Navigator>
       </NavigationContainer>
   );
