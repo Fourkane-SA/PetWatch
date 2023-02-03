@@ -79,7 +79,7 @@ export default class ModeGarde extends Component {
                         />
 
                         <Text style={[styles.text, styles.marge]}>Prix par jour : </Text>
-                        <TextInput style={styles.input}></TextInput>
+                        <TextInput style={styles.input} placeholder="Indiquez votre prix"></TextInput>
 
                         <Text style={[styles.text, styles.marge]}>Photos du lieu de garde proposé:</Text>
                         <Upload onImageUrlChange={(imageUrl) => { this.setState({ url1: imageUrl }) }} />
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: '#CEEAF0',
         width: '100%',
+        paddingLeft: 20,
     },
     listItem: {
         marginLeft: 8,
