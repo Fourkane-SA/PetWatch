@@ -17,5 +17,6 @@ export type User = {
     website: string,
     keepDogs: boolean,
     keepCats: boolean,
-    price: number
+    price: number,
+    description: string
 }
