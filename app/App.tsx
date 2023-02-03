@@ -15,6 +15,7 @@ import AddAnimal from "./screens/addAnimal";
 import Home from "./screens/home";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CreationComptePro from "./screens/creationComptePro";
+// import ModeGarde from './screens/modeGarde'
 // import CheckDemandeReservation from './screens/checkReservation'
 // import FicheDemandeReservation from './components/ficheDemandeReservation'
 import ResultatRecherche from './screens/resultatRecherche'
@@ -25,6 +26,7 @@ import SearchSVG from "./assets/moduleSVG/searchSVG";
 import ModeGarde from "./screens/modeGarde";
 import FirstLoad from "./screens/FirstLoad";
 import FicheProfilPro from './screens/ficheProfilPro';
+import FicheDemandeReservation from './screens/ficheDemandeReservation' // pro
 import FicheReservation from './screens/ficheReservation'
 import FenetreChat from './screens/chat'
 import ChoixAnimauxResa from './screens/choixAnimauxResa'
@@ -59,7 +61,6 @@ function StackConnected() {
             <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FenetreChat" component={FenetreChat}></Stack.Screen>
             <Stack.Screen options={{ headerShown: true, headerTitle: 'Choisir animaux' }} name="ChoixAnimauxResa" component={ChoixAnimauxResa}></Stack.Screen>
             <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheAnimal" component={FicheAnimal}></Stack.Screen>
-            <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="ModeGarde" component={ModeGarde}></Stack.Screen>
         </Stack.Navigator>
     )
 }
