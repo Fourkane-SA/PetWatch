@@ -5,13 +5,31 @@ import React, { Component } from "react";
 import axios from "axios/index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModeGarde from './modeGarde'
+import { User } from "../models/User";
 
 import IconModif from '../assets/moduleSVG/iconModif'
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
+
 /*TODO Code A modifier pour faire une modification de profil + value par defaut dans les input sont infos du compte */
+
+async function getUser() {
+    const isConnected = await AsyncStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = isConnected
+    const userId = (await axios.get('/tokens')).data
+    const user: User = (await axios.get('/users/' + userId)).data
+
+    console.log(user);
+    return user;
+}
+getUser();
+
+
+async function setUser() {
+
+}
 
 export default class ModifProfilPro extends Component {
     state = {
@@ -30,22 +48,27 @@ export default class ModifProfilPro extends Component {
                                         <IconModif></IconModif>
                                     </TouchableOpacity>
                                 </View>
-                            </View><View>
-                                    <TextInput placeholder="Nom entreprise" value="L'entr'chats" style={[styles.champ, styles.identity]}></TextInput>
+                                </View>
+
+                                <View>
+                                    <TextInput placeholder="Nom entreprise" value={this.user.companyName} style={[styles.champ, styles.identity]}></TextInput>
                                     <TextInput placeholder="Numéro de SIRET" value="7111 8880 6354" style={[styles.champ, , styles.identity]}></TextInput>
                                     <TextInput placeholder="Site web" value="http://lentrechats.com/" style={[styles.champ, , styles.identity]}></TextInput>
                                     <TextInput placeholder="Téléphone professionnel" value="060606060606" style={[styles.champ, , styles.identity]}></TextInput>
                                     <TextInput placeholder="Mail professionnel" value="mail@mail.fr" style={[styles.champ, styles.identity]}></TextInput>
-                                </View><View>
+                                </View>
+                                <View>
                                     <TextInput placeholder="Adresse" value="Rue de Marseille" style={[styles.champ, styles.adresse]}></TextInput>
                                     <TextInput placeholder="Ville" value="Lyon" style={[styles.champ, styles.adresse]}></TextInput>
                                     <TextInput placeholder="Code postal" value="69007" style={[styles.champ, styles.adresse]}></TextInput>
-                                </View><View>
+                                </View>
+                                <View>
                                     <TextInput placeholder="Nouveau mot de passe" style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
                                     <TextInput placeholder="Mot de passe actuel" style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
                                 </View>
 
-                                <TouchableOpacity activeOpacity={0.8} style={[styles.champ, styles.containerSubmit]} onPress={() => this.setState({ etape: 2 })}>
+                                <TouchableOpacity activeOpacity={0.8} style={[styles.champ, styles.containerSubmit]} onPress={() => setUser()}>
+                                    {/* this.setState({ etape: 2 }), */}
                                     <Text style={styles.submit}>Continuer {this.state.etape}/2</Text>
                                 </TouchableOpacity></>
 
@@ -53,7 +76,7 @@ export default class ModifProfilPro extends Component {
                     }
 
                     {this.state.etape == 2 &&
-                        <ModeGarde></ModeGarde>
+                        <ModeGarde ></ModeGarde>
                     }
                 </SafeAreaView>
             </ScrollView>
