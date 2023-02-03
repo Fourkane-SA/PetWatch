@@ -113,12 +113,14 @@ class UserController extends Controller
         if($idConnected !== $id)
             return response()->json("Vous n'etes pas autorisé à modifier cet utilisateur", Response::HTTP_UNAUTHORIZED);
         if($user->isCompany)
-            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'companyName', 'siretNumber', 'website', 'keepDogs', 'keepCats', 'acceptedWeight', 'description', 'profilImage', 'imageLocation', 'price', 'password']);
+            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'companyName', 'siretNumber', 'website', 'keepDogs', 'keepCats', 'acceptedWeight', 'description', 'profilImage', 'imageLocation', 'price']);
         else if ($user->isPetSitter)
-            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'firstname', 'lastname', 'keepDogs', 'keepCats', 'acceptedWeight', 'description', 'profilImage', 'imageLocation', 'price', 'password']);
+            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'firstname', 'lastname', 'keepDogs', 'keepCats', 'acceptedWeight', 'description', 'profilImage', 'imageLocation', 'price']);
         else
-            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'firstname', 'lastname', 'profilImage', 'password']);
+            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'firstname', 'lastname', 'profilImage']);
         $user->fill($userData);
+        if($request->input('password'))
+            $user->password = Hash::make($request->input('password'));
         $user->geopos = GeoposService::getPos($user->address, $user->postalCode);
         $user->save();
         return response()->json($user);
