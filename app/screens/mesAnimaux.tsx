@@ -12,6 +12,8 @@ import IconMarker from '../assets/moduleSVG/iconMarker'
 import IconStarFilled from '../assets/moduleSVG/starFilled'
 import CardAjoutAnimaux from '../components/cardAjoutAnimaux';
 import IconParameter from '../assets/moduleSVG/parametresSVG'
+import {Pet} from "../models/Pet";
+import axios from "axios/index";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -22,12 +24,23 @@ export default function ChoixAnimauxResa({ navigation }) {
     const [reservation, setReservation] = React.useState(false);
     const [dates, setDates] = React.useState([]);
     const [parameter, setParameter] = React.useState(false);
+    const [pet, setPet] = React.useState([]);
 
     const pull_dates = (dates) => {
         console.log(dates);
         setDates(dates);
     }
 
+    const initPets = async () => {
+        if(pet.length === 0) {
+            const userId = (await axios.get('/tokens')).data
+            const pets: Pet[] = (await axios.get('/pets/byUserId/' + userId)).data
+            console.log(pets)
+            setPet(pets)
+        }
+    }
+
+    initPets()
     return (
         <ScrollView>
             <SafeAreaView style={styles.container}>
@@ -35,8 +48,11 @@ export default function ChoixAnimauxResa({ navigation }) {
                     <IconParameter></IconParameter>
                 </TouchableOpacity>
                 <View style={[styles.wrapper, styles.bloc]}>
-                    <CardAjoutAnimaux label="Voir fiche" navigation={navigation} lien='FicheAnimal'></CardAjoutAnimaux>
-                    <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit]} onPress={() => navigation.navigate('AddAnimal')}>
+                    <View style={{width: width*0.9}}>
+                        <FlatList data={pet} renderItem={({item}) => <CardAjoutAnimaux label="Voir fiche" navigation={navigation} lien='FicheAnimal' id={item.id}></CardAjoutAnimaux>}></FlatList>
+                    </View>
+
+                    <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit]} onPress={() => navigation.navigate('AddAnimal', { title: "Ajouter votre animal", word: "Ajouter", word2: "ajouté", redirection: 'AddAnimal' })}>
                         <Text style={styles.submit}>Ajouter un animal</Text>
                     </TouchableOpacity>
                 </View>

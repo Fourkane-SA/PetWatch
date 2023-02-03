@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList, Image } from 'react-native';
-import { Dimensions } from "react-native";
+import React, {Component} from 'react';
+import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import IconChien from '../assets/moduleSVG/chienSVG'
-import IconChat from '../assets/moduleSVG/chatSVG'
 import IconMale from '../assets/moduleSVG/maleSVG'
+import {Pet} from "../models/Pet";
+import axios from "axios/index";
+import FemelleSVG from "../assets/moduleSVG/iconFemelle";
+import ChatSVG from "../assets/moduleSVG/chatSVG";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -18,33 +19,51 @@ class Props {
     label
     lien
     navigation
+    id
 }
 
+
+
 export default class CardAjoutAnimaux extends Component<Props> {
+
+    async componentDidMount() {
+        const pet: Pet = (await axios.get('/pets/' + this.props.id)).data
+        this.setState({pet: pet})
+        this.setState({photos: JSON.parse(pet.photoUrl)})
+    }
+
+    state = {
+        pet: null,
+        photos: []
+    }
 
     render() {
         const doSomething = () => {
             if (this.props.label != '') {
                 this.props.navigation.navigate(this.props.lien);
             } else {
-                // Ajout d'un animal a la reservation 
+                // Ajout d'un animal a la reservation
                 return;
             }
         }
 
+
         return (
             <View style={[styles.wrapper, styles.bloc]}>
                     <View style={styles.header}>
-                        <Text style={styles.title}>Boulette de viande</Text>
+                        {this.state.pet !== null && <Text style={styles.title}>{this.state.pet.name}</Text>}
 
                         <View style={styles.blocIcon}>
-                            <IconMale></IconMale>
-                            <IconChien></IconChien>
+                            {this.state.pet !== null && this.state.pet.gender === 'Mâle' && <IconMale></IconMale>}
+                            {this.state.pet !== null && this.state.pet.gender === 'Femelle' && <FemelleSVG></FemelleSVG>}
+                            {this.state.pet !== null && this.state.pet.type === 'Chien' && <IconChien></IconChien>}
+                            {this.state.pet !== null && this.state.pet.type === 'Chat' && <ChatSVG></ChatSVG>}
+
                         </View>
                     </View>
 
                     <View style={styles.infos}>
-                        <Image style={styles.image} source={require('../assets/photoChien.png')}></Image>
+                        {this.state.pet !== null && <Image style={styles.image} source={{uri: this.state.photos[0]}}></Image>}
                     </View>
 
                 <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => doSomething()}>
