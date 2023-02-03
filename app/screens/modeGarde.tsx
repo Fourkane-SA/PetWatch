@@ -49,47 +49,78 @@ export default class ModeGarde extends Component {
     ]
 
     state = {
-        url1: ''
+        keepCat: false,
+        keepDogs: false,
+        gabarit: [],
+        prix: '',
+        url: [],
+        description: ''
+    }
+
+    submit() {
+        console.log(this.state)
+    }
+
+
+    updateGabarit(gabarit: string) {
+        let newGabarit = this.state.gabarit
+        if(this.state.gabarit.includes(gabarit)) {
+            const index = newGabarit.indexOf(gabarit)
+            newGabarit.splice(index, 1)
+            this.setState({gabarit: newGabarit})
+        } else {
+            newGabarit.push(gabarit)
+            this.setState({gabarit: newGabarit})
+        }
+    }
+
+    addImage(url: string) {
+        const newUrl = this.state.url.slice()
+        newUrl.push(url)
+        this.setState({url: newUrl})
     }
 
     render() {
         return (
-            <ScrollView>
             <SafeAreaView style={styles.container}>
+                <ScrollView >
                 <View style={styles.wrapper}>
                     <Text style={styles.title}>Quel type d'animal gardez-vous?</Text>
 
                     <View style={styles.blocRadio}>
-                        <RadioButton data={this.typeChoice} onSelect={undefined} />
+                        <RadioButton data={this.typeChoice} onSelect={res => this.setState({type: res})} />
                     </View>
 
-                    <Text style={styles.text}>Gabaris acceptés (0 choisi(s)):</Text>
+                    <Text style={styles.text}>Gabaris acceptés ({this.state.gabarit.length} choisi(s)):</Text>
                     <FlatList
                         horizontal={true}
                         data={this.poids}
-                        renderItem={({ item }) => <TouchableOpacity activeOpacity={0.5} style={[{ backgroundColor: item.bg }, styles.listItem]}><Text style={styles.gabarit}>{item.gabarit}</Text><Text style={styles.poids}> {item.tranche}</Text></TouchableOpacity>}
+                        renderItem={({ item }) => <TouchableOpacity activeOpacity={0.5} style={[{ backgroundColor: item.bg }, styles.listItem]} onPress={() => this.updateGabarit(item.gabarit)}><Text style={styles.gabarit}>{item.gabarit}</Text><Text style={styles.poids}> {item.tranche}</Text></TouchableOpacity>}
                         keyExtractor={item => item.gabarit}
                     />
 
                     <Text style={[styles.text, styles.marge]}>Prix par jour : </Text>
-                    <TextInput style={styles.input}></TextInput>
+                    <TextInput style={styles.input} value={this.state.prix} onChangeText={res => this.setState({prix: res})}></TextInput>
 
                     <Text style={[styles.text, styles.marge]}>Photos du lieu de garde proposé:</Text>
-                    <Upload onImageUrlChange={(imageUrl) => {this.setState({url1: imageUrl})}} />
+                    <Upload onImageUrlChange={(imageUrl) => this.addImage(imageUrl)} />
+                    <Text style={styles.text} key={this.state.url.length}>{this.state.url.length} images ajoutés</Text>
 
                     <TextInput
                         multiline={true}
                         numberOfLines={7}
                         style={styles.description}
-                        placeholder="Saisissez une description afin d’en savoir plus sur les conditions de la garde">
+                        placeholder="Saisissez une description afin d’en savoir plus sur les conditions de la garde"
+                        value={this.state.description}
+                        onChangeText={res => this.setState({description: res})}>
                     </TextInput>
 
-                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={()=> this.props.navigation.navigate('Home')}>
+                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={()=> this.submit()}>
                         <Text style={styles.submit}>Mettre à jour</Text>
                     </TouchableOpacity>
                 </View>
+                </ScrollView>
             </SafeAreaView>
-            </ScrollView>
         );
     }
 }
@@ -103,7 +134,7 @@ const styles = StyleSheet.create({
         width: width
     },
     wrapper: {
-        width: '90%',
+        width: width*0.9,
         alignItems: 'center',
     },
     title: {

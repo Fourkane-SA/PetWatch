@@ -26,8 +26,11 @@ async function isConnected(navigation) {
       else
           navigation.navigate('Home')
     } else if(user.isCompany) {
-      if(user.keepCats === undefined)
-        navigation.navigate('ProGarde')
+      console.log(user)
+      if(user.keepCats === null)
+        navigation.navigate('ModeGarde')
+      else
+        navigation.navigate('Home')
     }
 
   } else {
