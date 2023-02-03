@@ -91,10 +91,7 @@ class UserController extends Controller
             $user->lastname = $lastname;
         }
 
-        if($role === 'petsitter' || $role === 'company') {
-            $user->imageLocation = $request->input('imageLocation');
-            $user->price = $request->integer('price');
-        }
+
         $user->save();
         $token = TokenService::generate($user);
         return response()->json($token, Response::HTTP_CREATED);
