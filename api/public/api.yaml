@@ -112,6 +112,9 @@ paths:
         - in: query
           name: profilImage
           description: L'url de la photo de profil
+        - in: query
+          name: price
+          description: Le tarif journalier
       responses:
         201:
           description: L'utilisateur a été créé. Retourne le token de l'utilisateur
@@ -223,6 +226,9 @@ paths:
         - in: query
           name: profilImage
           description: L'url de la photo de profil
+        - in: query
+          name: price
+          description: Le tarif journalier
       responses:
         200:
           description: L'utilisateur a été supprimé

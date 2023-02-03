@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('acceptedWeight')->nullable();
             $table->string('description', 2000)->nullable();
             $table->json('imageLocation')->nullable();
+            $table->integer('price')->nullable();
         });
     }
 

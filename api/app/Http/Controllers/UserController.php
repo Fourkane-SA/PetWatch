@@ -91,8 +91,10 @@ class UserController extends Controller
             $user->lastname = $lastname;
         }
 
-        if($role === 'petsitter' || $role === 'company')
+        if($role === 'petsitter' || $role === 'company') {
             $user->imageLocation = $request->input('imageLocation');
+            $user->price = $request->integer('price');
+        }
         $user->save();
         $token = TokenService::generate($user);
         return response()->json($token, Response::HTTP_CREATED);
@@ -114,9 +116,9 @@ class UserController extends Controller
         if($idConnected !== $id)
             return response()->json("Vous n'etes pas autorisé à modifier cet utilisateur", Response::HTTP_UNAUTHORIZED);
         if($user->isCompany)
-            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'companyName', 'siretNumber', 'website', 'keepDogs', 'keepCats', 'acceptedWeight', 'description', 'profilImage', 'imageLocation']);
+            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'companyName', 'siretNumber', 'website', 'keepDogs', 'keepCats', 'acceptedWeight', 'description', 'profilImage', 'imageLocation', 'price']);
         else if ($user->isPetSitter)
-            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'firstname', 'lastname', 'keepDogs', 'keepCats', 'acceptedWeight', 'description', 'profilImage', 'imageLocation']);
+            $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'firstname', 'lastname', 'keepDogs', 'keepCats', 'acceptedWeight', 'description', 'profilImage', 'imageLocation', 'price']);
         else
             $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'firstname', 'lastname', 'profilImage']);
         $user->fill($userData);
