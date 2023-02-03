@@ -12,7 +12,11 @@ var height = Dimensions.get('window').height; //full height
 
 /*Ici passage de parametre par rapport a la page checkReservation car selon l'animal le background change de couleur et egalement l'icon !!!!! */
 
-export default class CardDemandeReservation extends Component {
+class Props {
+    navigation,
+}
+
+export default class CardDemandeReservation extends Component<Props> {
 
     render() {
         return (
@@ -28,7 +32,7 @@ export default class CardDemandeReservation extends Component {
                     <Text style={styles.date}>11/01/2023 - 16/01/2023</Text>
                 </View>
 
-                <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit}>
+                <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => this.navigation.navigate('FicheDemandeReservation') }>
                     <Text style={styles.submit}>Voir la fiche</Text>
                 </TouchableOpacity>
             </View>

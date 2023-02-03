@@ -9,14 +9,13 @@ var height = Dimensions.get('window').height; //full height
 /*Ici requete sur les reservations associé à un un pro/petsitter et passage de parametre pour cardReservation sur le type d'animal, 
 CardReservation doit etre dans une boucle pour afficher toutes les resas*/
 
-export default class CheckReservation extends Component {
-    render() {
+export default function CheckDemandeReservation({ navigation }) {
         return (
             <SafeAreaView style={styles.container}>
                 <Text style={styles.title}>Consulter mes réservations</Text>
                 <View style={styles.wrapper}>
-                    <CardDemandeReservation></CardDemandeReservation>
-                    <CardDemandeReservation></CardDemandeReservation>
+                    <CardDemandeReservation navigation={navigation}></CardDemandeReservation>
+                    <CardDemandeReservation navigation={navigation}></CardDemandeReservation>
 
                     {/* <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit}>
                         <Text style={styles.submit}>Ajouter une réservation</Text>
@@ -24,7 +23,6 @@ export default class CheckReservation extends Component {
                 </View>
             </SafeAreaView>
         );
-    }
 }
 
 const styles = StyleSheet.create({
