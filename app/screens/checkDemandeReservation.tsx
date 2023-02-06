@@ -3,16 +3,21 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Dimensions } from "react-native";
 import CardDemandeReservation from '../components/cardDemandeReservation'
+import IconParameter from "../assets/moduleSVG/parametresSVG";
+import ModalParameter from "../components/modalParameter";
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-/*Ici requete sur les reservations associé à un un pro/petsitter et passage de parametre pour cardReservation sur le type d'animal, 
+/*Ici requete sur les reservations associé à un un pro/petsitter et passage de parametre pour cardReservation sur le type d'animal,
 CardReservation doit etre dans une boucle pour afficher toutes les resas*/
 
 export default function CheckDemandeReservation({ navigation }) {
+    const [parameter, setParameter] = React.useState(false);
         return (
             <SafeAreaView style={styles.container}>
-                <Text style={styles.title}>Consulter mes réservations</Text>
+                <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
+                    <IconParameter></IconParameter>
+                </TouchableOpacity>
                 <View style={styles.wrapper}>
                     <CardDemandeReservation navigation={navigation}></CardDemandeReservation>
                     <CardDemandeReservation navigation={navigation}></CardDemandeReservation>
@@ -20,7 +25,13 @@ export default function CheckDemandeReservation({ navigation }) {
                     {/* <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit}>
                         <Text style={styles.submit}>Ajouter une réservation</Text>
                     </TouchableOpacity> */}
+
                 </View>
+                {parameter == true &&
+                    <ModalParameter navigation={navigation}  onVisibleChange={(change) => {
+                        setParameter(change)
+                    }}></ModalParameter>
+                }
             </SafeAreaView>
         );
 }
@@ -56,5 +67,10 @@ const styles = StyleSheet.create({
     },
     submit: {
         fontSize: 16,
+    },
+    abs: {
+        position: 'absolute',
+        top: 30,
+        right: '5%',
     },
 });

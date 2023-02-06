@@ -10,15 +10,27 @@ import IconParticulier from '../assets/moduleSVG/iconParticulier'
 import IconMarker from '../assets/moduleSVG/iconMarker'
 import IconStarFilled from '../assets/moduleSVG/starFilled'
 import IconParameter from '../assets/moduleSVG/parametresSVG'
+import { User } from '../models/User';
+import axios from 'axios';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
-export default function FicheProfilPro({ navigation }) {
+export default function FicheProfilPro({ navigation , route}) {
 
     const [reservation, setReservation] = React.useState(0);
     const [parameter, setParameter] = React.useState(false);
+    const [user, setUser] = React.useState(null);
+    const id = route.params.id
+    
+    async function initUser() {
+        const data: User = (await axios.get('/users/' + id)).data
+        setUser(data)
+    }
+    
+    if(user === null)
+        initUser()
 
     var poids = [
         {
@@ -54,7 +66,8 @@ export default function FicheProfilPro({ navigation }) {
 
     return (
         <ScrollView>
-            <SafeAreaView style={styles.container}>
+            {user !== null && <>
+                <SafeAreaView style={styles.container}>
             <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
                 <IconParameter></IconParameter>
             </TouchableOpacity>
@@ -73,14 +86,14 @@ export default function FicheProfilPro({ navigation }) {
                     </View>
 
                     <View style={styles.identity}>
-                        <Text style={styles.text}>KeepPet</Text>
+                        <Text style={styles.text}>{ (user.firstname + user.lastname) || user.companyName}</Text>
                         <IconPro></IconPro>
                         <Text style={styles.text}>Professionnel</Text>
                     </View>
 
                     <View style={styles.address}>
                         <IconMarker></IconMarker>
-                        <Text style={[styles.text, styles.city]}>Lyon, 69001</Text>
+                        <Text style={[styles.text, styles.city]}>{user.city}, {user.postalCode}</Text>
                     </View>
 
                     <View style={styles.stars}>
@@ -93,7 +106,7 @@ export default function FicheProfilPro({ navigation }) {
 
                     <View style={styles.pricing}>
                         <Text style={styles.critere}>Tarifs : </Text>
-                        <Text style={styles.text}>20€/jour</Text>
+                        <Text style={styles.text}>{user.price}€/jour</Text>
                     </View>
 
                     <FlatList
@@ -104,18 +117,19 @@ export default function FicheProfilPro({ navigation }) {
                     />
 
                     <View style={styles.description}>
-                        <Text >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. </Text>
+                        <Text > {user.description} </Text>
                     </View>
 
                     <View style={styles.blocGallery}>
                         <FlatList
                             horizontal={true}
-                            data={gallery}
-                            renderItem={({ item }) => <Image source={item.src}></Image>}
-                            keyExtractor={item => item.id}
+                            data={JSON.parse(user.imageLocation)}
+                            renderItem={({ item }) => <Image style={styles.image} source={{uri: item}}></Image>}
+                            keyExtractor={item => item}
                         />
                     </View>
+
+                    <Image style={styles.image} source={{uri: JSON.parse(user.imageLocation)[0]}}></Image>
 
                     <View style={styles.btnFooter}>
                         <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => navigation.navigate('FicheReservation')}>
@@ -128,6 +142,7 @@ export default function FicheProfilPro({ navigation }) {
                     </View>
                 </View>
             </SafeAreaView>
+            </>}
         </ScrollView>
     );
 }
@@ -259,5 +274,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 30,
         right: '5%',
+    },
+    image: {
+        minHeight: 150,
+        height: 'auto',
+        width: '100%',
+        alignSelf: 'center',
+        marginBottom: 20,
+        marginTop: 20,
     },
 });
