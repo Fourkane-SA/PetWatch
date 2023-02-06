@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+
+//Basics colors
+$black : #000;
+$white : #FFF;
+
+// Primary Color
+$iceberg: #CEEAF0;
+$azalea : #FAD4D4;
+$snow-flurry : #D9FFCB;
+
+ 
+// Opacity  
+
+:root {
+    font-family: 'Open Sans', sans-serif;
+}
+
+body, p, ul, a {
+    margin : 0;
+    padding: 0;
+    overflow-x: hidden; 
+}
+
+ul {
+    font-size: 16px;
+}

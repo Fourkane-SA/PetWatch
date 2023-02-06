@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap");
+:root {
+  font-family: 'Open Sans', sans-serif; }
+
+body, p, ul, a {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; }
+
+ul {
+  font-size: 16px; }
+
+.header {
+  position: fixed; }
+
+.bloc-welcome {
+  background-color: #CEEAF0; }
+
+.bloc-presentation {
+  background-color: #FFF; }
+
+.bloc-concept {
+  background-color: #FAD4D4; }
+
+.bloc-engagement {
+  background-color: #D9FFCB; }
+
+.bloc-telechargement {
+  background-color: #CEEAF0; }
