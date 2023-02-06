@@ -14,6 +14,7 @@ import CardAjoutAnimaux from '../components/cardAjoutAnimaux';
 import IconParameter from '../assets/moduleSVG/parametresSVG'
 import CardMesDemandes from '../components/cardMesDemandes';
 import ModalParameter from '../components/modalParameter';
+import axios from 'axios';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -22,21 +23,32 @@ var height = Dimensions.get('window').height; //full height
 export default function MesDemandes({ navigation }) {
 
     const [parameter, setParameter] = React.useState(false);
+    const [demandes, setDemandes] = React.useState([]);
+
+    async function initDemandes() {
+        const userId = (await axios.get('/tokens')).data
+        const data = (await axios.get('/reservations/byUserId/client/' + userId)).data
+        setDemandes(data)
+    }
+
+    if(demandes.length === 0) {
+        initDemandes()
+    }
 
     return (
         <ScrollView>
-            <SafeAreaView style={styles.container}>
+            {demandes.length > 0 && <SafeAreaView style={styles.container}>
                 <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
                     <IconParameter></IconParameter>
                 </TouchableOpacity>
-                <View style={[styles.wrapper, styles.bloc]}>
-                    <CardMesDemandes></CardMesDemandes>
+                <View >
+                <FlatList data={demandes} renderItem={({ item }) => <CardMesDemandes id={item.id}></CardMesDemandes>}></FlatList>
                 </View>
                 {parameter == true &&
                     <ModalParameter navigation={navigation} onVisibleChange={(change) => {
                         setParameter(change);
                     }}></ModalParameter>}
-            </SafeAreaView>
+            </SafeAreaView>}
         </ScrollView>
     );
 }

@@ -54,9 +54,6 @@ export default function ChoixAnimauxResa({ navigation }) {
                     <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit]} onPress={() => navigation.navigate('AddAnimal', { title: "Ajouter votre animal", word: "Ajouter", word2: "ajouté", redirection: 'AddAnimal' })}>
                         <Text style={styles.submit}>Ajouter un animal</Text>
                     </TouchableOpacity>
-                    <View style={{width: width*0.9, marginTop: 15}}>
-                        <FlatList data={pet} renderItem={({item}) => <CardAjoutAnimaux selected={false} label="Voir fiche" navigation={navigation} lien='FicheAnimal' id={item.id}></CardAjoutAnimaux>}></FlatList>
-                    </View>
                 </View>
                 {parameter == true &&
                     <ModalParameter navigation={navigation} onVisibleChange={(change) => {
