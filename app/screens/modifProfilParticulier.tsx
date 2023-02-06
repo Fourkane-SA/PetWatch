@@ -69,26 +69,22 @@ export default class ModifProfilParticulier extends Component<Props> {
 
             this.props.navigation.navigate("Home");
         }
-
         else if (this.state.lastname != this.state.user.lastname ||
             this.state.firstname != this.state.user.firstname ||
             this.state.phoneNumber != this.state.user.phoneNumber ||
             this.state.address != this.state.user.address ||
             this.state.city != this.state.user.city ||
             this.state.postalCode != this.state.user.postalCode ||
-            this.state.lastname != this.state.user.lastname || this.state.password != '') {
+            this.state.profilImage != this.state.user.profilImage) {
             try {
                 (await axios.patch('/users/' + this.state.userID, {
                     lastname: this.state.lastname,
                     firstname: this.state.firstname,
                     phoneNumber: this.state.phoneNumber,
-                    email: this.state.email,
                     address: this.state.address,
                     city: this.state.city,
                     postalCode: this.state.postalCode,
                     profilImage: this.state.profilImage,
-                    password : this.state.password,
-
                 })).data
             } catch (e) {
                 console.log("erreur")

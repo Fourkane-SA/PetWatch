@@ -39,7 +39,7 @@ export default class ModalParameter extends Component<Props> {
             if(user.isCompany)
                 this.props.navigation.navigate('ModifProfilPro', {navigation:this.props.navigation})
             else if(user.isIndividual)
-                this.props.navigation.navigate('ModifProfilParticulier')
+                this.props.navigation.navigate('ModifProfilParticulier', {navigation:this.props.navigation})
         }
 
         return (

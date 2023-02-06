@@ -13,6 +13,7 @@ CardReservation doit etre dans une boucle pour afficher toutes les resas*/
 
 export default function CheckDemandeReservation({ navigation }) {
     const [parameter, setParameter] = React.useState(false);
+    
         return (
             <SafeAreaView style={styles.container}>
                 <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
