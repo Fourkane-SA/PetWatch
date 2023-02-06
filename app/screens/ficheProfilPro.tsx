@@ -22,11 +22,18 @@ export default function FicheProfilPro({ navigation , route}) {
     const [reservation, setReservation] = React.useState(0);
     const [parameter, setParameter] = React.useState(false);
     const [user, setUser] = React.useState(null);
+    const [images, setImages] = React.useState([]);
+    const [gabarits, setGabarits] = React.useState([]);
     const id = route.params.id
     
     async function initUser() {
         const data: User = (await axios.get('/users/' + id)).data
         setUser(data)
+        const listGabarit: string[] = JSON.parse(data.acceptedWeight)
+        const gabarits = poids.filter(poids => listGabarit.includes(poids.gabarit))
+
+        setGabarits(gabarits)
+        setImages(JSON.parse(data.imageLocation))
     }
     
     if(user === null)
@@ -51,18 +58,14 @@ export default function FicheProfilPro({ navigation , route}) {
             bg: '#CEEAF0',
             borderWidth: 0,
         },
+        {
+            gabarit: 'Géant',
+            tranche: '45+ kg',
+            bg: '#FAD4D4',
+            borderWidth: 0,
+        },
     ]
 
-    var gallery = [
-        {
-            id: 'img1',
-            src: require('../assets/galerie1.png')
-        },
-        {
-            id: 'img2',
-            src: require('../assets/galerie2.png')
-        },
-    ]
 
     return (
         <ScrollView>
@@ -77,11 +80,10 @@ export default function FicheProfilPro({ navigation , route}) {
                             <Text style={styles.textAvis}>8 avis</Text>
                         </View>
 
-                        <Image style={[styles.img, { left: Dimensions.get('window').width / 2 - 72 }]} source={require('../assets/photo-profil.png')} />
-
+                        <Image style={[styles.img, { left: Dimensions.get('window').width / 2 - 72 }]} source={{uri: user.profilImage || 'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg'}} />
                         <View style={styles.blocIcon}>
-                            <IconChien></IconChien>
-                            <IconChat></IconChat>
+                            {user.keepDogs && <IconChien></IconChien>}
+                            {user.keepCats && <IconChat></IconChat>}
                         </View>
                     </View>
 
@@ -111,8 +113,8 @@ export default function FicheProfilPro({ navigation , route}) {
 
                     <FlatList
                         horizontal={true}
-                        data={poids}
-                        renderItem={({ item }) => <View style={[{ backgroundColor: item.bg }, { borderWidth: item.borderWidth }, styles.listItem]}><Text>{item.gabarit} :  {item.tranche}</Text></View>}
+                        data={gabarits}
+                        renderItem={({ item }) => <View key={item.gabarit} style={[{ backgroundColor: item.bg }, { borderWidth: item.borderWidth }, styles.listItem]}><Text>{item.gabarit} :  {item.tranche}</Text></View>}
                         keyExtractor={item => item.gabarit}
                     />
 
@@ -121,18 +123,19 @@ export default function FicheProfilPro({ navigation , route}) {
                     </View>
 
                     <View style={styles.blocGallery}>
+                        {images.length > 0 && 
                         <FlatList
                             horizontal={true}
-                            data={JSON.parse(user.imageLocation)}
-                            renderItem={({ item }) => <Image style={styles.image} source={{uri: item}}></Image>}
+                            data={images}
+                            renderItem={({ item }) => <View style={{width: width}}><Image source={{uri: item}} style={styles.image}></Image></View>}
                             keyExtractor={item => item}
-                        />
+                        />}
                     </View>
 
-                    <Image style={styles.image} source={{uri: JSON.parse(user.imageLocation)[0]}}></Image>
+                    
 
                     <View style={styles.btnFooter}>
-                        <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => navigation.navigate('FicheReservation')}>
+                        <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => navigation.navigate('FicheReservation', {id: id})}>
                             <Text style={styles.submit}>Réserver</Text>
                         </TouchableOpacity>
 

@@ -20,6 +20,7 @@ class Props {
     lien
     navigation
     id
+    selected
 }
 
 
@@ -39,7 +40,7 @@ export default class CardAjoutAnimaux extends Component<Props> {
 
     render() {
         const doSomething = () => {
-            if (this.props.label != '') {
+            if (this.props.label != 'Ajouter') {
                 console.log(this.props.id)
                 this.props.navigation.navigate(this.props.lien,{id: this.props.id});
             } else {
@@ -49,8 +50,11 @@ export default class CardAjoutAnimaux extends Component<Props> {
         }
 
 
+    const styleBloc = this.props.selected ?  [styles.wrapper, styles.blocSelected] : [styles.wrapper, styles.bloc]
+
+
         return (
-            <View style={[styles.wrapper, styles.bloc]}>
+            <View style={styleBloc}>
                     <View style={styles.header}>
                         {this.state.pet !== null && <Text style={styles.title}>{this.state.pet.name}</Text>}
 
@@ -67,9 +71,9 @@ export default class CardAjoutAnimaux extends Component<Props> {
                         {this.state.pet !== null && <Image style={styles.image} source={{uri: this.state.photos[0]}}></Image>}
                     </View>
 
-                <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => doSomething()}>
+                {this.props.label != '' && <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => doSomething()}>
                     <Text style={styles.submit}>{this.props.label}</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
             </View>
         );
     }
@@ -82,6 +86,12 @@ const styles = StyleSheet.create({
     },
     bloc: {
         backgroundColor: '#FFF6E3',
+        borderRadius: 5,
+        padding: 18,
+        marginBottom: 15
+    },
+    blocSelected: {
+        backgroundColor: '#D9FFCB',
         borderRadius: 5,
         padding: 18,
         marginBottom: 15

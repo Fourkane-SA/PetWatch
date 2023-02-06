@@ -20,5 +20,6 @@ export type User = {
     price: number,
     description: string,
     acceptedWeight: string,
-    imageLocation: string
+    imageLocation: string,
+    password: string
 }

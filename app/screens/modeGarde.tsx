@@ -6,6 +6,7 @@ import RadioButton from '../components/radioButton';
 import IconDownload from '../assets/moduleSVG/downloadSVG'
 import Upload from '../components/Upload';
 import axios from "axios/index";
+import { User } from '../models/User';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -70,7 +71,8 @@ export default class ModeGarde extends Component {
                     keepDogs: this.state.keepDogs,
                     acceptedWeight: JSON.stringify(this.state.gabarit),
                     description: this.state.description,
-                    imageLocation: JSON.stringify(this.state.url)
+                    imageLocation: JSON.stringify(this.state.url),
+                    price: this.state.prix
                 })
                 this.props.navigation.navigate('Home')
             }
@@ -98,6 +100,19 @@ export default class ModeGarde extends Component {
         const newUrl = this.state.url.slice()
         newUrl.push(url)
         this.setState({url: newUrl})
+    }
+
+    async componentDidMount() {
+        const userId = (await axios.get('/tokens')).data
+        const user: User = (await axios.get('/users/' + userId)).data
+        this.setState({
+            keepCat: user.keepCats,
+            keepDogs: user.keepDogs,
+            gabarit: JSON.parse(user.acceptedWeight),
+            prix: user.price,
+            url: JSON.parse(user.imageLocation),
+            description: user.description
+        })
     }
 
     render() {
