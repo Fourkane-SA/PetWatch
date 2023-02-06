@@ -12,6 +12,7 @@ import axios from "axios/index";
 import {Pet} from "../models/Pet";
 import FemelleSVG from "../assets/moduleSVG/iconFemelle";
 import ChatSVG from "../assets/moduleSVG/chatSVG";
+import ModalParameter from '../components/modalParameter';
 
 
 var width = Dimensions.get('window').width; //full width
@@ -20,6 +21,7 @@ var height = Dimensions.get('window').height; //full height
 
 /*Ici passage de parametre par rapport a la page checkReservation car selon l'animal le background change de couleur et egalement l'icon !!!!! */
 type Props = {
+    navigation
     id
 }
 
@@ -98,6 +100,11 @@ export default class FicheAnimal extends Component<Props> {
                             </View>
                         </View>
                     </View>
+                    
+                    {this.state.parameter == true &&
+                    <ModalParameter navigation={this.props.navigation} onVisibleChange={(change) => {
+                        this.setState( {parameter :change});
+                    } }></ModalParameter>}
                 </SafeAreaView>
             </ScrollView>
         )
@@ -182,7 +189,11 @@ const styles = StyleSheet.create({
     abs: {
         position: 'absolute',
         top: 30,
-        right: '5%',
+        right: 0,
+        width: 50,
+        height: 50,
+        zIndex: 5,
+        backgroundColor: 'transparent'
     },
 
 });

@@ -7,7 +7,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModeGarde from './modeGarde'
 import { User } from "../models/User";
 
-import IconModif from '../assets/moduleSVG/iconModif'
+import IconModif from '../assets/moduleSVG/iconModif2'
+import Upload from '../components/Upload';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -29,33 +30,61 @@ export default class ModifProfilPro extends Component<Props> {
 
         const user: User = (await axios.get('/users/' + this.state.userID)).data;
         this.setState({ user: user });
-        this.setState({ companyName : user.companyName});
-        this.setState({ siretNumber : user.siretNumber});
-        this.setState({ website : user.website});
-        this.setState({ phoneNumber : user.phoneNumber});
-        this.setState({ email : user.email});
-        this.setState({ address : user.address});
-        this.setState({city : user.city});
-        this.setState({ postalCode : user.postalCode});
+        this.setState({ companyName: user.companyName });
+        this.setState({ siretNumber: user.siretNumber });
+        this.setState({ website: user.website });
+        this.setState({ phoneNumber: user.phoneNumber });
+        this.setState({ email: user.email });
+        this.setState({ address: user.address });
+        this.setState({ city: user.city });
+        this.setState({ postalCode: user.postalCode });
+        this.setState({ profilImage: user.profilImage });
     }
 
     async setUser() {
-        try {
-            (await axios.patch('/users/'+this.state.userID, {
-              companyName: this.state.companyName,
-              siretNumber: this.state.siretNumber,
-              website: this.state.website,
-              phoneNumber: this.state.phoneNumber,
-              email: this.state.email,
-              address: this.state.address,
-              city: this.state.city,
-              postalCode: this.state.postalCode,
-            })).data
-          }catch (e) {
-            console.log("erreur")
-          }
+        if (this.state.password != "") {
+            try {
+                (await axios.patch('/users/' + this.state.userID, {
+                    companyName: this.state.companyName,
+                    siretNumber: this.state.siretNumber,
+                    website: this.state.website,
+                    phoneNumber: this.state.phoneNumber,
+                    address: this.state.address,
+                    city: this.state.city,
+                    postalCode: this.state.postalCode,
+                    profilImage: this.state.profilImage,
+                    password: this.state.password,
+                })).data
+            } catch (e) {
+                console.log("erreur")
+            }
 
-        this.props.navigation.navigate("ModeGarde");
+            this.props.navigation.navigate("ModeGarde");
+        } else if (this.state.companyName != this.state.user.companyName ||
+            this.state.siretNumber != this.state.user.siretNumber ||
+            this.state.website != this.state.user.website ||
+            this.state.phoneNumber != this.state.user.phoneNumber ||
+            this.state.address != this.state.user.address ||
+            this.state.city != this.state.user.city ||
+            this.state.postalCode != this.state.user.postalCode ||
+            this.state.profilImage != this.state.user.profilImage) {
+            try {
+                (await axios.patch('/users/' + this.state.userID, {
+                    companyName: this.state.companyName,
+                    siretNumber: this.state.siretNumber,
+                    website: this.state.website,
+                    phoneNumber: this.state.phoneNumber,
+                    address: this.state.address,
+                    city: this.state.city,
+                    postalCode: this.state.postalCode,
+                    profilImage: this.state.profilImage
+                })).data
+            } catch (e) {
+                console.log("erreur")
+            }
+
+            this.props.navigation.navigate("ModeGarde");
+        }
     }
 
     state = {
@@ -70,6 +99,9 @@ export default class ModifProfilPro extends Component<Props> {
         address: "",
         city: "",
         postalCode: "",
+        profilImage: "",
+        password: "",
+        showUpload: false,
     }
 
     render() {
@@ -79,43 +111,52 @@ export default class ModifProfilPro extends Component<Props> {
                     {this.state.etape == 1 &&
                         <View style={styles.blocModification}>
                             <View style={styles.blocAvatar}>
-                                <Image style={[styles.img]} source={require('../assets/photo-profil.png')} />
+                                {this.state.profilImage != null &&
+                                    <Image style={[styles.img]} source={{ uri: this.state.profilImage }} />
+                                }
+                                {this.state.profilImage == null &&
+                                    <Image style={[styles.img]} source={require('../assets/photo-profil.png')} />
+                                }
                                 <View style={[styles.icon, { left: (Dimensions.get('window').width * 0.9) / 2 + 15 }]}>
-                                    <TouchableOpacity activeOpacity={.7}>
+                                    <TouchableOpacity style={[styles.modif]} activeOpacity={.7} onPress={() => this.setState({ showUpload: !this.state.showUpload })}>
                                         <IconModif></IconModif>
                                     </TouchableOpacity>
                                 </View>
-                            </View>
 
-                                {this.state.user != null &&
-                                    <>
-                                    <View>
-                                        <TextInput placeholder= "Nom"  value={this.state.companyName} onChangeText={(res) => this.setState({companyName : res, })} style={[styles.champ, styles.identity]}></TextInput>
-                                        <TextInput placeholder="Numéro de SIRET" value={this.state.siretNumber} onChangeText={(res) => this.setState({siretNumber : res, })} style={[styles.champ, , styles.identity]}></TextInput>
-                                        <TextInput placeholder="Site web" value={this.state.website} onChangeText={(res) => this.setState({website : res, })} style={[styles.champ, , styles.identity]}></TextInput>
-                                        <TextInput placeholder="Téléphone professionnel" value={this.state.phoneNumber} onChangeText={(res) => this.setState({phoneNumber : res, })} style={[styles.champ, , styles.identity]}></TextInput>
-                                        <TextInput placeholder="Mail professionnel" value={this.state.email} onChangeText={(res) => this.setState({email: res, })} style={[styles.champ, styles.identity]}></TextInput>
-                                    </View>
-                                    <View>
-                                            <TextInput placeholder="Adresse" value={this.state.address} onChangeText={(res) => this.setState({address : res, })} style={[styles.champ, styles.adresse]}></TextInput>
-                                            <TextInput placeholder="Ville" value={this.state.city} onChangeText={(res) => this.setState({city: res, })} style={[styles.champ, styles.adresse]}></TextInput>
-                                            <TextInput placeholder="Code postal" value={this.state.postalCode} onChangeText={(res) => this.setState({postalCode : res, })} style={[styles.champ, styles.adresse]}></TextInput>
-                                    </View>
-                                    {/* <View>
-                                            <TextInput placeholder="Nouveau mot de passe" style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
-                                            <TextInput placeholder="Mot de passe actuel" style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
-                                    </View> */}
-                                        
-                                        <TouchableOpacity activeOpacity={0.8} style={[styles.champ, styles.containerSubmit]} onPress={() => this.setUser()}>
-                                           
-                                            <Text style={styles.submit}>Continuer {this.state.etape}/2</Text>
-                                        </TouchableOpacity></>
+                                {this.state.showUpload == true &&
 
+                                    <Upload onImageUrlChange={(imageUrl) => this.setState({ profilImage: imageUrl })}></Upload>
                                 }
                             </View>
 
+                            {this.state.user != null &&
+                                <>
+                                    <View>
+                                        <TextInput placeholder="Nom" value={this.state.companyName} onChangeText={(res) => this.setState({ companyName: res })} style={[styles.champ, styles.identity]}></TextInput>
+                                        <TextInput placeholder="Numéro de SIRET" value={this.state.siretNumber} onChangeText={(res) => this.setState({ siretNumber: res })} style={[styles.champ, , styles.identity]}></TextInput>
+                                        <TextInput placeholder="Site web" value={this.state.website} onChangeText={(res) => this.setState({ website: res })} style={[styles.champ, , styles.identity]}></TextInput>
+                                        <TextInput placeholder="Téléphone professionnel" value={this.state.phoneNumber} onChangeText={(res) => this.setState({ phoneNumber: res })} style={[styles.champ, , styles.identity]}></TextInput>
+                                        <Text style={[styles.champ, styles.identity]}>{this.state.email}</Text>
+                                    </View>
+                                    <View>
+                                        <TextInput placeholder="Adresse" value={this.state.address} onChangeText={(res) => this.setState({ address: res })} style={[styles.champ, styles.adresse]}></TextInput>
+                                        <TextInput placeholder="Ville" value={this.state.city} onChangeText={(res) => this.setState({ city: res, })} style={[styles.champ, styles.adresse]}></TextInput>
+                                        <TextInput placeholder="Code postal" value={this.state.postalCode} onChangeText={(res) => this.setState({ postalCode: res, })} style={[styles.champ, styles.adresse]}></TextInput>
+                                    </View>
+
+                                    <View>
+                                        <TextInput placeholder="Nouveau mot de passe" value={this.state.password} onChangeText={(res) => this.setState({ password: res })} style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
+                                    </View>
+
+                                    <TouchableOpacity activeOpacity={0.8} style={[styles.champ, styles.containerSubmit]} onPress={() => this.setUser()}>
+                                        <Text style={styles.submit}>Continuer {this.state.etape}/2</Text>
+                                    </TouchableOpacity></>
+
+                            }
+                        </View>
+
                     }
-                        </SafeAreaView>
+                </SafeAreaView>
             </ScrollView>
         );
     }
@@ -128,7 +169,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         width: width,
-        marginBottom: 80,
     },
     blocModification: {
         width: '90%',
@@ -152,16 +192,25 @@ const styles = StyleSheet.create({
         marginBottom: 18,
         borderRadius: 5,
         paddingLeft: 20,
+        textAlignVertical: 'center',
     },
     img: {
         width: 72,
         height: 72,
         borderRadius: 500,
     },
+    modif: {
+        backgroundColor:  '#FAD4D4',
+        borderRadius: 50,
+        width: 30,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+    },
     icon: {
         position: 'absolute',
-        bottom: -10,
-        left: '50%',
+        top: 50,
     },
     containerSubmit: {
         minHeight: 50,

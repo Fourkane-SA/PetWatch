@@ -13,6 +13,7 @@ import IconStarFilled from '../assets/moduleSVG/starFilled'
 import CardAjoutAnimaux from '../components/cardAjoutAnimaux';
 import IconParameter from '../assets/moduleSVG/parametresSVG'
 import CardMesDemandes from '../components/cardMesDemandes';
+import ModalParameter from '../components/modalParameter';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -31,6 +32,10 @@ export default function MesDemandes({ navigation }) {
                 <View style={[styles.wrapper, styles.bloc]}>
                     <CardMesDemandes></CardMesDemandes>
                 </View>
+                {parameter == true &&
+                    <ModalParameter navigation={navigation} onVisibleChange={(change) => {
+                        setParameter(change);
+                    }}></ModalParameter>}
             </SafeAreaView>
         </ScrollView>
     );
@@ -130,7 +135,11 @@ const styles = StyleSheet.create({
     },
     abs: {
         position: 'absolute',
-        top: 30,
-        right: '5%',
+        top: 25,
+        right: 0,
+        width: 50,
+        height: 50,
+        zIndex: 5,
+        backgroundColor: 'transparent'
     },
 });

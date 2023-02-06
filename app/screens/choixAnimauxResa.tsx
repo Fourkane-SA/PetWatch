@@ -14,6 +14,7 @@ import CardAjoutAnimaux from '../components/cardAjoutAnimaux';
 import IconParameter from '../assets/moduleSVG/parametresSVG'
 import axios from 'axios';
 import { Pet } from '../models/Pet';
+import ModalParameter from '../components/modalParameter';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -30,7 +31,8 @@ export default class ChoixAnimauxResa extends Component<Props> {
     state = {
         pets: [],
         selectedPets: [],
-        petsNameSelected: []
+        petsNameSelected: [],
+        parameter: false
 
     }
 
@@ -89,9 +91,9 @@ export default class ChoixAnimauxResa extends Component<Props> {
 
             <ScrollView>
              <SafeAreaView style={styles.container}>
-                 {/* <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
+                 <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => this.setState({parameter: false})} onPressOut={() => this.setState({parameter: false})}>
                      <IconParameter></IconParameter>
-                 </TouchableOpacity> */}
+                 </TouchableOpacity> 
                  <View style={[styles.wrapper]}>
                      <FlatList 
                          data={this.state.pets}
@@ -109,6 +111,10 @@ export default class ChoixAnimauxResa extends Component<Props> {
                          <Text style={styles.submit}>Confirmer</Text>
                      </TouchableOpacity>
                  </View>
+                 {this.state.parameter == true &&
+                    <ModalParameter navigation={this.props.navigation} onVisibleChange={(change) => {
+                        this.setState({parameter: change});
+                    } }></ModalParameter>}
              </SafeAreaView>
              </ScrollView>
         )
@@ -215,6 +221,10 @@ const styles = StyleSheet.create({
     abs: {
         position: 'absolute',
         top: 30,
-        right: '5%',
+        right: 0,
+        width: 50,
+        height: 50,
+        zIndex: 5,
+        backgroundColor:'transparent'
     },
 });

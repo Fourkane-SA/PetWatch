@@ -13,6 +13,7 @@ CardReservation doit etre dans une boucle pour afficher toutes les resas*/
 
 export default function CheckDemandeReservation({ navigation }) {
     const [parameter, setParameter] = React.useState(false);
+    
         return (
             <SafeAreaView style={styles.container}>
                 <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
     wrapper: {
         width: '90%',
         alignItems: 'center',
+        marginTop: 60,
     },
     title: {
         fontSize: 20,
@@ -71,6 +73,10 @@ const styles = StyleSheet.create({
     abs: {
         position: 'absolute',
         top: 30,
-        right: '5%',
+        right: 0,
+        width: 50,
+        height: 50,
+        zIndex: 5,
+        backgroundColor: 'transparent'
     },
 });

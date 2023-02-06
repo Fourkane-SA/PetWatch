@@ -1,18 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Image} from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Image } from 'react-native';
 import { Dimensions } from "react-native";
-import React from "react";
+import React, { Component } from "react";
 import axios from "axios/index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import IconModif from '../assets/moduleSVG/iconModif'
+import { User } from '../models/User';
+import Upload from '../components/Upload';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 /*TODO Code A modifier pour faire une modification de profil + value par defaut dans les input sont infos du compte */
 
-export default function ModifProfilParticulier({navigation}) {
+class Props {
+    navigation
+}
+
+export default class ModifProfilParticulier extends Component<Props> {
 
     // const [nom, setNom] = React.useState()
     // const [prenom, setPrenom] = React.useState()
@@ -21,71 +27,140 @@ export default function ModifProfilParticulier({navigation}) {
     // const [adresse, setAdresse] = React.useState()
     // const [ville, setVille] = React.useState()
     // const [codePostal, setCodePostal] = React.useState()
-    // const [motDePasse, setMotDePasse] = React.useState()
     // const [messageErreur, setMessageErreur] = React.useState()
 
-    // async function inscription() {
-    //     try {
-    //         const data = {
-    //             password: motDePasse,
-    //             email: mail,
-    //             phoneNumber: numero,
-    //             role: 'individual',
-    //             city: ville,
-    //             postalCode: codePostal,
-    //             address: adresse,
-    //             firstname: prenom,
-    //             lastname: nom
-    //         }
-    //         const token =  (await axios.post('/users',data )).data
-    //         await AsyncStorage.setItem('token', token) // connexion
-    //         navigation.navigate('AddAnimal')
+    async componentDidMount() {
 
-    //     } catch (e) {
-    //         //console.log(e.response.data)
-    //         setMessageErreur(e.response.data)
-    //     }
-    // }
+        const userID = (await axios.get('/tokens')).data;
+        this.setState({ userID: userID });
 
-    return (
-        <ScrollView>
-            <SafeAreaView style={styles.container}>
-                <View style={styles.blocModification}>
-                    <View style={styles.blocAvatar}>
-                        <Image style={[styles.img]} source={require('../assets/photo-profil.png')}/>
-                        <View style={[styles.icon, {left: (Dimensions.get('window').width *0.9) /2 + 15 } ]}>
-                            <TouchableOpacity activeOpacity={.7}>
-                                <IconModif width="30" height="30" ></IconModif>
-                            </TouchableOpacity>
+       // console.log(userID);
+
+        const user: User = (await axios.get('/users/' + this.state.userID)).data;
+        this.setState({ user: user });
+        //console.log(user);
+        this.setState({ lastname: user.lastname });
+        this.setState({ firstname: user.firstname });
+        this.setState({ phoneNumber: user.phoneNumber });
+        this.setState({ email: user.email });
+        this.setState({ address: user.address });
+        this.setState({ city: user.city });
+        this.setState({ postalCode: user.postalCode });
+        this.setState({ profilImage: user.profilImage });
+    }
+
+    async setUser() {
+        if (this.state.password != "") {
+            try {
+                (await axios.patch('/users/' + this.state.userID, {
+                    lastname: this.state.lastname,
+                    fistname: this.state.firstname,
+                    phoneNumber: this.state.phoneNumber,
+                    address: this.state.address,
+                    city: this.state.city,
+                    postalCode: this.state.postalCode,
+                    profilImage: this.state.profilImage,
+                    password: this.state.password,
+
+                })).data
+            } catch (e) {
+                console.log("erreur")
+            }
+
+            this.props.navigation.navigate("Home");
+        }
+        else if (this.state.lastname != this.state.user.lastname ||
+            this.state.firstname != this.state.user.firstname ||
+            this.state.phoneNumber != this.state.user.phoneNumber ||
+            this.state.address != this.state.user.address ||
+            this.state.city != this.state.user.city ||
+            this.state.postalCode != this.state.user.postalCode ||
+            this.state.profilImage != this.state.user.profilImage) {
+            try {
+                (await axios.patch('/users/' + this.state.userID, {
+                    lastname: this.state.lastname,
+                    firstname: this.state.firstname,
+                    phoneNumber: this.state.phoneNumber,
+                    address: this.state.address,
+                    city: this.state.city,
+                    postalCode: this.state.postalCode,
+                    profilImage: this.state.profilImage,
+                })).data
+            } catch (e) {
+                console.log("erreur")
+            }
+
+            this.props.navigation.navigate("Home");
+        }
+    }
+
+    state = {
+        etape: 1,
+        userID: null,
+        user: null,
+        lastname: "",
+        firstname: "",
+        phoneNumber: "",
+        email: "",
+        address: "",
+        city: "",
+        postalCode: "",
+        profilImage: "",
+        password: "",
+        showUpload: false,
+    }
+
+    render() {
+        return (
+            <ScrollView>
+                <SafeAreaView style={styles.container}>
+                    <View style={styles.blocModification}>
+                        <View style={styles.blocAvatar}>
+                            {this.state.profilImage != null &&
+                                <Image style={[styles.img]} source={{ uri: this.state.profilImage }} />
+                            }
+                            {this.state.profilImage == null &&
+                                <Image style={[styles.img]} source={require('../assets/photo-profil.png')} />
+                            }
+                            <View style={[styles.icon, { left: (Dimensions.get('window').width * 0.9) / 2 + 15 }]}>
+                                <TouchableOpacity activeOpacity={.7} onPress={() => this.setState({ showUpload: !this.state.showUpload })}>
+                                    <IconModif width="30" height="30" ></IconModif>
+                                </TouchableOpacity>
+                            </View>
+
+                            {this.state.showUpload == true &&
+
+                                <Upload onImageUrlChange={(imageUrl) => this.setState({ profilImage: imageUrl })}></Upload>
+
+                            }
                         </View>
+
+                        <View>
+                            <TextInput placeholder="Nom" value={this.state.lastname} onChangeText={(res) => this.setState({ lastname: res })} style={[styles.champ, styles.identity]} ></TextInput>
+                            <TextInput placeholder="Prénom" value={this.state.firstname} onChangeText={(res) => this.setState({ firstname: res })} style={[styles.champ, styles.identity]}></TextInput>
+                            <Text style={[styles.champ, styles.identity]}> {this.state.email}</Text>
+                            <TextInput placeholder="Numéro de téléphone" value={this.state.phoneNumber} onChangeText={(res) => this.setState({ phoneNumber: res })} style={[styles.champ, styles.identity]}></TextInput>
+                        </View>
+
+                        <View>
+                            <TextInput placeholder="Adresse" value={this.state.address} onChangeText={(res) => this.setState({ address: res })} style={[styles.champ, styles.adresse]}></TextInput>
+                            <TextInput placeholder="Ville" value={this.state.city} onChangeText={(res) => this.setState({ city: res })} style={[styles.champ, styles.adresse]}></TextInput>
+                            <TextInput placeholder="Code postal" value={this.state.postalCode} onChangeText={(res) => this.setState({ postalCode: res })} style={[styles.champ, styles.adresse]}></TextInput>
+                        </View>
+
+                        <View>
+                            <TextInput placeholder="Nouveau mot de passe" value={this.state.password} onChangeText={(res) => this.setState({ password: res })} style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
+                        </View>
+
+                        <TouchableOpacity activeOpacity={0.8} style={[styles.champ, styles.containerSubmit]} onPress={() => this.setUser()}>
+                            <Text style={styles.submit}>Mettre à jour</Text>
+                        </TouchableOpacity>
+
                     </View>
-
-                    <View>
-                        <TextInput placeholder="Nom" value="Nina" style={[styles.champ, styles.identity]} ></TextInput>
-                        <TextInput placeholder="Prénom" value="Ricci" style={[styles.champ, styles.identity]}></TextInput>
-                        <TextInput placeholder="Adresse mail" value="mail@mail.fr" style={[styles.champ, styles.identity]}></TextInput>
-                        <TextInput placeholder="Numéro de téléphone" value="0606060606" style={[styles.champ, styles.identity]}></TextInput>
-                    </View>
-
-                    <View>
-                        <TextInput placeholder="Adresse" value="Rue de Marseille" style={[styles.champ, styles.adresse]}></TextInput>
-                        <TextInput placeholder="Ville" value="Lyon" style={[styles.champ, styles.adresse]}></TextInput>
-                        <TextInput placeholder="Code postal" value="69007" style={[styles.champ, styles.adresse]}></TextInput>
-                    </View>
-
-                    <View>
-                        <TextInput placeholder="Nouveau mot de passe" style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
-                        <TextInput placeholder="Mot de passe actuel" style={[styles.champ, styles.mdp]} secureTextEntry={true}></TextInput>
-                    </View>
-
-                    <TouchableOpacity activeOpacity={0.8} style={[styles.champ,styles.containerSubmit]}>
-                        <Text style={styles.submit}>Mettre à jour</Text>
-                    </TouchableOpacity>
-
-                </View>
-            </SafeAreaView>
-        </ScrollView>
-    );
+                </SafeAreaView>
+            </ScrollView>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -118,6 +193,7 @@ const styles = StyleSheet.create({
         marginBottom: 18,
         borderRadius: 5,
         paddingLeft: 20,
+        textAlignVertical: "center",
     },
     img: {
         width: 72,
@@ -150,9 +226,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#FAD4D4',
     },
     erreur: {
-    textAlign: "center",
-    marginTop: 10,
-    color: 'red',
-    fontSize: 16
+        textAlign: "center",
+        marginTop: 10,
+        color: 'red',
+        fontSize: 16
     },
 });

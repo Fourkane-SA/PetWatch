@@ -21,5 +21,5 @@ export type User = {
     description: string,
     acceptedWeight: string,
     imageLocation: string,
-    password: string
+    password : string,
 }

@@ -34,11 +34,12 @@ import MesAnimaux from './screens/mesAnimaux'
 import FicheAnimal from './screens/ficheAnimal'
 import Messagerie from './screens/messagerie'
 import MesDemandes from './screens/mesDemandes'
-import CalendarSVG from "./assets/moduleSVG/calendarSVG";
 import CheckReservation from "./screens/checkDemandeReservation";
 import AnimSVG from "./assets/moduleSVG/animSVG";
 import MessagerieSVG from "./assets/moduleSVG/messagerieSVG";
-import NotifSVG from "./assets/moduleSVG/notifSVG";
+// import NotifSVG from "./assets/moduleSVG/notifSVG";
+
+import CalendarMenuSVG from './assets/moduleSVG/calendarMenu';
 
 /*const getToken = async () => {
     await AsyncStorage.getItem('token')
@@ -58,11 +59,9 @@ function StackAccueil() {
             <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheReservation" component={FicheReservation}></Stack.Screen>
             <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FenetreChat" component={FenetreChat}></Stack.Screen>
             <Stack.Screen options={{ headerShown: true, headerTitle: 'Choisir animaux' }} name="ChoixAnimauxResa" component={ChoixAnimauxResa}></Stack.Screen>
-
         </Stack.Navigator>
     )
 }
-
 
 
 function StackAnimaux() {
@@ -89,7 +88,7 @@ function Tabs() {
                         else if(route.name === 'MesAnimaux')
                             return <View style={styles.tab}><AnimSVG></AnimSVG></View>
                         else if(route.name === 'MesDemandes')
-                            return <View style={styles.tab}><NotifSVG></NotifSVG></View>
+                            return <View style={styles.tab}><CalendarMenuSVG></CalendarMenuSVG></View>
                         else if(route.name === 'Messagerie')
                             return <View style={styles.tab}><MessagerieSVG></MessagerieSVG></View>
                     },
@@ -109,7 +108,7 @@ function Tabs() {
           screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
                   if(route.name === 'CheckReservation')
-                      return <View style={styles.tab}><NotifSVG></NotifSVG></View>
+                      return <View style={styles.tab}><CalendarMenuSVG></CalendarMenuSVG></View>
                   else if(route.name === 'Messagerie')
                       return <View style={styles.tab}><MessagerieSVG></MessagerieSVG></View>
               },
