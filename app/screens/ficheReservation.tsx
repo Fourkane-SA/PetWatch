@@ -11,102 +11,132 @@ import IconParticulier from '../assets/moduleSVG/iconParticulier'
 import IconMarker from '../assets/moduleSVG/iconMarker'
 import IconStarFilled from '../assets/moduleSVG/starFilled'
 import IconParameter from '../assets/moduleSVG/parametresSVG'
+import { User } from '../models/User';
+import axios from 'axios';
 import ModalParameter from '../components/modalParameter';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
-export default function FicheReservation({ navigation }) {
+export default function FicheReservation({ navigation, route }) {
 
     const [reservation, setReservation] = React.useState(false);
     const [dates, setDates] = React.useState([]);
     const [parameter, setParameter] = React.useState(false);
+    const [user, setUser] = React.useState(null);
+    const [errorMessage, setErrorMessage] = React.useState('');
 
     const pull_dates = (dates) => {
         console.log(dates);
         setDates(dates);
     }
 
+    console.log(route.params.id)
+
+    async function initUser() {
+        const user: User = (await axios.get('/users/' + route.params.id)).data
+        setUser(user)
+    }
+
+    if(user === null)
+        initUser()
+
+    function confirm() {
+        console.log(dates)
+        if(dates.length > 2) {
+            navigation.navigate('ChoixAnimauxResa', {
+                id: route.params.id,
+                dates: dates
+            })
+        }
+        
+        else
+            setErrorMessage('Veuillez selectionner la période de la réservation')
+    }
+
     return (
         <ScrollView>
-            <SafeAreaView style={styles.container}>
-            <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
-                <IconParameter></IconParameter>
-            </TouchableOpacity>
             
-                <View style={[styles.wrapper, styles.bloc]}>
-                    <View style={styles.header}>
-                        <View style={styles.blocAvis}>
-                            <Text style={styles.textAvis}>8 avis</Text>
+            {user !== null && <>
+                <SafeAreaView style={styles.container}>
+                <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
+                    <IconParameter></IconParameter>
+                </TouchableOpacity>
+                
+                    <View style={[styles.wrapper, styles.bloc]}>
+                        <View style={styles.header}>
+                            <View style={styles.blocAvis}>
+                                <Text style={styles.textAvis}>8 avis</Text>
+                            </View>
+
+                            <Image style={[styles.img, { left: Dimensions.get('window').width / 2 - 72 }]} source={require('../assets/photo-profil.png')} />
+
+                            <View style={styles.blocIcon}>
+                                {user.keepDogs && <IconChien></IconChien>}
+                                {user.keepCats && <IconChat></IconChat>}
+                            </View>
                         </View>
 
-                        <Image style={[styles.img, { left: Dimensions.get('window').width / 2 - 72 }]} source={require('../assets/photo-profil.png')} />
-
-                        <View style={styles.blocIcon}>
-                            <IconChien></IconChien>
-                            <IconChat></IconChat>
+                        <View style={styles.identity}>
+                            <Text style={styles.text}>{(user.firstname + user.lastname) || user.companyName}</Text>
+                            <IconPro></IconPro>
+                            <Text style={styles.text}>Professionnel</Text>
                         </View>
-                    </View>
 
-                    <View style={styles.identity}>
-                        <Text style={styles.text}>KeepPet</Text>
-                        <IconPro></IconPro>
-                        <Text style={styles.text}>Professionnel</Text>
-                    </View>
-
-                    <View style={styles.address}>
-                        <IconMarker></IconMarker>
-                        <Text style={[styles.text, styles.city]}>Lyon, 69001</Text>
-                    </View>
-
-                    <View style={styles.stars}>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                    </View>
-
-                    <View style={styles.pricing}>
-                        <Text style={styles.critere}>Tarifs : </Text>
-                        <Text style={styles.text}>20€/jour</Text>
-                    </View>
-
-                    <ScrollView>
-                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => setReservation(!reservation)}>
-                        <Text style={styles.submit}>Sélectionner mes dates </Text>
-                    </TouchableOpacity>
-
-                    { dates[1] != null && 
-                        <View style={styles.blocDate}>
-                            {dates[1] != null &&
-                                <Text> Du {dates[1]}</Text>
-                            }
-                            {dates[2] != null &&
-                                <Text> au {dates[2]}</Text>
-                            }
+                        <View style={styles.address}>
+                            <IconMarker></IconMarker>
+                            <Text style={[styles.text, styles.city]}>{user.city}, {user.postalCode}</Text>
                         </View>
-                    }
 
-                    {
-                        reservation == true &&
-                        <View style={styles.blocCalendar}>
-                            <Calendar func={pull_dates}></Calendar>
+                        <View style={styles.stars}>
+                            <IconStarFilled></IconStarFilled>
+                            <IconStarFilled></IconStarFilled>
+                            <IconStarFilled></IconStarFilled>
+                            <IconStarFilled></IconStarFilled>
+                            <IconStarFilled></IconStarFilled>
                         </View>
-                    }
 
-                    <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.bgRed]} onPress={() => navigation.navigate('ChoixAnimauxResa')}>
-                        <Text style={styles.submit}>Selectionner mes animaux</Text>
-                    </TouchableOpacity>
-                    </ScrollView>
-                </View>
+                        <View style={styles.pricing}>
+                            <Text style={styles.critere}>Tarifs : </Text>
+                            <Text style={styles.text}>{user.price}€/jour</Text>
+                        </View>
 
-                {parameter == true &&
+                        <ScrollView>
+                        <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => setReservation(!reservation)}>
+                            <Text style={styles.submit}>Sélectionner mes dates </Text>
+                        </TouchableOpacity>
+
+                        { dates[1] != null && 
+                            <View style={styles.blocDate}>
+                                {dates[1] != null &&
+                                    <Text> Du {dates[1]}</Text>
+                                }
+                                {dates[2] != null &&
+                                    <Text> au {dates[2]}</Text>
+                                }
+                            </View>
+                        }
+
+                        {
+                            reservation == true &&
+                            <View style={styles.blocCalendar}>
+                                <Calendar func={pull_dates}></Calendar>
+                            </View>
+                        }
+
+                        <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.bgRed]} onPress={() => confirm()}>
+                            <Text style={styles.submit}>Selectionner mes animaux</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.error}>{errorMessage}</Text>
+                        </ScrollView>
+                        {parameter == true &&
                     <ModalParameter navigation={navigation} onVisibleChange={(change) => {
                         setParameter(change);
                     } }></ModalParameter>}
-            </SafeAreaView>
+                    </View>
+                </SafeAreaView>
+            </>}
         </ScrollView>
     );
 }
@@ -224,4 +254,10 @@ const styles = StyleSheet.create({
         zIndex: 5,
         backgroundColor: 'transparent'
     },
+    error: {
+        textAlign: "center",
+        marginTop: 10,
+        color: 'red',
+        fontSize: 16
+    }
 });

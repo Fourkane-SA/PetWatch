@@ -37,7 +37,6 @@ export default class FicheAnimal extends Component<Props> {
         const res = (await axios.get('/pets/' + this.props.route.params.id)).data
         this.setState({pet: res})
         this.setState({url: JSON.parse(this.state.pet.photoUrl)})
-        console.log(this.state.pet)
     }
 
     render() {
@@ -112,80 +111,7 @@ export default class FicheAnimal extends Component<Props> {
     }
 }
 
-/*export default function FicheAnimal({ navigation }, id) {
-    const [parameter, setParameter] = React.useState(false);
-    const [pet, setPet] = React.useState(null);
 
-    async function initValues() {
-        console.log(id)
-        if(pet === null) {
-            const res = (await axios.get('/pets/' + id)).data
-            setPet(res)
-            console.log(pet)
-        }
-    }
-    initValues()
-    return (
-        <ScrollView>
-            <SafeAreaView style={styles.container}>
-                <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
-                    <IconParameter></IconParameter>
-                </TouchableOpacity>
-                <View style={[styles.wrapper, styles.bloc]}>
-                    <View style={styles.header}>
-                        {pet !== null && <Text style={styles.title}>{pet.name}</Text>}
-
-                        <View style={styles.blocIcon}>
-                            <IconMale></IconMale>
-                            <IconChien></IconChien>
-                        </View>
-                    </View>
-
-                    <View style={styles.infos}>
-                        <Image style={styles.image} source={require('../assets/photoChien.png')}></Image>
-                        <View style={styles.infosbloc}>
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Date de naissance :</Text>
-                                <Text style={styles.reponse}>17/09/2018</Text>
-                            </View>
-
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Date d'adoption :</Text>
-                                <Text style={styles.reponse}>17/12/2018</Text>
-                            </View>
-
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Gabarit et poids :</Text>
-                                <Text style={styles.reponse}>Grand, 18-45kg</Text>
-                            </View>
-
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Allergies :</Text>
-                                <Text style={styles.reponse}>Saumon</Text>
-                            </View>
-
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Vaccins :</Text>
-                                <Text style={styles.reponse}>Liste des vaccins</Text>
-                            </View>
-
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Dernière consultation :</Text>
-                                <Text style={styles.reponse}>6/12/2012</Text>
-                            </View>
-
-                            <View style={styles.iconModif}>
-                                <TouchableOpacity activeOpacity={.7} onPress={() => navigation.navigate('AddAnimal', {title : "Modifier votre animal" , word:"Modifier", word2:"modifié"})}>
-                                    <IconModif width="50" height="50"></IconModif>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                </View>
-            </SafeAreaView>
-        </ScrollView>
-    );
-}*/
 
 const styles = StyleSheet.create({
     container: {

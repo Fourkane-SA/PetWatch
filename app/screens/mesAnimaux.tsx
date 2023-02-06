@@ -36,7 +36,6 @@ export default function ChoixAnimauxResa({ navigation }) {
         if (pet.length === 0) {
             const userId = (await axios.get('/tokens')).data
             const pets: Pet[] = (await axios.get('/pets/byUserId/' + userId)).data
-            console.log(pets)
             setPet(pets)
         }
     }
@@ -50,7 +49,7 @@ export default function ChoixAnimauxResa({ navigation }) {
                 </TouchableOpacity>
                 <View style={[styles.wrapper, styles.bloc]}>
                     <View style={{ width: width * 0.9, marginTop: 15 }}>
-                        <FlatList data={pet} renderItem={({ item }) => <CardAjoutAnimaux label="Voir fiche" navigation={navigation} lien='FicheAnimal' id={item.id}></CardAjoutAnimaux>}></FlatList>
+                        <FlatList data={pet} renderItem={({ item }) => <CardAjoutAnimaux selected={false} label="Voir fiche" navigation={navigation} lien='FicheAnimal' id={item.id}></CardAjoutAnimaux>}></FlatList>
                     </View>
                     <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit]} onPress={() => navigation.navigate('AddAnimal', { title: "Ajouter votre animal", word: "Ajouter", word2: "ajouté", redirection: 'AddAnimal' })}>
                         <Text style={styles.submit}>Ajouter un animal</Text>
@@ -61,7 +60,7 @@ export default function ChoixAnimauxResa({ navigation }) {
                         setParameter(change);
                     }}></ModalParameter>}
             </SafeAreaView>
-        </ScrollView>
+            </ScrollView>
     );
 }
 
