@@ -12,6 +12,7 @@ import IconMarker from '../assets/moduleSVG/iconMarker'
 import IconStarFilled from '../assets/moduleSVG/starFilled'
 import CardAjoutAnimaux from '../components/cardAjoutAnimaux';
 import IconParameter from '../assets/moduleSVG/parametresSVG'
+import ModalParameter from '../components/modalParameter';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -41,6 +42,10 @@ export default function ChoixAnimauxResa({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
+            {parameter == true &&
+                    <ModalParameter navigation={navigation} onVisibleChange={(change) => {
+                        setParameter(change);
+                    } }></ModalParameter>}
         </ScrollView>
     );
 }

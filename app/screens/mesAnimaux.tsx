@@ -14,6 +14,7 @@ import CardAjoutAnimaux from '../components/cardAjoutAnimaux';
 import IconParameter from '../assets/moduleSVG/parametresSVG'
 import { Pet } from "../models/Pet";
 import axios from "axios/index";
+import ModalParameter from '../components/modalParameter';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -55,6 +56,10 @@ export default function ChoixAnimauxResa({ navigation }) {
                         <Text style={styles.submit}>Ajouter un animal</Text>
                     </TouchableOpacity>
                 </View>
+                {parameter == true &&
+                    <ModalParameter navigation={navigation} onVisibleChange={(change) => {
+                        setParameter(change);
+                    }}></ModalParameter>}
             </SafeAreaView>
         </ScrollView>
     );

@@ -11,6 +11,7 @@ import IconParticulier from '../assets/moduleSVG/iconParticulier'
 import IconMarker from '../assets/moduleSVG/iconMarker'
 import IconStarFilled from '../assets/moduleSVG/starFilled'
 import IconParameter from '../assets/moduleSVG/parametresSVG'
+import ModalParameter from '../components/modalParameter';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -98,9 +99,13 @@ export default function FicheReservation({ navigation }) {
                     <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.bgRed]} onPress={() => navigation.navigate('ChoixAnimauxResa')}>
                         <Text style={styles.submit}>Selectionner mes animaux</Text>
                     </TouchableOpacity>
-
                     </ScrollView>
                 </View>
+
+                {parameter == true &&
+                    <ModalParameter navigation={navigation} onVisibleChange={(change) => {
+                        setParameter(change);
+                    } }></ModalParameter>}
             </SafeAreaView>
         </ScrollView>
     );

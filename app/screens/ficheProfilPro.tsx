@@ -12,6 +12,7 @@ import IconStarFilled from '../assets/moduleSVG/starFilled'
 import IconParameter from '../assets/moduleSVG/parametresSVG'
 import { User } from '../models/User';
 import axios from 'axios';
+import ModalParameter from '../components/modalParameter';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -141,6 +142,10 @@ export default function FicheProfilPro({ navigation , route}) {
                         </TouchableOpacity>
                     </View>
                 </View>
+                {parameter == true &&
+                    <ModalParameter navigation={navigation} onVisibleChange={(change) => {
+                        setParameter(change);
+                    } }></ModalParameter>}
             </SafeAreaView>
             </>}
         </ScrollView>
@@ -158,7 +163,7 @@ const styles = StyleSheet.create({
     wrapper: {
         margin: 'auto',
         alignItems: 'center',
-        marginTop: 80,
+        marginTop: 90,
         marginBottom: 20,
         width: '90%',
     },

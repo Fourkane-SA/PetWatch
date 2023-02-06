@@ -26,6 +26,9 @@ export default class CardMesDemandes extends Component {
                             <Text style={styles.nom}>Pet Sitter</Text>
                         </View>
 
+
+                        <Image style={[styles.img, {left: Dimensions.get('window').width /2 - 72}]} source={require('../assets/photo-profil.png')} />
+
                         <View style={styles.blocIcon}>
                             <IconChien></IconChien>
                             <IconChat></IconChat>
@@ -40,6 +43,13 @@ export default class CardMesDemandes extends Component {
                     <View style={styles.address}>
                         <IconMarker></IconMarker>
                         <Text style={[styles.text, styles.city]}>Lyon, 69001</Text>
+                    </View>
+
+                    <View style={styles.address}>
+                        <Text style={[styles.text, styles.city]}>Du 16-01-2023 au 19-01-2023</Text>
+                    </View>
+                    <View style={styles.address}>
+                        <Text style={[styles.text, styles.city]}>Pour Kiki et Coco</Text>
                     </View>
 
                     <Text style={styles.statusAttente}>
@@ -76,6 +86,13 @@ const styles = StyleSheet.create({
         width: '100%',
         marginBottom: 20,
         position: 'relative'
+    },
+    img: {
+        width: 72,
+        height: 72,
+        position: 'absolute',
+        marginTop: -50,
+        borderRadius: 500,
     },
     blocIcon: {
         flexDirection: 'row',
