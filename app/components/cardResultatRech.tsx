@@ -10,66 +10,83 @@ import IconPro from '../assets/moduleSVG/iconPro'
 import IconParticulier from '../assets/moduleSVG/iconParticulier'
 import IconMarker from '../assets/moduleSVG/iconMarker'
 import IconStarFilled from '../assets/moduleSVG/starFilled'
+import {User} from "../models/User";
+import axios from "axios/index";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 class Props {
     navigation
+    id
 }
 
 
 export default class CardDemandeReservation extends Component<Props> {
 
+    state = {
+        user: null,
+        avis: 0
+    }
+
+    async componentDidMount() {
+        const user: User = (await axios.get('/users/'+this.props.id)).data
+        user.companyName
+        this.setState({user: user})
+    }
+
     render() {
         const redirection = () => {
-            this.props.navigation.navigate('FicheProfilPro');
+            this.props.navigation.navigate('FicheProfilPro', {id: this.props.id});
         }
-        
+
         return (
             <SafeAreaView style={styles.container}>
-                <View style={[styles.wrapper, styles.bloc]}>
-                    <View style={styles.header}>
-                        <View style={styles.blocAvis}>
-                            <Text style={styles.textAvis}>8 avis</Text>
+                { this.state.user !== null &&
+                    <>
+                        <View style={[styles.wrapper, styles.bloc]}>
+                            <View style={styles.header}>
+                                <View style={styles.blocAvis}>
+                                    <Text style={styles.textAvis}>{this.state.avis} avis</Text>
+                                </View>
+
+                                <Image style={[styles.img, {left: Dimensions.get('window').width /2 - 72}]} source={{uri: this.state.user.profilImage || 'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg'}} />
+
+                                <View style={styles.blocIcon}>
+                                    {this.state.user.keepDogs && <IconChien></IconChien>}
+                                    {this.state.user.keepCats && <IconChat></IconChat>}
+                                </View>
+                            </View>
+
+                            <View style={styles.identity}>
+                                <Text style={styles.text}>{(this.state.user.firstname + this.state.user.lastname) || this.state.user.companyName}</Text>
+                                <IconPro></IconPro>
+                                <Text style={styles.text}>Professionnel</Text>
+                            </View>
+
+                            <View style={styles.address}>
+                                <IconMarker></IconMarker>
+                                <Text style={[styles.text, styles.city]}>{this.state.user.city}, {this.state.user.postalCode}</Text>
+                            </View>
+
+                            <View style={styles.stars}>
+                                <IconStarFilled></IconStarFilled>
+                                <IconStarFilled></IconStarFilled>
+                                <IconStarFilled></IconStarFilled>
+                                <IconStarFilled></IconStarFilled>
+                                <IconStarFilled></IconStarFilled>
+                            </View>
+
+                            <View style={styles.pricing}>
+                                <Text style={styles.critere}>Tarifs : </Text>
+                                <Text style={styles.text}>{this.state.user.price}€/jour</Text>
+                            </View>
+
+                            <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => redirection()}>
+                                <Text style={styles.submit}>Voir profil</Text>
+                            </TouchableOpacity>
                         </View>
-
-                        <Image style={[styles.img, {left: Dimensions.get('window').width /2 - 72}]} source={require('../assets/photo-profil.png')} />
-
-                        <View style={styles.blocIcon}>
-                            <IconChien></IconChien>
-                            <IconChat></IconChat>
-                        </View>
-                    </View>
-
-                    <View style={styles.identity}>
-                        <Text style={styles.text}>KeepPet</Text>
-                        <IconPro></IconPro>
-                        <Text style={styles.text}>Professionnel</Text>
-                    </View>
-
-                    <View style={styles.address}>
-                        <IconMarker></IconMarker>
-                        <Text style={[styles.text, styles.city]}>Lyon, 69001</Text>
-                    </View>
-
-                    <View style={styles.stars}>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                        <IconStarFilled></IconStarFilled>
-                    </View>
-
-                    <View style={styles.pricing}>
-                        <Text style={styles.critere}>Tarifs : </Text>
-                        <Text style={styles.text}>20€/jour</Text>
-                    </View>
-
-                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress={() => redirection()}>
-                        <Text style={styles.submit}>Voir profil</Text>
-                    </TouchableOpacity>
-                </View>
+                    </>}
             </SafeAreaView>
         );
     }

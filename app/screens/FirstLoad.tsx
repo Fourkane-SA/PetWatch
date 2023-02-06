@@ -27,7 +27,6 @@ async function isConnected(navigation) {
       else
           navigation.navigate('Home')
     } else if(user.isCompany) {
-      console.log(user)
       if(user.description === null)
         navigation.navigate('ModeGarde')
       else

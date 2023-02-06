@@ -53,8 +53,6 @@ function StackAccueil() {
     return (
         <Stack.Navigator initialRouteName='Accueil'>
             <Stack.Screen name="Accueil" options={{headerShown: false, headerTitle: ''}}  component={Home}></Stack.Screen>
-            <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilParticulier" component={ModifProfilParticulier}></Stack.Screen>
-            <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilPro" component={ModifProfilPro}></Stack.Screen>
             <Stack.Screen options={{ headerShown: true, headerTitle: 'Pensions et Pet Sitter disponibles' }} name="ResultatsRecherche" component={ResultatRecherche}></Stack.Screen>
             <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheProfilPro" component={FicheProfilPro}></Stack.Screen>
             <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheReservation" component={FicheReservation}></Stack.Screen>
@@ -64,6 +62,8 @@ function StackAccueil() {
         </Stack.Navigator>
     )
 }
+
+
 
 function StackAnimaux() {
     return (
@@ -75,30 +75,50 @@ function StackAnimaux() {
 }
 
 function Tabs() {
+    const [indivisual, setIndividual] = React.useState(false)
+    axios.get('/tokens').then(res => {
+        axios.get('/users/'+res.data).then((user) => setIndividual(user.data.isIndividual) )
+    })
+    if(indivisual)
+        return (
+            <Tab.Navigator
+                screenOptions={({ route }) => ({
+                    tabBarIcon: ({ focused, color, size }) => {
+                        if (route.name === 'home')
+                            return <View style={styles.tab}><SearchSVG></SearchSVG></View>
+                        else if(route.name === 'MesAnimaux')
+                            return <View style={styles.tab}><AnimSVG></AnimSVG></View>
+                        else if(route.name === 'MesDemandes')
+                            return <View style={styles.tab}><NotifSVG></NotifSVG></View>
+                        else if(route.name === 'Messagerie')
+                            return <View style={styles.tab}><MessagerieSVG></MessagerieSVG></View>
+                    },
+                    tabBarStyle: {
+                        backgroundColor: '#FFF6E3'
+                    }
+                })}
+            >
+                <Tab.Screen name="home" options={{headerShown: false, tabBarLabel: ''}}  component={StackAccueil}></Tab.Screen>
+                <Tab.Screen options={{ headerShown: false, headerTitle: '', tabBarLabel: '' }} name="MesAnimaux" component={StackAnimaux}></Tab.Screen>
+                <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes demandes', tabBarLabel: '' }} name="MesDemandes" component={MesDemandes}></Tab.Screen>
+                <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes messages', tabBarLabel: '' }} name="Messagerie" component={Messagerie}></Tab.Screen>
+            </Tab.Navigator>
+        )
   return (
       <Tab.Navigator
           screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
-                  if (route.name === 'home')
-                      return <View style={styles.container}><SearchSVG></SearchSVG></View>
-                  else if(route.name === 'MesAnimaux')
-                      return <View style={styles.container}><AnimSVG></AnimSVG></View>
-                  else if(route.name === 'CheckReservation')
-                      return <View style={styles.container}><CalendarSVG></CalendarSVG></View>
-                  else if(route.name === 'MesDemandes')
-                      return <View style={styles.container}><NotifSVG></NotifSVG></View>
+                  if(route.name === 'CheckReservation')
+                      return <View style={styles.tab}><NotifSVG></NotifSVG></View>
                   else if(route.name === 'Messagerie')
-                      return <View style={styles.container}><MessagerieSVG></MessagerieSVG></View>
+                      return <View style={styles.tab}><MessagerieSVG></MessagerieSVG></View>
               },
               tabBarStyle: {
                   backgroundColor: '#FFF6E3'
               }
           })}
       >
-        <Tab.Screen name="home" options={{headerShown: false, tabBarLabel: ''}}  component={StackAccueil}></Tab.Screen>
-          <Tab.Screen options={{ headerShown: false, headerTitle: '', tabBarLabel: '' }} name="MesAnimaux" component={StackAnimaux}></Tab.Screen>
-          <Tab.Screen name="CheckReservation" options={{headerShown: false, tabBarLabel: ''}}  component={CheckReservation}></Tab.Screen>
-          <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes demandes', tabBarLabel: '' }} name="MesDemandes" component={MesDemandes}></Tab.Screen>
+          <Tab.Screen name="CheckReservation" options={{headerShown: true, headerTitle:'Consulter mes reservations', tabBarLabel: ''}}  component={CheckReservation}></Tab.Screen>
           <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes messages', tabBarLabel: '' }} name="Messagerie" component={Messagerie}></Tab.Screen>
       </Tab.Navigator>
   )
@@ -108,14 +128,16 @@ export default function App() {
   return (
       <NavigationContainer>
           <Stack.Navigator initialRouteName="FirstLoad" >
-              <Stack.Screen options={{headerShown: false}} name="FirstLoad" component={FirstLoad}></Stack.Screen>
+            <Stack.Screen options={{headerShown: false}} name="FirstLoad" component={FirstLoad}></Stack.Screen>
             <Stack.Screen options={{headerShown: false}} name="ChoixConexionInscription" component={ChoixcConexionInscription}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="ChoixRole" component={ChoixRole}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationCompteParticulier" component={CreationCompteParticulier}></Stack.Screen>
             <Stack.Screen options={{headerShown: true, headerTitle: ''}} name="CreationComptePro" component={CreationComptePro}></Stack.Screen>
             <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="AddAnimal" component={AddAnimal}></Stack.Screen>
-              <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="ModeGarde" component={ModeGarde}></Stack.Screen>
+            <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="ModeGarde" component={ModeGarde}></Stack.Screen>
             <Stack.Screen options={{headerShown: false, headerTitle: ''}} name="Home" component={Tabs}></Stack.Screen>
+            <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilPro" component={ModifProfilPro}></Stack.Screen>
+            <Stack.Screen options={{headerShown: true, headerTitle: 'Modifier le profil'}} name="ModifProfilParticulier" component={ModifProfilParticulier}></Stack.Screen>
 
 
 
@@ -146,11 +168,11 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  tab: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-      marginTop: 30
+      position: "absolute",
+      bottom: 0,
   },
 });

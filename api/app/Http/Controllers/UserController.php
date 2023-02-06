@@ -119,6 +119,8 @@ class UserController extends Controller
         else
             $userData = $request->only(['phoneNumber', 'city', 'postalCode', 'address', 'firstname', 'lastname', 'profilImage']);
         $user->fill($userData);
+        if($request->input('password'))
+            $user->password = Hash::make($request->input('password'));
         $user->geopos = GeoposService::getPos($user->address, $user->postalCode);
         $user->save();
         return response()->json($user);

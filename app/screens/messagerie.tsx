@@ -5,6 +5,7 @@ import { Dimensions } from "react-native";
 
 import IconParameter from '../assets/moduleSVG/parametresSVG'
 import LoupeSVG from '../assets/moduleSVG/loupeSVG';
+import ModalParameter from "../components/modalParameter";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -47,6 +48,11 @@ export default function Messagerie({ navigation }) {
                         </View>
                     </View>
                 </View>
+                {parameter == true &&
+                    <ModalParameter navigation={navigation}  onVisibleChange={(change) => {
+                        setParameter(change)
+                    }}></ModalParameter>
+                }
             </SafeAreaView>
         </ScrollView>
     );
