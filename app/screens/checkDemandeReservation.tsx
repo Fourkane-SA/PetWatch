@@ -20,8 +20,8 @@ export default function CheckDemandeReservation({ navigation }) {
                     <IconParameter></IconParameter>
                 </TouchableOpacity>
                 <View style={styles.wrapper}>
-                    <CardDemandeReservation navigation={navigation}></CardDemandeReservation>
-                    <CardDemandeReservation navigation={navigation}></CardDemandeReservation>
+                    <CardDemandeReservation id="1" navigation={navigation}></CardDemandeReservation>
+                    <CardDemandeReservation id="2" navigation={navigation}></CardDemandeReservation>
 
                     {/* <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit}>
                         <Text style={styles.submit}>Ajouter une réservation</Text>

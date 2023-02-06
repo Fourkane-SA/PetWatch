@@ -5,6 +5,9 @@ import { Dimensions } from "react-native";
 
 import IconChien from '../assets/moduleSVG/chienSVG'
 import IconChat from '../assets/moduleSVG/chatSVG'
+import { Reservation } from '../models/Reservation';
+import axios from 'axios';
+import { Pet } from '../models/Pet';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -14,27 +17,81 @@ var height = Dimensions.get('window').height; //full height
 
 class Props {
     navigation
+    id
 }
 
 export default class CardDemandeReservation extends Component<Props> {
 
+    state = {
+        cats: false,
+        dogs: false,
+        reservation: null,
+        clientName: null
+    }
+
+    async isCats(idPets: string[]) {
+        for(let i=0; i< idPets.length; i++) {
+            const pet: Pet = (await axios.get('/pets/' + idPets[i])).data
+            if(pet.type === 'Chat')
+                return true
+        }
+        return false
+    }
+
+    async isDogs(idPets: string[]) {
+        for(let i=0; i< idPets.length; i++) {
+            const pet: Pet = (await axios.get('/pets/' + idPets[i])).data
+            console.log(pet)
+            if(pet.type === 'Chien')
+                return true
+        }
+        return false
+    }
+
+    async petsName(idPets: string[]) {
+        let names = ''
+        for(let i=0; i<idPets.length; i++) {
+            const pet: Pet = (await axios.get('/pets/' + idPets[i])).data
+            names += pet.name + ', '
+            console.log(names)
+        }
+        this.setState({
+            names: names
+        })
+    }
+
+    async componentDidMount(){
+        const res: Reservation = (await axios.get('/reservations/' + this.props.id)).data
+        const names = await this.petsName(res.idPets)
+        const user = (await axios.get('/users/' + res.userIdClient)).data
+        this.setState({
+            reservation: res,
+            cats: await this.isCats(res.idPets),
+            dogs: await this.isDogs(res.idPets),
+            clientName: user.firstname + ' ' + user.lastname
+        }) 
+    }
+
     render() {
         return (
             <View style={[styles.wrapper, styles.bloc]}>
-                <View style={styles.header}>
-                    <Text style={styles.title}>Pension pour chien</Text>
-                    <IconChien></IconChien>
-                </View>
+                {this.state.reservation !== null && <>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>Pension pour chien</Text>
+                        {this.state.cats && <IconChat></IconChat>}
+                        {this.state.dogs && <IconChien></IconChien>}
+                    </View>
 
-                <View style={styles.infos}>
-                    <Text style={styles.nom}>Boulette de viande</Text>
-                    <Text style={styles.text}>Date de réservation :</Text>
-                    <Text style={styles.date}>11/01/2023 - 16/01/2023</Text>
-                </View>
+                    <View style={styles.infos}>
+                        <Text style={styles.nom}>{this.state.clientName}</Text>
+                        <Text style={styles.text}>Date de réservation :</Text>
+                        <Text style={styles.date}>{this.state.reservation.start} - {this.state.reservation.end}</Text>
+                    </View>
 
-                <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => this.props.navigation.navigate('FicheDemandeReservation') }>
-                    <Text style={styles.submit}>Voir la fiche</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => this.props.navigation.navigate('FicheDemandeReservation') }>
+                        <Text style={styles.submit}>Voir la fiche</Text>
+                    </TouchableOpacity>
+                </>}
             </View>
         );
     }
