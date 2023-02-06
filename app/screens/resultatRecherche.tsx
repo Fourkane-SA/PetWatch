@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, ScrollView, FlatList} from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, ScrollView, FlatList } from 'react-native';
 import { Dimensions } from "react-native";
 import IconCalendar from '../assets/moduleSVG/calendarSVG'
 import CardResultatRecherche from '../components/cardResultatRech'
@@ -8,7 +8,7 @@ import Filter from '../components/filter'
 import IconParameter from '../assets/moduleSVG/parametresSVG'
 import ModalParameter from '../components/modalParameter';
 import axios from "axios/index";
-import {User} from "../models/User";
+import { User } from "../models/User";
 import CardAjoutAnimaux from "../components/cardAjoutAnimaux";
 
 var width = Dimensions.get('window').width; //full width
@@ -27,27 +27,31 @@ export default function ResultatRecherche({ navigation }) {
         setUsers(list)
     }
 
-    if(users.length === 0) {
+    if (users.length === 0) {
         initSearch()
     }
 
     return (
-        <SafeAreaView style={styles.container}>
-                <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
-                    <IconParameter></IconParameter>
-                </TouchableOpacity>
+        <>
+            <ScrollView>
+                <SafeAreaView style={styles.container}>
+                    <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
+                        <IconParameter></IconParameter>
+                    </TouchableOpacity>
 
-                <FlatList data={users} renderItem={({item}) => <CardResultatRecherche navigation={navigation} id={item.id} ></CardResultatRecherche>}></FlatList>
-                <View style={styles.absolute}>
-                    <Filter></Filter>
-                </View>
+                    <FlatList data={users} renderItem={({ item }) => <CardResultatRecherche navigation={navigation} id={item.id}></CardResultatRecherche>}></FlatList>
 
-                {parameter == true &&
-                    <ModalParameter navigation={navigation}  onVisibleChange={(change) => {
-                        setParameter(change)
-                    }}></ModalParameter>
-                }
-        </SafeAreaView>
+
+                    {parameter == true &&
+                        <ModalParameter navigation={navigation} onVisibleChange={(change) => {
+                            setParameter(change);
+                        }}></ModalParameter>}
+                </SafeAreaView>
+            </ScrollView>
+            <View style={styles.absolute}>
+                <Filter></Filter>
+            </View>
+        </>
     );
 }
 
@@ -59,16 +63,21 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         width: width,
         minHeight: height,
+        paddingTop: 30,
     },
     absolute: {
         position: 'absolute',
         marginRight: '5%',
         right: 0,
-        bottom: '15%',
+        bottom: '5%',
     },
     abs: {
         position: 'absolute',
         top: 30,
-        right: '5%',
+        right: 0,
+        width: 50,
+        height: 50,
+        zIndex: 5,
+        backgroundColor: 'transparent'
     },
 });

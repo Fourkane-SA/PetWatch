@@ -62,8 +62,8 @@ export default class ModalParameter extends Component<Props> {
                                 <Text style={styles.textStyle}>X</Text>
                             </Pressable>
 
-                            <TouchableOpacity style={styles.profil} onPress={() => editProfil()}><Text>Modifier mon profil</Text></TouchableOpacity>
-                            <TouchableOpacity style={styles.deconnexion} onPress={() => deconnexion()}><Text>Déconnexion</Text></TouchableOpacity>
+                            <TouchableOpacity style={styles.profil} onPress={() => editProfil()}><Text style={styles.marge}>Modifier mon profil</Text></TouchableOpacity>
+                            <TouchableOpacity style={styles.deconnexion} onPress={() => deconnexion()}><Text style={styles.marge}>Déconnexion</Text></TouchableOpacity>
                         </View>
                     </View>
                 </Modal>
@@ -126,7 +126,9 @@ const styles = StyleSheet.create({
         margin: 'auto',
         padding: 20,
     },
-
+    marge: {
+        marginLeft: 15,
+    },
     button: {
         borderRadius: 20,
         padding: 10,

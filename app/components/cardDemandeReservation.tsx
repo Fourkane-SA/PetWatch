@@ -32,7 +32,7 @@ export default class CardDemandeReservation extends Component<Props> {
                     <Text style={styles.date}>11/01/2023 - 16/01/2023</Text>
                 </View>
 
-                <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => this.navigation.navigate('FicheDemandeReservation') }>
+                <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => this.props.navigation.navigate('FicheDemandeReservation') }>
                     <Text style={styles.submit}>Voir la fiche</Text>
                 </TouchableOpacity>
             </View>

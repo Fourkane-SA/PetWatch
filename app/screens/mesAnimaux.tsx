@@ -12,7 +12,7 @@ import IconMarker from '../assets/moduleSVG/iconMarker'
 import IconStarFilled from '../assets/moduleSVG/starFilled'
 import CardAjoutAnimaux from '../components/cardAjoutAnimaux';
 import IconParameter from '../assets/moduleSVG/parametresSVG'
-import {Pet} from "../models/Pet";
+import { Pet } from "../models/Pet";
 import axios from "axios/index";
 
 var width = Dimensions.get('window').width; //full width
@@ -32,7 +32,7 @@ export default function ChoixAnimauxResa({ navigation }) {
     }
 
     const initPets = async () => {
-        if(pet.length === 0) {
+        if (pet.length === 0) {
             const userId = (await axios.get('/tokens')).data
             const pets: Pet[] = (await axios.get('/pets/byUserId/' + userId)).data
             console.log(pets)
@@ -42,19 +42,21 @@ export default function ChoixAnimauxResa({ navigation }) {
 
     initPets()
     return (
+        <ScrollView>
             <SafeAreaView style={styles.container}>
                 <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
                     <IconParameter></IconParameter>
                 </TouchableOpacity>
                 <View style={[styles.wrapper, styles.bloc]}>
+                    <View style={{ width: width * 0.9, marginTop: 15 }}>
+                        <FlatList data={pet} renderItem={({ item }) => <CardAjoutAnimaux label="Voir fiche" navigation={navigation} lien='FicheAnimal' id={item.id}></CardAjoutAnimaux>}></FlatList>
+                    </View>
                     <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit]} onPress={() => navigation.navigate('AddAnimal', { title: "Ajouter votre animal", word: "Ajouter", word2: "ajouté", redirection: 'AddAnimal' })}>
                         <Text style={styles.submit}>Ajouter un animal</Text>
                     </TouchableOpacity>
-                    <View style={{width: width*0.9, marginTop: 15}}>
-                        <FlatList data={pet} renderItem={({item}) => <CardAjoutAnimaux label="Voir fiche" navigation={navigation} lien='FicheAnimal' id={item.id}></CardAjoutAnimaux>}></FlatList>
-                    </View>
                 </View>
             </SafeAreaView>
+        </ScrollView>
     );
 }
 
@@ -154,6 +156,10 @@ const styles = StyleSheet.create({
     abs: {
         position: 'absolute',
         top: 30,
-        right: '5%',
+        right: 0,
+        width: 50,
+        height: 50,
+        zIndex: 5,
+        backgroundColor: 'transparent'
     },
 });

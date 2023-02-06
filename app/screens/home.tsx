@@ -93,9 +93,13 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     abs: {
-        position: 'absolute',
-        top: 35,
-        right: 8,
+         position: 'absolute',
+        top: 60,
+        right: '-7%',
+        width: 50,
+        height: 50,
+        zIndex: 5,
+        backgroundColor: 'transparent'
     },
     title: {
         fontSize: 26,
