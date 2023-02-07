@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
 
@@ -17,46 +17,56 @@ const data = [
     { id: 11, name: 'Typhus des chats' },
 ];
 
-export default function MultipleSelect() {
-    const [selectedItems, setSelectedItems] = useState([]);
+type Props = {
+    onChange
+}
 
-    const onSelectedItemsChange = (selectedItems) => {
-        setSelectedItems(selectedItems);
+export default class MultipleSelect extends Component<Props> {
+    
+
+    onSelectedItemsChange = (selectedItems: any[]) => {
         let names = []
         for (let i = 0; i < selectedItems.length; i++) {
             const tempItem = data.find(item => item.id === selectedItems[i]);
-            console.log(tempItem.name);
             names.push(tempItem.name)
         }
-        console.log(names)
-    };
+        this.setState({selectedItems: selectedItems}, () => this.props.onChange(names))
 
-    return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.MainContainer}>
-                <MultiSelect
-                    hideTags
-                    items={data}
-                    uniqueKey="id"
-                    onSelectedItemsChange={onSelectedItemsChange}
-                    selectedItems={selectedItems}
-                    selectText="Selectionnez les vaccins"
-                    searchInputPlaceholderText="Chercher un vaccin"
-                    onChangeInput={(text) => console.log(text)}
-                    tagRemoveIconColor="#CCC"
-                    tagBorderColor="#CCC"
-                    tagTextColor="#CCC"
-                    selectedItemTextColor="#CCC"
-                    selectedItemIconColor="#CCC"
-                    itemTextColor="#000"
-                    displayKey="name"
-                    searchInputStyle={{ color: '#CCC' }}
-                    submitButtonColor="#00BFA5"
-                    submitButtonText="Submit"
-                />
-            </View>
-        </SafeAreaView>
-    );
+    }
+
+    state = {
+        selectedItems: []
+    }
+
+    render() {
+        return (
+            <SafeAreaView style={{ flex: 1 }}>
+                <View style={styles.MainContainer}>
+                    <MultiSelect
+                        hideTags
+                        items={data}
+                        uniqueKey="id"
+                        onSelectedItemsChange={this.onSelectedItemsChange}
+                        selectedItems={this.state.selectedItems}
+                        selectText="Selectionnez les vaccins"
+                        searchInputPlaceholderText="Chercher un vaccin"
+                        onChangeInput={(text) => console.log(text)}
+                        tagRemoveIconColor="#CCC"
+                        tagBorderColor="#CCC"
+                        tagTextColor="#CCC"
+                        selectedItemTextColor="#CCC"
+                        selectedItemIconColor="#CCC"
+                        itemTextColor="#000"
+                        displayKey="name"
+                        searchInputStyle={{ color: '#CCC' }}
+                        submitButtonColor="#00BFA5"
+                        submitButtonText="Submit"
+                    />
+                </View>
+            </SafeAreaView>
+        )
+    }
+    
 }
 
 const styles = StyleSheet.create({
