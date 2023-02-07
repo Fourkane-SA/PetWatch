@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TokenController;
@@ -52,22 +54,12 @@ Route::patch('/reservations/accept/{id}', [ReservationController::class, 'accept
 Route::patch('/reservations/refuse/{id}', [ReservationController::class, 'refuse'])->middleware('verifyToken');
 Route::get('/reservations/byUserId/client/{id}', [ReservationController::class, 'byUserIdClient']);
 Route::get('/reservations/byUserId/petSitterPro/{id}', [ReservationController::class, 'byUserIdPetSitterPro']);
-/**
- * Client => Demande d'hebergement
- *        => Reserver à un pet-sitter pour un/des animaux
- *        => Laisser un avis [EN COURS] => TODO : tout tester
- *
- * Messagerie [pusher ?] => Envoie de message
- *            => Liste les conversations
- *
- * gestion des demandes
- *
- *
- * demandes =>
- *      UserId du client
- *      UserId du pro / pet-sitter
- *      Date de début
- *      Date de fin
- *      Id Animaux concernés
- *      Status [En attente, acceptée, refusé]
- */
+
+
+Route::get('/conversations', [ConversationController::class, 'index']);
+Route::get('/conversations/getByClientID/{id}', [ConversationController::class, 'getByClientID']);
+Route::get('/conversations/getByProID/{id}', [ConversationController::class, 'getByProID']);
+Route::get('/conversations/getByClientAndPro/{clientId}/{proId}', [ConversationController::class, 'getByClientAndPro']);
+
+Route::get('/messages/{id}', [MessageController::class, 'getByConversation']);
+Route::post('/messages', [MessageController::class, 'postMessage']);
