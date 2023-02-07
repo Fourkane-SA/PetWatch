@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList, ScrollView } from 'react-native';
 import { Dimensions } from "react-native";
 
 import IconChien from '../assets/moduleSVG/chienSVG'
@@ -72,6 +72,7 @@ export default class CardDemandeReservation extends Component<Props> {
 
     render() {
         return (
+            <ScrollView>
             <View style={[styles.wrapper, styles.bloc]}>
                 {this.state.reservation !== null && <>
                     <View style={styles.header}>
@@ -91,6 +92,7 @@ export default class CardDemandeReservation extends Component<Props> {
                     </TouchableOpacity>
                 </>}
             </View>
+            </ScrollView>
         );
     }
 }
