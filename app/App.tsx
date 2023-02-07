@@ -73,6 +73,16 @@ function StackAnimaux() {
     )
 }
 
+function StackReservation() {
+    return(
+        <Stack.Navigator initialRouteName='MesReservations'>
+            <Stack.Screen name="MesReservations" options={{headerShown: true, headerTitle:'Consulter mes reservations'}}  component={CheckReservation}></Stack.Screen>
+            <Stack.Screen name="FicheDemandeReservation" options={{headerShown: true, headerTitle:'Reservation'}}  component={FicheDemandeReservation}></Stack.Screen>
+        </Stack.Navigator>
+    )
+}
+
+
 function Tabs() {
     const [indivisual, setIndividual] = React.useState(false)
     axios.get('/tokens').then(res => {
@@ -117,7 +127,7 @@ function Tabs() {
               }
           })}
       >
-          <Tab.Screen name="CheckReservation" options={{headerShown: true, headerTitle:'Consulter mes reservations', tabBarLabel: ''}}  component={CheckReservation}></Tab.Screen>
+          <Tab.Screen name="CheckReservation" options={{headerShown: false, headerTitle:'', tabBarLabel: ''}}  component={StackReservation}></Tab.Screen>
           <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes messages', tabBarLabel: '' }} name="Messagerie" component={Messagerie}></Tab.Screen>
       </Tab.Navigator>
   )

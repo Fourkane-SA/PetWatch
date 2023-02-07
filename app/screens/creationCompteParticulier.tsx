@@ -4,6 +4,7 @@ import { Dimensions } from "react-native";
 import React from "react";
 import axios from "axios/index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -50,6 +51,7 @@ export default function CreationCompteParticulier({navigation}) {
 
     return (
         <ScrollView>
+            <KeyboardAwareScrollView>
             <SafeAreaView style={styles.container}>
                 <Text style={styles.title}>Vous êtes un Particulier ?</Text>
 
@@ -80,6 +82,7 @@ export default function CreationCompteParticulier({navigation}) {
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
+            </KeyboardAwareScrollView>
         </ScrollView>
     );
 }

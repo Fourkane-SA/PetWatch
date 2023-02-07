@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import IconModif from '../assets/moduleSVG/iconModif'
 import { User } from '../models/User';
 import Upload from '../components/Upload';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -113,6 +114,7 @@ export default class ModifProfilParticulier extends Component<Props> {
     render() {
         return (
             <ScrollView>
+                <KeyboardAwareScrollView>
                 <SafeAreaView style={styles.container}>
                     <View style={styles.blocModification}>
                         <View style={styles.blocAvatar}>
@@ -157,7 +159,8 @@ export default class ModifProfilParticulier extends Component<Props> {
                         </TouchableOpacity>
 
                     </View>
-                </SafeAreaView>
+                    </SafeAreaView>
+                    </KeyboardAwareScrollView>
             </ScrollView>
         );
     }

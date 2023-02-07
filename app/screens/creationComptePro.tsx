@@ -6,6 +6,7 @@ import React from "react";
 import axios from "axios/index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import IconParameter from '../assets/moduleSVG/parametresSVG'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -51,10 +52,11 @@ export default class CreationCompteParticulier extends Component {
 
     render() {
 
-        const [parameter, setParameter] = React.useState(false);
+
 
         return (
             <ScrollView>
+                <KeyboardAwareScrollView>
                 <SafeAreaView style={styles.container}>
                     {!this.state.confirm &&
                         <><Text style={styles.title}>Vous êtes un Professionnel ?</Text><View style={styles.blocInscription}>
@@ -91,9 +93,9 @@ export default class CreationCompteParticulier extends Component {
                     {this.state.confirm &&
                         <View style={styles.container}>
                             <View >
-                                <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
+                                {/* <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
                                     <IconParameter></IconParameter>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                                 <Text style={styles.text}>Votre demande a été envoyé</Text>
                                 <TouchableOpacity activeOpacity={0.8} style={[styles.champ, styles.containerSubmit]}
                                     onPress={() => this.props.navigation.navigate('ModeGarde')}>
@@ -105,6 +107,7 @@ export default class CreationCompteParticulier extends Component {
                         </View>
                     }
                 </SafeAreaView>
+                </KeyboardAwareScrollView>
             </ScrollView>
         );
     }

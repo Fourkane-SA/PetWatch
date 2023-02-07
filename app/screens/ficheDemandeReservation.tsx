@@ -6,6 +6,12 @@ import { Dimensions } from "react-native";
 import IconChien from '../assets/moduleSVG/chienSVG'
 import IconChat from '../assets/moduleSVG/chatSVG'
 import IconMale from '../assets/moduleSVG/maleSVG'
+import { Pet } from '../models/Pet';
+import axios from 'axios';
+import { Reservation } from '../models/Reservation';
+import FemelleSVG from '../assets/moduleSVG/iconFemelle';
+import ChatSVG from '../assets/moduleSVG/chatSVG';
+import { User } from '../models/User';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -13,142 +19,209 @@ var height = Dimensions.get('window').height; //full height
 
 /*Ici passage de parametre par rapport a la page checkReservation car selon l'animal le background change de couleur et egalement l'icon !!!!! */
 
-export default function FicheDemandeReservation({ navigation }) {
-    const state = {
-        choix: 0
+type Props = {
+    route
+    navigation
+}
+
+export default class FicheDemandeReservation extends Component<Props> {
+    
+    state = {
+        choix: 0,
+        id: -1,
+        reservation: null,
+        pet: null,
+        proprietaire: null,
+        refuseReasons: ''
     }
-    return (
+
+    async componentDidMount() {
+        const id = this.props.route.params.id
+        this.setState({id: id})
+        const reservation : Reservation = (await axios.get('/reservations/' + id)).data
+        const pet: Pet = (await axios.get('/pets/' + reservation.idPets[0])).data
+        const proprietaire: User = (await axios.get('/users/' + reservation.userIdClient)).data
+        let choix = 0
+        if(reservation.status === 'Acceptée')
+            choix = 1
+        else if(reservation.status === 'Refusé')
+            choix = 2
+        this.setState({
+            id: id,
+            reservation: reservation,
+            pet: pet,
+            proprietaire: proprietaire,
+            choix: choix,
+            refuseReasons: reservation.refuseReasons
+        })
+    }
+
+    async accept() {
+        const reservation = (await (axios.patch('/reservations/accept/' + this.props.route.params.id))).data
+        this.setState({
+            reservation: reservation,
+            choix: 1
+        })
+    }
+
+    async refuse() {
+        if(this.state.choix == 0) {
+            this.setState({
+                choix: 2
+            })
+            const reservation = (await (axios.patch('/reservations/refuse/' + this.props.route.params.id))).data
+        } else if(this.state.choix === 2) {
+            await axios.patch('/reservations/refuse/' + this.props.route.params.id, {
+                refuseReasons: this.state.refuseReasons
+            })
+            this.props.navigation.navigate('MesReservations')
+        }
+    }
+
+    render() {
+        return (
         <SafeAreaView style={styles.container}>
-            {this.state.choix == 0 &&
-                <View style={[styles.wrapper, styles.bloc]}>
-                    <View style={styles.header}>
-                        <Text style={styles.title}>Boulette de viande</Text>
+            {this.state.pet !== null && <>
+                {this.state.choix == 0 &&
+                    <View style={[styles.wrapper, styles.bloc]}>
+                        <View style={styles.header}>
+                            <Text style={styles.title}>{this.state.pet.name}</Text>
 
-                        <View style={styles.blocIcon}>
-                            <IconMale></IconMale>
-                            <IconChien></IconChien>
-                        </View>
-                    </View>
-
-                    <View style={styles.infos}>
-                        <Image style={styles.image} source={require('../assets/photoChien.png')}></Image>
-                        <View style={styles.infosbloc}>
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Date de naissance :</Text>
-                                <Text style={styles.reponse}>17/09/2018</Text>
-                            </View>
-
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Gabarit et poids :</Text>
-                                <Text style={styles.reponse}>Grand, 18-45kg</Text>
-                            </View>
-
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Allergies :</Text>
-                                <Text style={styles.reponse}>Saumon</Text>
-                            </View>
-
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Vaccins :</Text>
-                                <Text style={styles.reponse}>Liste des vaccins</Text>
-                            </View>
-
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Propriétaire :</Text>
-                                <Text style={styles.reponse}>Benoit Dupont</Text>
-                            </View>
-
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Adresse</Text>
-                                <Text style={styles.reponse}>12 rue de Marseille 69007 Lyon</Text>
-                            </View>
-
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Date de réservation : </Text>
-                                <Text style={styles.reponse}>11/01/2023 - 16/01/2023</Text>
-                            </View>
-
-                            <View style={styles.blocCritere}>
-                                <Text style={styles.critere}>Contact : </Text>
-                                <Text style={styles.reponse}>07 82 39 71 43</Text>
+                            <View style={styles.blocIcon}>
+                                {this.state.pet.gender === 'Mâle' && <IconMale></IconMale>}
+                                {this.state.pet.gender === 'Femelle' && <FemelleSVG></FemelleSVG>}
+                                {this.state.pet.type === 'Chien' && <IconChien></IconChien>}
+                                {this.state.pet.type === 'Chat' && <ChatSVG></ChatSVG>}
                             </View>
                         </View>
-                    </View>
 
-                    <View style={styles.blocBtn}>
-                        <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.refuse]}
-                            onPress={() => this.setState({ choix: 2 })}>
-                            <Text style={styles.submit}>Refuser</Text>
-                        </TouchableOpacity>
+                        <View style={styles.infos}>
+                            <Image style={styles.image} source={{uri: JSON.parse(this.state.pet.photoUrl)[0] }}></Image>
+                            <View style={styles.infosbloc}>
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Date de naissance :</Text>
+                                    <Text style={styles.reponse}>{this.state.pet.birth}</Text>
+                                </View>
 
-                        <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.confirm]}
-                            onPress={() => this.setState({ choix: 1 })}>
-                            <Text style={styles.submit}>Accepter</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            }
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Gabarit et poids :</Text>
+                                    <Text style={styles.reponse}>{this.state.pet.weight} (poids TODO)</Text>
+                                </View>
 
-            {this.state.choix == 1 &&
-                <><View style={[styles.wrapper, styles.bloc]}>
-                    <View style={styles.header}>
-                        <Text style={styles.title}>Boulette de viande</Text>
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Allergies :</Text>
+                                    <Text style={styles.reponse}>{this.state.pet.allergies || 'Aucun'}</Text>
+                                </View>
 
-                        <View style={styles.blocIcon}>
-                            <IconMale></IconMale>
-                            <IconChien></IconChien>
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Vaccins :</Text>
+                                    <Text style={styles.reponse}>{this.state.pet.vaccines || 'Aucun'}</Text>
+                                </View>
+
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Propriétaire :</Text>
+                                    <Text style={styles.reponse}>{this.state.proprietaire.firstname + ' ' + this.state.proprietaire.lastname}</Text>
+                                </View>
+
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Adresse</Text>
+                                    <Text style={styles.reponse}>{this.state.proprietaire.address}, {this.state.proprietaire.postalCode} {this.state.proprietaire.city}</Text>
+                                </View>
+
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Date de réservation : </Text>
+                                    <Text style={styles.reponse}>du {this.state.reservation.start} au {this.state.reservation.end}</Text>
+                                </View>
+
+                                <View style={styles.blocCritere}>
+                                    <Text style={styles.critere}>Contact : </Text>
+                                    <Text style={styles.reponse}>{this.state.proprietaire.phoneNumber}</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={styles.blocBtn}>
+                            <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.refuse]}
+                                onPress={() => this.refuse()}>
+                                <Text style={styles.submit}>Refuser</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.confirm]}
+                                onPress={() => this.accept()}>
+                                <Text style={styles.submit}>Accepter</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
+                }
 
-                    <View style={styles.infos}>
-                        <Image style={styles.image} source={require('../assets/photoChien.png')}></Image>
-                    </View>
-                </View>
-                    <View style={styles.wrapper2}>
-                        <View style={styles.containerConfirmText}>
-                            <Text style={styles.confirmText}>Vous avez accepté la demande !</Text>
+                {this.state.choix == 1 &&
+                    <><View style={[styles.wrapper, styles.bloc]}>
+                        <View style={styles.header}>
+                            <Text style={styles.title}>{this.state.pet.name}</Text>
+
+                            <View style={styles.blocIcon}>
+                                {this.state.pet.gender === 'Mâle' && <IconMale></IconMale>}
+                                {this.state.pet.gender === 'Femelle' && <FemelleSVG></FemelleSVG>}
+                                {this.state.pet.type === 'Chien' && <IconChien></IconChien>}
+                                {this.state.pet.type === 'Chat' && <ChatSVG></ChatSVG>}
+                            </View>
                         </View>
-                        <Text style={styles.tip}>N’hésitez pas à contacter le particulier pour vous mettre au point !</Text>
 
-                        <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.confirm]}
-                            onPress={() => this.setState({ choix: 1 })}>
-                            <Text style={styles.submit}>Retour à “Mes demandes”</Text>
-                        </TouchableOpacity>
-                    </View>
-                </>
-            }
-
-            {this.state.choix == 2 &&
-                <><View style={[styles.wrapper, styles.bloc]}>
-                    <View style={styles.header}>
-                        <Text style={styles.title}>Boulette de viande</Text>
-
-                        <View style={styles.blocIcon}>
-                            <IconMale></IconMale>
-                            <IconChien></IconChien>
+                        <View style={styles.infos}>
+                            <Image style={styles.image} source={{uri: JSON.parse(this.state.pet.photoUrl)[0] }}></Image>
                         </View>
                     </View>
+                        <View style={styles.wrapper2}>
+                            <View style={styles.containerConfirmText}>
+                                <Text style={styles.confirmText}>Vous avez accepté la demande !</Text>
+                            </View>
+                            <Text style={styles.tip}>N’hésitez pas à contacter le particulier pour vous mettre au point !</Text>
 
-                    <View style={styles.infos}>
-                        <Image style={styles.image} source={require('../assets/photoChien.png')}></Image>
-                    </View>
-                </View>
-                    <View style={styles.wrapper2}>
-                        <View style={styles.containerRefuseText}>
-                            <Text style={styles.refuseText}>Vous avez refusé la demande</Text>
+                            <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.confirm]}
+                                onPress={() => this.props.navigation.navigate('MesReservations')}>
+                                <Text style={styles.submit}>Retour à “Mes demandes”</Text>
+                            </TouchableOpacity>
                         </View>
-                        <TextInput style={styles.motif} multiline={true} numberOfLines={7}
-                            placeholder="Expliquer brièvement les raisons du refus: date, type d’animal..."></TextInput>
+                    </>
+                }
 
-                        <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.confirm]}
-                            onPress={() => this.setState({ choix: 1 })}>
-                            <Text style={styles.submit}>Retour à “Mes demandes”</Text>
-                        </TouchableOpacity>
+                {this.state.choix == 2 &&
+                    <><View style={[styles.wrapper, styles.bloc]}>
+                        <View style={styles.header}>
+                            <Text style={styles.title}>{this.state.pet.name}</Text>
+
+                            <View style={styles.blocIcon}>
+                                {this.state.pet.gender === 'Mâle' && <IconMale></IconMale>}
+                                {this.state.pet.gender === 'Femelle' && <FemelleSVG></FemelleSVG>}
+                                {this.state.pet.type === 'Chien' && <IconChien></IconChien>}
+                                {this.state.pet.type === 'Chat' && <ChatSVG></ChatSVG>}
+                            </View>
+                        </View>
+
+                        <View style={styles.infos}>
+                            <Image style={styles.image} source={{uri: JSON.parse(this.state.pet.photoUrl)[0] }}></Image>
+                        </View>
                     </View>
-                </>
-            }
+                        <View style={styles.wrapper2}>
+                            <View style={styles.containerRefuseText}>
+                                <Text style={styles.refuseText}>Vous avez refusé la demande</Text>
+                            </View>
+                            <TextInput style={styles.motif} multiline={true} numberOfLines={7} value={this.state.refuseReasons} onChangeText={(res) => this.setState({refuseReasons: res})}
+                                placeholder="Expliquer brièvement les raisons du refus: date, type d’animal..."></TextInput>
+
+                            <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.confirm]}
+                                onPress={() => this.refuse()}>
+                                <Text style={styles.submit}>Retour à “Mes demandes”</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                }
+            </>}
         </SafeAreaView>
     );
+    }
+
+    
 }
 
 const styles = StyleSheet.create({

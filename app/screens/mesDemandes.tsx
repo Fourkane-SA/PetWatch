@@ -28,12 +28,14 @@ export default function MesDemandes({ navigation }) {
     async function initDemandes() {
         const userId = (await axios.get('/tokens')).data
         const data = (await axios.get('/reservations/byUserId/client/' + userId)).data
+        await new Promise(r => setTimeout(r, 2000));
         setDemandes(data)
+
     }
 
-    if(demandes.length === 0) {
+
         initDemandes()
-    }
+    
 
     return (
         <ScrollView>
