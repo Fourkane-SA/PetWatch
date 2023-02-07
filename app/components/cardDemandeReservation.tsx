@@ -41,7 +41,6 @@ export default class CardDemandeReservation extends Component<Props> {
     async isDogs(idPets: string[]) {
         for(let i=0; i< idPets.length; i++) {
             const pet: Pet = (await axios.get('/pets/' + idPets[i])).data
-            console.log(pet)
             if(pet.type === 'Chien')
                 return true
         }
@@ -53,7 +52,6 @@ export default class CardDemandeReservation extends Component<Props> {
         for(let i=0; i<idPets.length; i++) {
             const pet: Pet = (await axios.get('/pets/' + idPets[i])).data
             names += pet.name + ', '
-            console.log(names)
         }
         this.setState({
             names: names
@@ -88,7 +86,7 @@ export default class CardDemandeReservation extends Component<Props> {
                         <Text style={styles.date}>{this.state.reservation.start} - {this.state.reservation.end}</Text>
                     </View>
 
-                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => this.props.navigation.navigate('FicheDemandeReservation') }>
+                    <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => this.props.navigation.navigate('FicheDemandeReservation', {id: this.props.id}) }>
                         <Text style={styles.submit}>Voir la fiche</Text>
                     </TouchableOpacity>
                 </>}
@@ -99,7 +97,7 @@ export default class CardDemandeReservation extends Component<Props> {
 
 const styles = StyleSheet.create({
     wrapper: {
-        width: '90%',
+        width: width*0.9,
         alignItems: 'center',
         marginTop: 20,
         marginBottom: 20,

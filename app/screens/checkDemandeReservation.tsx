@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
 import { Dimensions } from "react-native";
 import CardDemandeReservation from '../components/cardDemandeReservation'
 import IconParameter from "../assets/moduleSVG/parametresSVG";
 import ModalParameter from "../components/modalParameter";
+import axios from 'axios';
+import { Reservation } from '../models/Reservation';
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
@@ -13,6 +15,16 @@ CardReservation doit etre dans une boucle pour afficher toutes les resas*/
 
 export default function CheckDemandeReservation({ navigation }) {
     const [parameter, setParameter] = React.useState(false);
+    const [reservations, setReservations] = React.useState([]);
+
+    async function initReservations() {
+        const userId = (await axios.get('/tokens')).data
+        const res: Reservation[] = (await axios.get('/reservations/byUserId/petSitterPro/' + userId)).data
+        setReservations(res)
+    }
+
+    if(reservations.length === 0)
+        initReservations()
     
         return (
             <SafeAreaView style={styles.container}>
@@ -20,8 +32,10 @@ export default function CheckDemandeReservation({ navigation }) {
                     <IconParameter></IconParameter>
                 </TouchableOpacity>
                 <View style={styles.wrapper}>
-                    <CardDemandeReservation id="1" navigation={navigation}></CardDemandeReservation>
-                    <CardDemandeReservation id="2" navigation={navigation}></CardDemandeReservation>
+                    <FlatList
+                        data={reservations}
+                        renderItem={({item}) => <CardDemandeReservation id={item.id} navigation={navigation}></CardDemandeReservation>}
+                    ></FlatList>
 
                     {/* <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit}>
                         <Text style={styles.submit}>Ajouter une réservation</Text>

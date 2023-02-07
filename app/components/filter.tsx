@@ -164,6 +164,7 @@ export default class Filter extends Component {
                         this.setState({ modalVisible: 2 })
                     }
                     }>
+                        <SafeAreaView>
                     <ScrollView>
                         <View style={styles.modal}>
                             <Pressable
@@ -236,6 +237,7 @@ export default class Filter extends Component {
                             </View>
                         </View>
                     </ScrollView>
+                    </SafeAreaView>
                 </Modal>
             </SafeAreaView>
         );
