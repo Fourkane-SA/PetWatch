@@ -24,12 +24,13 @@ export default function ResultatRecherche({ navigation }) {
         list = list.slice()
             .filter(user => user.isCompany)
             .filter(user => user.description !== null)
+        await new Promise(r => setTimeout(r, 2000));
         setUsers(list)
     }
 
-    if (users.length === 0) {
-        initSearch()
-    }
+    
+    initSearch()
+    
 
     return (
         <>

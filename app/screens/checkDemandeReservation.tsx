@@ -16,14 +16,14 @@ CardReservation doit etre dans une boucle pour afficher toutes les resas*/
 export default function CheckDemandeReservation({ navigation }) {
     const [parameter, setParameter] = React.useState(false);
     const [reservations, setReservations] = React.useState([]);
-
     async function initReservations() {
         const userId = (await axios.get('/tokens')).data
         const res: Reservation[] = (await axios.get('/reservations/byUserId/petSitterPro/' + userId)).data
+        await new Promise(r => setTimeout(r, 2000));
         setReservations(res)
     }
 
-    if(reservations.length === 0)
+
         initReservations()
     
         return (

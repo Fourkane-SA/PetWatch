@@ -22,6 +22,9 @@ export default function ChoixcConexionInscription({navigation}) {
     const [motDePasse, setMotDePasse] = React.useState()
     const [messageErreur, setMessageErreur] = React.useState()
 
+
+    
+    
     async function connexion() {
         console.log('test')
         try {
@@ -29,6 +32,7 @@ export default function ChoixcConexionInscription({navigation}) {
                 email: mail,
                 password: motDePasse
             })).data
+            axios.defaults.headers.common['Authorization'] = token
             // @ts-ignore
             setMessageErreur('')
             await AsyncStorage.setItem('token', token)

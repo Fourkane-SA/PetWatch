@@ -131,6 +131,31 @@ export default function AddAnimal({ navigation, route}) {
     setDateVeterinaire(datevet);
   }
 
+  function init() {
+    setEtape(1)
+    setUrl([])
+    setAffNaiss(false)
+    setAdopt(false)
+    setAffVet(false)
+    setDateNaiss('')
+    setDateAdoption('')
+    setDateVeterinaire('')
+    setNomAnimal('')
+    setGenderAnimal('')
+    setTypeAnimal('')
+    setVaccins('')
+    setIsAllergies('')
+    setAllergies('')
+    setSante('')
+    setIsSante('')
+    setMedicaments('')
+    setIsMedicaments('')
+    setDescription('')
+    setGabarit('')
+    setMessageErreur('')
+    
+  }
+
   async function ajouter() {
     let pet : Pet = {
       adoptionDate: dateAdoption,
@@ -320,7 +345,7 @@ export default function AddAnimal({ navigation, route}) {
 
         <View style={styles.footer}>
           {etape == 5 && word === 'Ajouter' &&
-            <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.bg]} onPress={() => setEtape(1)}>
+            <TouchableOpacity activeOpacity={0.5} style={[styles.btnFooter, styles.bg]} onPress={() => init()}>
             <Text>{word} un autre animal</Text>
           </TouchableOpacity>
           }
