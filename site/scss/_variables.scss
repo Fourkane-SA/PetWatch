@@ -8,12 +8,16 @@ $white : #FFF;
 $iceberg: #CEEAF0;
 $azalea : #FAD4D4;
 $snow-flurry : #D9FFCB;
+$nobel : #B4B4B4;
 
  
 // Opacity  
+$black-70: rgba($black, .7);
+$black-50: rgba($black, .5);
 
 :root {
     font-family: 'Open Sans', sans-serif;
+    scroll-behavior: smooth;
 }
 
 body, p, ul, a {

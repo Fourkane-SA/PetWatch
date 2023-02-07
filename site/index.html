@@ -5,73 +5,139 @@
   <title>PetWatcher - Concept</title>
   <title>Titre de la page</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script src="script.js"></script>
-
 </head>
 
 <body>
   <header class="header">
-    
-    <ul>
-      <li>Accueil</li>
-      <li>Qui sommes-nous ?</li>
-      <li>Le concept</li>
-      <li>Engagement</li>
-      <li>Téléchargement</li>
+    <div class="header__title">
+      <img class="header__img" src="images/logo.svg" />
+      <p class="header__name">PetWatcher</p>
+    </div>
+
+    <ul class="header__menu">
+      <li>
+        <a href="#welcome">
+          Accueil
+        </a>
+      </li>
+      <li>
+        <a href="#presentation">
+          Qui sommes-nous ?
+        </a>
+      </li>
+      <li>
+        <a href="#concept">
+          Le concept
+        </a>
+      </li>
+      <li>
+        <a href="#engagement">
+          Engagement
+        </a>
+      </li>
+      <li>
+        <a href="#telechargement">
+          Téléchargement
+        </a>
+      </li>
     </ul>
   </header>
 
-  <div class="bloc-welcome">
-    <h1>Bienvenue sur PetWatcher</h1>
-    <image src="images/logo.svg" />
+  <div class="bloc-welcome" id="welcome">
+    <h1 class="bloc-welcome__title">Bienvenue sur PetWatcher</h1>
+    <figure class="bloc-welcome__figure">
+      <image class="bloc-welcome__img" src="images/logo.svg" />
+    </figure>
   </div>
 
-  <div class="bloc-presentation">
-    <div>
-      <h2> Qui sommes-nous ?</h2>
+  <div class="bloc-presentation" id="presentation">
+    <div class="bloc-presentation__container">
+      <div class="bloc-presentation__bloc-title">
+        <h2 class="bloc-presentation__title"> Qui sommes-nous ?</h2>
+      </div>
 
-      <div>
+      <div class="bloc-presentation__text">
         <p>Nous sommes une équipe jeune, lyonnaise et dynamique.</p>
-        <p>Nous encadrons l’hébergement temporaires de chiens et chats de compagnie.</p>
+        <p>Nous encadrons l’hébergement temporaire de chiens et chats de compagnie.</p>
+        <p>Ce service est proposé par le biais de l'application <b>PetWatcher™</b> disponible sur Android et IOS.</p>
       </div>
     </div>
 
-    <div>
-      <image src="images/home.svg" />
+    <div class="bloc-presentation__illustrations">
+      <image class="bloc-presentation__img1" src="images/os.svg" />
+      <image class="bloc-presentation__img2" src="images/home.svg" />
     </div>
   </div>
 
-  <div class="bloc-concept">
-    <div>
-      <image src="images/dog.png" />
+  <div class="bloc-concept" id="concept">
+    <div class="bloc-concept__illustrations">
+      <image class="bloc-concept__img" src="images/dog.png" />
     </div>
 
-    <div>
-      <h2> Qui sommes-nous ?</h2>
+    <div class="bloc-concept__container">
+      <div class="bloc-concept__bloc-title">
+        <h2 class="bloc-concept__title">Le Concept</h2>
+      </div>
 
-      <div>
-        <p>PetWatcher™ est une application qui vous aide à trouver des lieux de pensions ou petsitter pour s’occuper de
+      <div class="bloc-concept__text">
+        <p><b>PetWatcher™</b> est une application qui vous aide à trouver des lieux de pensions ou petsitter partout en
+          France pour s’occuper de
           votre chien ou chat pendant votre absence.</p>
+        <p>
+          <span>Vous partez en vacances ? Un déplacement professionnel de dernière minute ?</span> L'application recense de
+          nombreuses offres d'hébergement de courte ou longue durée.
+          Confiez votre animal à un petsitter ou essayer les hôtels pour animaux.
+        </p>
+
+        <p><span>Vous avez plusieurs animaux de compagnie ?</span> Pas de soucis, vous trouverez des professionnels ayant la capacité
+          de les garder, de prendre soin d'eux et de leur offrir un confort.</p>
       </div>
     </div>
   </div>
 
-  <div class="bloc-engagement">
-    <div>
-      <h2> Engagement</h2>
-      <div>
-        <p>Chez <b>PetWatcher™</b>, nous nous engageons à encadrer les hébergements temporels pour les animaux de compagnie. </p>
-        <p>Des avis et notations sur les profils des petsitters sont présents.</p>
+  <div class="bloc-engagement" id="engagement">
+    <div class="bloc-engagement__container">
+      <div class="bloc-engagement__bloc-title">
+        <h2 class="bloc-engagement__title"> Engagement</h2>
       </div>
+      <ul class="bloc-engagement__text">
+        <li>Chez <b>PetWatcher™</b>, nous nous engageons à encadrer les hébergements temporaires pour les animaux de
+          compagnie. </li>
+        <li>Des profils vérifiés, vous pouvez déposer vos animaux en toute confiance.</li>
+        <li>Des avis et notations sur les profils des petsitters sont présents pour vous aider à choisir le meilleur
+          environnement pour votre animal .</li>
+        <li>Réservation rapide et communication facile avec l'hébergeur de votre animal.</li>
+      </ul>
     </div>
-    <div>
-      <image src="images/home.svg" />
+    <div class="bloc-engagement__illustrations">
+      <image class="bloc-engagement__img" src="images/cat.png" />
     </div>
   </div>
 
-  <div class="bloc-telechargement">
+  <div class="bloc-telechargement" id="telechargement">
+    <div class="bloc-telechargement__bloc-title">
+      <h2 class="bloc-telechargement__title">Téléchargement</h2>
+    </div>
 
+    <div class="bloc-telechargement__btn">
+      <a href="exp://exp.host/@enakru/app?release-channel=default">
+        <img class="bloc-telechargement__img" src="images/dlios.png"/>
+      </a>
+      <a href="http://fourkane.me/petwatcher.apk">
+        <img class="bloc-telechargement__img" src="images/dlplay.png"/>
+      </a>
+    </div>
   </div>
+
+  <aside class="aside">
+    <a id="it1" href="#welcome"><span class="aside__item"></span></a>
+    <a id="it2" href="#presentation"><span class="aside__item"></span></a>
+    <a id="it3" href="#concept"><span class="aside__item"></span></a>
+    <a id="it4" href="#engagement"><span class="aside__item"></span></a>
+    <a id="it5" href="#telechargement"><span class="aside__item"></span></a>
+  </aside>
 </body>
 
 </html>
