@@ -25,6 +25,11 @@ ul {
     flex-direction: row;
     align-items: center;
     justify-content: center; }
+    .header__title a {
+      display: flex;
+      flex-direction: row;
+      text-decoration: none;
+      color: #000; }
   .header__img {
     width: 80px;
     height: 80px; }
