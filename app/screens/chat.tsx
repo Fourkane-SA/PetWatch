@@ -10,29 +10,58 @@ import IconParticulier from '../assets/moduleSVG/iconParticulier'
 import IconMarker from '../assets/moduleSVG/iconMarker'
 import IconStarFilled from '../assets/moduleSVG/starFilled'
 import Message from '../components/message';
+import axios from 'axios';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
-export default function FenetreChat({ navigation }) {
+export default function FenetreChat({ navigation, route }) {
 
+    
     const [message, setMessage] = React.useState('')
 
-    async function sendMessage() {
-        console.log(message)
-        setMessage('')
+    const[listMessage, setListMessage] = React.useState([])
+    
+    let userId = 0
+    async function initMessages() {
+        userId = (await axios.get('/tokens')).data
+        const messages = (await axios.get('/messages/' + route.params.id)).data
+        setListMessage(messages)
+        await new Promise(r => setTimeout(r, 2000));
+        
     }
+
+    initMessages()
+
+    async function sendMessage() {
+        console.log(userId, route.params.id)
+        userId = (await axios.get('/tokens')).data
+        try {
+            await axios.post('/messages', {
+                idConversation: route.params.id,
+                idSender: userId,
+                message: message
+            })
+            setMessage('')
+        } catch(e) {
+            //console.log(e.response)
+        }
+        
+    }
+
+
 
     return (
         <ScrollView>
             <SafeAreaView style={styles.container}>
                 <View style={[styles.wrapper]}>
-                    <Message message='Bonjour, vous êtes disponible ?' isMe={true} imageSender={'todo'}></Message>
-                    <Message message='Oui, ça sera pour quand ?' isMe={false} imageSender={'todo'}></Message>
+                    <FlatList data={listMessage} renderItem={({ item }) => <View style={{width: '100%'}}><Message message={item.message} isMe={item.idSender === userId} imageSender={'todo'} ></Message></View>}></FlatList>
+                    
                     
                     <View style={styles.wrapper}>
                         <TextInput placeholder='...' value={message} onChangeText={(res) => setMessage(res)}></TextInput>
+                        
                         <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => sendMessage() }>
                             <Text style={styles.submit}>Envoyer</Text>
                         </TouchableOpacity>

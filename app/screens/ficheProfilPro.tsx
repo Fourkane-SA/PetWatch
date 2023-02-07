@@ -67,6 +67,13 @@ export default function FicheProfilPro({ navigation , route}) {
         },
     ]
 
+    async function goToConv() {
+        const userId: User = (await axios.get('/tokens')).data
+        const conv = (await axios.get('/conversations/getByClientAndPro/' + userId + '/' + user.id )).data
+         navigation.navigate('FenetreChat', {
+            id: conv.id
+         })
+    }
 
     return (
         <ScrollView>
@@ -140,7 +147,7 @@ export default function FicheProfilPro({ navigation , route}) {
                             <Text style={styles.submit}>Réserver</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.bgRed]} onPress={() => navigation.navigate('FenetreChat')}>
+                        <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit, styles.bgRed]} onPress={() => goToConv()}>
                             <Text style={styles.submit}>Contacter</Text>
                         </TouchableOpacity>
                     </View>

@@ -6,6 +6,9 @@ import { Dimensions } from "react-native";
 import IconParameter from '../assets/moduleSVG/parametresSVG'
 import LoupeSVG from '../assets/moduleSVG/loupeSVG';
 import ModalParameter from "../components/modalParameter";
+import axios from 'axios';
+import { User } from '../models/User';
+import CardMessage from '../components/cardMessage';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -14,9 +17,52 @@ var height = Dimensions.get('window').height; //full height
 export default function Messagerie({ navigation }) {
 
     const [parameter, setParameter] = React.useState(false);
+    const [listMessage, setListMessage] = React.useState([]);
+
+    type Donnees = {
+        nom: string,
+        photoProfil: string,
+        dernierMessage: string,
+        id: number
+    }
+
+    async function initMessages() {
+        const userId = (await axios.get('/tokens')).data
+        const user: User = (await axios.get('/users/' + userId)).data
+        let conversations = []
+        const donnes: Donnees[] = []
+        
+        if(user.isIndividual)
+            conversations = (await axios.get('/conversations/getByClientID/' + userId)).data
+        else
+            conversations = (await axios.get('/conversations/getByProID/' + userId)).data
+        for(let i=0; i<conversations.length; i++) {
+            const messages = (await axios.get('/messages/' + conversations[i].id)).data
+            let name = '' 
+            if(user.isIndividual == 1) {
+                const sender : User = (await axios.get('/users/' + conversations[i].idPro)).data
+                name = sender.companyName
+            } else {
+                console.log('test')
+                const sender : User = (await axios.get('/users/' + conversations[i].idClient)).data
+                name = sender.firstname + ' ' + sender.lastname
+            }
+            donnes.push({
+                nom: name,
+                dernierMessage: messages.length > 0 ? messages[messages.length-1].message : '',
+                photoProfil: 'TODO',
+                id: conversations[i].id
+            })
+            await new Promise(r => setTimeout(r, 2000));
+            setListMessage(donnes)
+        }
+    }
+
+    initMessages()
+    
 
     return (
-        <ScrollView>
+
             <SafeAreaView style={styles.container}>
                 <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
                     <IconParameter></IconParameter>
@@ -28,8 +74,12 @@ export default function Messagerie({ navigation }) {
                     </View>
 
                     <View style={styles.blocMessagerie}>
+                        <FlatList data={listMessage} renderItem={({ item }) => <View style={{width: '100%'}}><CardMessage id={item.id} nom={item.nom} photoProfil={item.photoProfil} dernierMessage={item.dernierMessage}></CardMessage></View>}></FlatList>
+
+
+
                         {/* Futur composant ? */}
-                        <View style={styles.itemMessagerie}>
+                        {/* <View style={styles.itemMessagerie}>
                             <Image style={styles.img} source={require('../assets/messagerie1.png')}></Image>
                             <View style={styles.textMessagerie}>
                                 <Text style={styles.nom}>Benoit</Text>
@@ -45,7 +95,7 @@ export default function Messagerie({ navigation }) {
                             <Text>:)</Text>
                             </View>
                             <Text>12h00</Text>
-                        </View>
+                        </View> */}
                     </View>
                 </View>
                 {parameter == true &&
@@ -54,7 +104,7 @@ export default function Messagerie({ navigation }) {
                     }}></ModalParameter>
                 }
             </SafeAreaView>
-        </ScrollView>
+
     );
 }
 

@@ -1,6 +1,6 @@
 export type User = {
     id: number,
-    isIndividual: boolean,
+    isIndividual,
     isCompany: boolean,
     isPetSitter: boolean,
     email: string,
