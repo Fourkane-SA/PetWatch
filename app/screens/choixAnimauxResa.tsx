@@ -104,7 +104,7 @@ export default class ChoixAnimauxResa extends Component<Props> {
 
 
                      ></FlatList>
-                     {this.state.petsNameSelected.length > 0 && <Text>Vous avez choisi {this.state.petsNameSelected.toString().replaceAll(',', ', ')}</Text>}
+                     {this.state.petsNameSelected.length > 0 && <Text>Vous avez choisi {this.state.petsNameSelected.toString()}</Text>}
                      {this.state.petsNameSelected.length === 0 && <Text>Vous n'avez choisi aucun animal</Text>}
                     
                      <TouchableOpacity activeOpacity={0.8} style={[styles.containerSubmit]} onPress={() => this.confirmer()}>
