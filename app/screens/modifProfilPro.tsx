@@ -9,6 +9,7 @@ import { User } from "../models/User";
 
 import IconModif from '../assets/moduleSVG/iconModif2'
 import Upload from '../components/Upload';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -107,6 +108,7 @@ export default class ModifProfilPro extends Component<Props> {
     render() {
         return (
             <ScrollView>
+                <KeyboardAwareScrollView>
                 <SafeAreaView style={styles.container}>
                     {this.state.etape == 1 &&
                         <View style={styles.blocModification}>
@@ -157,6 +159,7 @@ export default class ModifProfilPro extends Component<Props> {
 
                     }
                 </SafeAreaView>
+                </KeyboardAwareScrollView>
             </ScrollView>
         );
     }

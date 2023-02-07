@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, View, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TextInput, View, Image, TouchableOpacity, FlatList, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import RadioButton from '../components/radioButton';
 import { Dimensions } from "react-native";
 import Calendar from '../components/calendarsimple'
@@ -10,6 +10,7 @@ import MultipleSelect from '../components/multipleSelect';
 import Upload from '../components/Upload';
 import {Pet} from "../models/Pet";
 import axios from "axios";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -177,14 +178,21 @@ export default function AddAnimal({ navigation, route}) {
       setMessageErreur('Veuillez remplir tous les champs')
     }
   }
+
+
   return (
+    
     <SafeAreaView style={styles.container}>
+      <KeyboardAwareScrollView>
       <ScrollView contentContainerStyle={styles.wrapper}>
+        
         {etape < 5 &&
           <Text style={styles.pageTitle}> {title} {etape}/4</Text>
         }
 
         {etape == 1 &&
+        
+        
           <View style={styles.etape}>
             <View style={styles.blocName}>
               <TextInput value={nomAnimal} onChangeText={setNomAnimal} placeholder="Nom d'animal" style={styles.btnInput}></TextInput>
@@ -352,8 +360,11 @@ export default function AddAnimal({ navigation, route}) {
             </TouchableOpacity>
           }
         </View>
+        
       </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
+
   )
 }
 
