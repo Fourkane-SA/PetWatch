@@ -11,6 +11,7 @@ import IconMarker from '../assets/moduleSVG/iconMarker'
 import IconStarFilled from '../assets/moduleSVG/starFilled'
 import Message from '../components/message';
 import axios from 'axios';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -22,6 +23,7 @@ export default function FenetreChat({ navigation, route }) {
     const [message, setMessage] = React.useState('')
 
     const[listMessage, setListMessage] = React.useState([])
+    const[idUser, setIdUser] = React.useState(-1)
     
     let userId = 0
     async function initMessages() {
@@ -32,10 +34,17 @@ export default function FenetreChat({ navigation, route }) {
         
     }
 
+    async function initIdUser() {
+        const id = (await axios.get('/tokens')).data
+        setIdUser(id)
+    }
+
+    if(idUser === -1)
+        initIdUser()
+
     initMessages()
 
     async function sendMessage() {
-        console.log(userId, route.params.id)
         userId = (await axios.get('/tokens')).data
         try {
             await axios.post('/messages', {
@@ -54,13 +63,14 @@ export default function FenetreChat({ navigation, route }) {
 
     return (
         <ScrollView>
+            <KeyboardAwareScrollView>
             <SafeAreaView style={styles.container}>
                 <View style={[styles.wrapper]}>
-                    <FlatList data={listMessage} renderItem={({ item }) => <View style={{width: '100%'}}><Message message={item.message} isMe={item.idSender === userId} imageSender={'todo'} ></Message></View>}></FlatList>
+                    <FlatList data={listMessage} renderItem={({ item }) => <View style={{width: '100%'}}><Message message={item.message} isMe={item.idSender === idUser} idSender={item.idSender} ></Message></View>}></FlatList>
                     
                     
                     <View style={styles.wrapper}>
-                        <TextInput placeholder='...' value={message} onChangeText={(res) => setMessage(res)}></TextInput>
+                        <TextInput style={styles.chatInput} placeholder='...' value={message} onChangeText={(res) => setMessage(res)}></TextInput>
                         
                         <TouchableOpacity activeOpacity={0.8} style={styles.containerSubmit} onPress= {() => sendMessage() }>
                             <Text style={styles.submit}>Envoyer</Text>
@@ -69,6 +79,7 @@ export default function FenetreChat({ navigation, route }) {
                 </View>
                 
             </SafeAreaView>
+            </KeyboardAwareScrollView>
         </ScrollView>
     );
 }
@@ -106,4 +117,10 @@ const styles = StyleSheet.create({
     submit: {
         fontSize: 16,
     },
+    chatInput: {
+        width: '100%',
+        borderStyle: "solid",
+        borderWidth: 2,
+        padding: 10
+    }
 });

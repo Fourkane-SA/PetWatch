@@ -26,7 +26,6 @@ export default function ChoixcConexionInscription({navigation}) {
     
     
     async function connexion() {
-        console.log('test')
         try {
             const token = (await axios.post('/tokens', {
                 email: mail,

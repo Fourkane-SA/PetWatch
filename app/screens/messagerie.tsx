@@ -23,7 +23,8 @@ export default function Messagerie({ navigation }) {
         nom: string,
         photoProfil: string,
         dernierMessage: string,
-        id: number
+        id: number,
+        idOther: number
     }
 
     async function initMessages() {
@@ -32,7 +33,7 @@ export default function Messagerie({ navigation }) {
         let conversations = []
         const donnes: Donnees[] = []
         
-        if(user.isIndividual)
+        if(user.isIndividual == 1)
             conversations = (await axios.get('/conversations/getByClientID/' + userId)).data
         else
             conversations = (await axios.get('/conversations/getByProID/' + userId)).data
@@ -43,7 +44,6 @@ export default function Messagerie({ navigation }) {
                 const sender : User = (await axios.get('/users/' + conversations[i].idPro)).data
                 name = sender.companyName
             } else {
-                console.log('test')
                 const sender : User = (await axios.get('/users/' + conversations[i].idClient)).data
                 name = sender.firstname + ' ' + sender.lastname
             }
@@ -51,7 +51,8 @@ export default function Messagerie({ navigation }) {
                 nom: name,
                 dernierMessage: messages.length > 0 ? messages[messages.length-1].message : '',
                 photoProfil: 'TODO',
-                id: conversations[i].id
+                id: conversations[i].id,
+                idOther: user.isIndividual == 1 ? conversations[i].idPro : conversations[i].idClient
             })
             await new Promise(r => setTimeout(r, 2000));
             setListMessage(donnes)
@@ -74,7 +75,7 @@ export default function Messagerie({ navigation }) {
                     </View>
 
                     <View style={styles.blocMessagerie}>
-                        <FlatList data={listMessage} renderItem={({ item }) => <View style={{width: '100%'}}><CardMessage id={item.id} nom={item.nom} photoProfil={item.photoProfil} dernierMessage={item.dernierMessage}></CardMessage></View>}></FlatList>
+                        <FlatList data={listMessage} renderItem={({ item }) => <TouchableOpacity activeOpacity={0.8} onPress= {() => navigation.navigate('FenetreChat', {id: item.id}) }><CardMessage idOther={item.idOther} id={item.id} nom={item.nom} photoProfil={item.photoProfil} dernierMessage={item.dernierMessage}></CardMessage></TouchableOpacity>}></FlatList>
 
 
 

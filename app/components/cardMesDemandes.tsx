@@ -52,7 +52,6 @@ export default class CardMesDemandes extends Component<Props> {
     }    
 
     render() {
-        console.log(this.props.id)
         return (
             <SafeAreaView style={styles.container}>
                 <View style={[styles.wrapper, styles.bloc]}>

@@ -60,7 +60,6 @@ export default class ModeGarde extends Component {
     }
 
     async submit() {
-        console.log(this.state)
         if(this.state.description === '' || this.state.url.length === 0 || this.state.prix == '' || this.state.gabarit.length === 0){
             console.log('Tous les champs ne sont pas remplis')
         } else {

@@ -57,7 +57,7 @@ function StackAccueil() {
             <Stack.Screen options={{ headerShown: true, headerTitle: 'Pensions et Pet Sitter disponibles' }} name="ResultatsRecherche" component={ResultatRecherche}></Stack.Screen>
             <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheProfilPro" component={FicheProfilPro}></Stack.Screen>
             <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FicheReservation" component={FicheReservation}></Stack.Screen>
-            <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FenetreChat" component={FenetreChat}></Stack.Screen>
+            
             <Stack.Screen options={{ headerShown: true, headerTitle: 'Choisir animaux' }} name="ChoixAnimauxResa" component={ChoixAnimauxResa}></Stack.Screen>
         </Stack.Navigator>
     )
@@ -78,6 +78,15 @@ function StackReservation() {
         <Stack.Navigator initialRouteName='MesReservations'>
             <Stack.Screen name="MesReservations" options={{headerShown: true, headerTitle:'Consulter mes reservations'}}  component={CheckReservation}></Stack.Screen>
             <Stack.Screen name="FicheDemandeReservation" options={{headerShown: true, headerTitle:'Reservation'}}  component={FicheDemandeReservation}></Stack.Screen>
+        </Stack.Navigator>
+    )
+}
+
+function StackMessagerie() {
+    return(
+        <Stack.Navigator initialRouteName='MesMessages'>
+            <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes messages', tabBarLabel: '' }} name="MesMessages" component={Messagerie}></Tab.Screen>
+            <Stack.Screen options={{ headerShown: true, headerTitle: '' }} name="FenetreChat" component={FenetreChat}></Stack.Screen>
         </Stack.Navigator>
     )
 }
@@ -110,7 +119,7 @@ function Tabs() {
                 <Tab.Screen name="home" options={{headerShown: false, tabBarLabel: ''}}  component={StackAccueil}></Tab.Screen>
                 <Tab.Screen options={{ headerShown: false, headerTitle: '', tabBarLabel: '' }} name="MesAnimaux" component={StackAnimaux}></Tab.Screen>
                 <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes demandes', tabBarLabel: '' }} name="MesDemandes" component={MesDemandes}></Tab.Screen>
-                <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes messages', tabBarLabel: '' }} name="Messagerie" component={Messagerie}></Tab.Screen>
+                <Tab.Screen options={{ headerShown: false, headerTitle: '', tabBarLabel: '' }} name="Messagerie" component={StackMessagerie}></Tab.Screen>
             </Tab.Navigator>
         )
   return (
@@ -128,7 +137,7 @@ function Tabs() {
           })}
       >
           <Tab.Screen name="CheckReservation" options={{headerShown: false, headerTitle:'', tabBarLabel: ''}}  component={StackReservation}></Tab.Screen>
-          <Tab.Screen options={{ headerShown: true, headerTitle: 'Mes messages', tabBarLabel: '' }} name="Messagerie" component={Messagerie}></Tab.Screen>
+          <Tab.Screen options={{ headerShown: false, headerTitle: '', tabBarLabel: '' }} name="Messagerie" component={StackMessagerie}></Tab.Screen>
       </Tab.Navigator>
   )
 }

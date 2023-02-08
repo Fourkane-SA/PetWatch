@@ -17,7 +17,7 @@ var height = Dimensions.get('window').height; //full height
 
 export default function AddAnimal({ navigation, route}) {
 
-  const { title, word, word2 } = route.params;
+  const { title, word, word2, id } = route.params;
 
   const booleanChoiceAllergie = [
     {
@@ -119,6 +119,12 @@ export default function AddAnimal({ navigation, route}) {
   const [gabarit, setGabarit] = React.useState('');
   const [messageErreur, setMessageErreur] = React.useState('');
 
+
+  
+
+  if(word === 'Modifier' && url.length === 0)
+    initPet(id)
+
   const pull_dateNaiss = (datenaiss) => {
     setDateNaiss(datenaiss)
   }
@@ -156,6 +162,24 @@ export default function AddAnimal({ navigation, route}) {
     
   }
 
+  async function initPet(id) {
+    const pet: Pet = (await axios.get('/pets/' + id)).data
+    setDateAdoption(pet.adoptionDate)
+    setDateNaiss(pet.birth)
+    setDateVeterinaire(pet.dateLastVeterinaryConsultation)
+    setDescription(pet.description)
+    setGenderAnimal(pet.gender)
+    setNomAnimal(pet.name)
+    setUrl(JSON.parse(pet.photoUrl))
+    setTypeAnimal(pet.type)
+    setVaccins(pet.vaccines)
+    setGabarit(pet.weight)
+    setAllergies(pet.allergies)
+    setMedicaments(pet.medicationsAndFrequences)
+    setSante(pet.healthProblems)
+    
+  }
+
   async function ajouter() {
     let pet : Pet = {
       adoptionDate: dateAdoption,
@@ -177,9 +201,34 @@ export default function AddAnimal({ navigation, route}) {
       medicationsAndFrequences: medicaments,
       healthProblems: sante
     }
-    console.log(pet)
-    try {
-      await axios.post('/pets', {
+    if(word === 'Ajouter') {
+      try {
+        await axios.post('/pets', {
+          name: pet.name,
+          gender: pet.gender,
+          type: pet.type,
+          birth: pet.birth,
+          adoptionDate: pet.adoptionDate,
+          weight: pet.weight,
+          vaccines: pet.vaccines,
+          isAllergies: pet.isAllergies,
+          allergies: pet.allergies,
+          isMedications: pet.isMedications,
+          medicationsAndFrequences: pet.medicationsAndFrequences,
+          isHealthProblems: pet.isHealthProblems,
+          healthProblems: pet.healthProblems,
+          dateLastVeterinaryConsultation: pet.dateLastVeterinaryConsultation,
+          description: pet.description,
+          photoUrl: pet.photoUrl
+        })
+        setEtape(etape + 1)
+      } catch (e) {
+        console.log(e.response.data)
+        setMessageErreur('Veuillez remplir tous les champs')
+      }
+    } else {
+      try {
+      await axios.patch('/pets/' + id, {
         name: pet.name,
         gender: pet.gender,
         type: pet.type,
@@ -198,10 +247,12 @@ export default function AddAnimal({ navigation, route}) {
         photoUrl: pet.photoUrl
       })
       setEtape(etape + 1)
-    } catch (e) {
-      console.log(e.response.data)
-      setMessageErreur('Veuillez remplir tous les champs')
+      } catch (e) {
+        console.log(e.response.data)
+        setMessageErreur('Veuillez remplir tous les champs')
+      }
     }
+    
   }
 
 

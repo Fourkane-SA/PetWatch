@@ -41,7 +41,6 @@ export default class CardAjoutAnimaux extends Component<Props> {
     render() {
         const doSomething = () => {
             if (this.props.label != 'Ajouter') {
-                console.log(this.props.id)
                 this.props.navigation.navigate(this.props.lien,{id: this.props.id});
             } else {
                 // Ajout d'un animal a la reservation

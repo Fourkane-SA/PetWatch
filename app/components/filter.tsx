@@ -145,7 +145,6 @@ export default class Filter extends Component {
                 </Pressable>)
             }
 
-            console.log(stars);
         }
 
         return (

@@ -32,7 +32,6 @@ export default function FicheReservation({ navigation, route }) {
         setDates(dates);
     }
 
-    console.log(route.params.id)
 
     async function initUser() {
         const user: User = (await axios.get('/users/' + route.params.id)).data

@@ -93,7 +93,7 @@ export default class FicheAnimal extends Component<Props> {
                                 </View>
 
                                 <View style={styles.iconModif}>
-                                    <TouchableOpacity activeOpacity={.7} onPress={() => this.props.navigation.navigate('AddAnimal', {title : "Modifier votre animal" , word:"Modifier", word2:"modifié"})}>
+                                    <TouchableOpacity activeOpacity={.7} onPress={() => this.props.navigation.navigate('AddAnimal', {title : "Modifier votre animal" , word:"Modifier", word2:"modifié", id: this.state.pet.id})}>
                                         <IconModif width="50" height="50"></IconModif>
                                     </TouchableOpacity>
                                 </View>
