@@ -326,7 +326,9 @@ export default function AddAnimal({ navigation, route}) {
             {/* ici un selecteur multiple pour cocher les vaccins */}
             <View style={styles.selVaccin}>
               <Text style={styles.subtitle}>Indiquez les vaccins reçus par votre animal :</Text>
-              <MultipleSelect onChange={(res) => setVaccins(JSON.stringify(res).replaceAll('"', '').replaceAll('[','').replaceAll(']','').replaceAll(',', ', '))}></MultipleSelect>
+              <MultipleSelect onChange={(res) => {
+                setVaccins(JSON.stringify(res).split('"').join('').split("[").join('').split("]").join('').split(',').join(', '))
+                }}></MultipleSelect>
               <TextInput style={[styles.btnInput, styles.btnVaccin]} placeholder="Autres vaccins" value={vaccins} onChangeText={setVaccins}></TextInput>
             </View>
           </View>

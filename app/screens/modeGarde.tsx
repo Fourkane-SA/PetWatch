@@ -104,6 +104,10 @@ export default class ModeGarde extends Component {
     async componentDidMount() {
         const userId = (await axios.get('/tokens')).data
         const user: User = (await axios.get('/users/' + userId)).data
+        if(user.acceptedWeight === null)
+            user.acceptedWeight = "[]"
+        if(user.imageLocation === null)
+            user.imageLocation = "[]"
         this.setState({
             keepCat: user.keepCats,
             keepDogs: user.keepDogs,
