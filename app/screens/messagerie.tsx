@@ -47,16 +47,18 @@ export default function Messagerie({ navigation }) {
                 const sender : User = (await axios.get('/users/' + conversations[i].idClient)).data
                 name = sender.firstname + ' ' + sender.lastname
             }
+            const uOther: User = user.isIndividual == 1 ? (await axios.get('/users/' + conversations[i].idPro)).data : (await axios.get('/users/' + conversations[i].idPro)).data
             donnes.push({
                 nom: name,
                 dernierMessage: messages.length > 0 ? messages[messages.length-1].message : '',
-                photoProfil: 'TODO',
+                photoProfil: uOther.profilImage,
                 id: conversations[i].id,
-                idOther: user.isIndividual == 1 ? conversations[i].idPro : conversations[i].idClient
+                idOther: uOther.id
             })
-            await new Promise(r => setTimeout(r, 2000));
-            setListMessage(donnes)
+            
         }
+        await new Promise(r => setTimeout(r, 2000));
+        setListMessage(donnes)
     }
 
     initMessages()

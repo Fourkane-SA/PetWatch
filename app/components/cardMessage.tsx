@@ -15,6 +15,11 @@ export default class CardMessage extends Component<Props> {
         image : 'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg'
     }
 
+    componentDidMount() {
+        if(this.props.photoProfil !== null)
+            this.setState({image: this.props.photoProfil})
+    }
+
     
 
     render(): ReactNode {

@@ -18,6 +18,7 @@ export default class Message extends Component<Props> {
 
     async componentDidMount() {
         const user: User = (await axios.get('/users/' + this.props.idSender)).data
+        console.log(user)
         this.setState({user: user})
     }
 
