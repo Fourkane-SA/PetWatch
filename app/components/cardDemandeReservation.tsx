@@ -76,7 +76,7 @@ export default class CardDemandeReservation extends Component<Props> {
             <View style={[styles.wrapper, styles.bloc]}>
                 {this.state.reservation !== null && <>
                     <View style={styles.header}>
-                        <Text style={styles.title}>Pension pour chien</Text>
+                        <Text style={styles.title}>Pension</Text>
                         {this.state.cats && <IconChat></IconChat>}
                         {this.state.dogs && <IconChien></IconChien>}
                     </View>
