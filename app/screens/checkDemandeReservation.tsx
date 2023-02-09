@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, FlatList, ScrollView } from 'react-native';
 import { Dimensions } from "react-native";
 import CardDemandeReservation from '../components/cardDemandeReservation'
 import IconParameter from "../assets/moduleSVG/parametresSVG";
@@ -27,6 +27,7 @@ export default function CheckDemandeReservation({ navigation }) {
         initReservations()
     
         return (
+            <ScrollView>
             <SafeAreaView style={styles.container}>
                 <TouchableOpacity activeOpacity={.7} style={styles.abs} onPress={() => setParameter(true)} onPressOut={() => setParameter(false)}>
                     <IconParameter></IconParameter>
@@ -48,6 +49,7 @@ export default function CheckDemandeReservation({ navigation }) {
                     }}></ModalParameter>
                 }
             </SafeAreaView>
+            </ScrollView>
         );
 }
 
