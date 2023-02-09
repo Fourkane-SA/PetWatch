@@ -223,7 +223,7 @@ export default function AddAnimal({ navigation, route}) {
         })
         setEtape(etape + 1)
       } catch (e) {
-        console.log(e.response.data)
+        console.log(e)
         setMessageErreur('Veuillez remplir tous les champs')
       }
     } else {
@@ -248,7 +248,7 @@ export default function AddAnimal({ navigation, route}) {
       })
       setEtape(etape + 1)
       } catch (e) {
-        console.log(e.response.data)
+        console.log(e)
         setMessageErreur('Veuillez remplir tous les champs')
       }
     }
