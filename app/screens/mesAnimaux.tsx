@@ -33,12 +33,10 @@ export default function ChoixAnimauxResa({ navigation }) {
     }
 
     const initPets = async () => {
-        if (pet.length === 0) {
-            const userId = (await axios.get('/tokens')).data
-            const pets: Pet[] = (await axios.get('/pets/byUserId/' + userId)).data
-            await new Promise(r => setTimeout(r, 2000));
-            setPet(pets)
-        }
+        const userId = (await axios.get('/tokens')).data
+        const pets: Pet[] = (await axios.get('/pets/byUserId/' + userId)).data
+        await new Promise(r => setTimeout(r, 2000));
+        setPet(pets)
     }
 
     initPets()

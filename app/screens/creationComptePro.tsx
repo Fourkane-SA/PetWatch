@@ -44,6 +44,7 @@ export default class CreationCompteParticulier extends Component {
                 website: this.state.site
             })).data
             await AsyncStorage.setItem('token', token)
+            axios.defaults.headers.common['Authorization'] = token
             this.setState({ confirm: true })
         } catch (e) {
             this.setState({ messageErreur: e.response.data })

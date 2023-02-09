@@ -41,6 +41,7 @@ export default function CreationCompteParticulier({navigation}) {
             }
             const token =  (await axios.post('/users',data )).data
             await AsyncStorage.setItem('token', token) // connexion
+            axios.defaults.headers.common['Authorization'] = token
             navigation.navigate('AddAnimal', {title: "Ajouter votre animal", word:"Ajouter", word2:"ajouté", redirection:'AddAnimal'})
 
         } catch (e) {

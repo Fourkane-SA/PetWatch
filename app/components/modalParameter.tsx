@@ -27,6 +27,7 @@ export default class ModalParameter extends Component<Props> {
             this.setState({modalVisible: false}, () => {
                 this.props.onVisibleChange(false)
             })
+            axios.defaults.headers.common['Authorization'] = ''
             this.props.navigation.navigate('ChoixConexionInscription')
         }
 
