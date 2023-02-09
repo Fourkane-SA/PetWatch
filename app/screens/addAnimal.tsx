@@ -314,7 +314,8 @@ export default function AddAnimal({ navigation, route}) {
             </View>
 
             <View style={styles.blocAnimal}>
-              <Text style={styles.subtitle}>Votre animal est :</Text>
+              {gabarit !== '' && <Text style={styles.subtitle}>Votre animal est : {gabarit}</Text>}
+              {gabarit === '' && <Text style={styles.subtitle}>Choisissez un gabarit</Text>}
               <FlatList
                 horizontal={true}
                 data={poids}

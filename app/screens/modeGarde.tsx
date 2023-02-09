@@ -134,7 +134,8 @@ export default class ModeGarde extends Component {
                             </View><Text style={styles.checkbox}>{this.typeChoice[1].value}</Text></TouchableOpacity>
                         </View>
 
-                        <Text style={styles.text}>Gabaris acceptés ({this.state.gabarit.length} choisi(s)):</Text>
+                        <Text style={styles.text}>Gabarits acceptés ({this.state.gabarit.length} choisi(s)):</Text>
+                        <Text style={styles.text}>{JSON.stringify(this.state.gabarit).split("[").join('').split("]").join('').split('"').join('').split(',').join(', ')}</Text>
                         <FlatList
                             horizontal={true}
                             data={this.poids}
